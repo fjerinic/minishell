@@ -6,13 +6,11 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/24 19:55:22 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/01/26 15:13:22 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "minishell.h"
-#include <readline/readline.h>
-#include <stdio.h>
+#include "minishell.h"
 
 int	minishell(void)
 {
@@ -21,12 +19,14 @@ int	minishell(void)
 	input = user_input();
 
 	//handle_signals()
-	if (parser(input))
-		error_msg();
+	// if (parser(input))
+	// 	error_msg();
+	parse(input);
+	
 	//expander()	
 
 	//execution()
-	return (0);
+	return (1);
 }
 
 

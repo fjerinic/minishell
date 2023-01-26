@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = ${shell echo *.c}#cd in other dir
+SRC = ${shell find ./parser -name "*.c" && echo *.c}
 
 OBJ = $(patsubst %.c, %.o, $(SRC))
 

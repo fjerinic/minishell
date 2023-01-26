@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/25 10:33:53 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/01/26 19:52:30 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@
 # include <readline/readline.h>
 # include <stdlib.h>
 
+/***********/
 /* structs */
+/***********/
 
+/* for tokens */
 enum TYPE {
 	PIPE,
 	REDIR_INPUT,
@@ -27,14 +30,12 @@ enum TYPE {
    	WORD
 };
 
-
 typedef struct s_tokens
 {
 	enum TYPE type;
 	char *token;	
-	struct s_tokens *next;	
+	struct s_tokens *next;
 }t_tokens;
-
 
 /***********/
 /* parsing */
@@ -47,7 +48,7 @@ int	quote_len(char *s, int *i);
 int	lex_error_check(char *input);
 
 /* lexer.c */
-int		lexer(t_tokens *token, char *input);
+t_tokens	*lexer(t_tokens *token_lst, char *input);
 
 /* parser.c */
 int		parse(char *input);

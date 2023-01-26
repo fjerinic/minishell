@@ -6,11 +6,11 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:45:26 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/25 11:36:07 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/01/26 17:13:38 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "../minishell.h"
 
 int	check_spaces(char *input)
 {
@@ -33,10 +33,10 @@ int	check_unclosed_quotes(char *input)
 	i = -1;
 	while (input[++i])
 	{
-		j = 0;
 		if (input[i] == '\'' || input[i] == '"')
 		{
-			while (input[i] || input[j] != input[i])
+			j = i + 1;		
+			while (input[j] && input[j] != input[i])
 				j++;
 			if (!input[j])
 				return (0);
@@ -82,7 +82,8 @@ int	check_redir(char *input)
 			quote_len(&input[i], &i);
 		if (input[i] == '<')
 		{
-			if (input[i + 1] == '<')
+			i++;
+			if (input[i] == '<')
 				i++;
 			while (input[i] == ' ')
 				i++;
@@ -91,7 +92,8 @@ int	check_redir(char *input)
 		}
 		else if (input[i] == '>')
 		{
-			if (input[i + 1] == '>')
+			i++;
+			if (input[i] == '>')
 				i++;
 			while (input[i] == ' ')
 				i++;
@@ -112,6 +114,7 @@ int	lex_error_check(char *input)//error_msg
 		return (0);
 	else if (!check_redir(input))
 		return (0);
+	return (1);
 }
 
 
