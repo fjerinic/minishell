@@ -6,13 +6,13 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/26 15:13:22 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/01/27 17:38:03 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell(void)
+int	minishell(char **envp)
 {
 	char *input;
 
@@ -21,9 +21,7 @@ int	minishell(void)
 	//handle_signals()
 	// if (parser(input))
 	// 	error_msg();
-	parse(input);
-	
-	//expander()	
+	parse(input, envp);
 
 	//execution()
 	return (1);
@@ -31,11 +29,14 @@ int	minishell(void)
 
 
 
-int main(void)
+int main(int argc, char *argv[], char **envp)
 {
 	int status;
 
+	if (argc > 1)
+		return (0);
+	(void)argv;
 	status = 0;
 	while (!status)
-		status = minishell();
+		status = minishell(envp);
 }
