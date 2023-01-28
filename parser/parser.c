@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:08:45 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/27 18:41:57 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/01/28 19:22:51 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ int	parse(char *input, char **envp)
 		return (0);
 	token_lst = lexer(token_lst, input);
 	token_lst = expander(token_lst, envp);
+	while (token_lst != NULL)
+	{
+		printf("token = %s & type = %i\n", token_lst->token, token_lst->type);
+		token_lst = token_lst->next;
+	}
+	//printf("token = %s & type = %i\n", token_lst->token, token_lst->type);
 	
 	
-	// if(lexer(&token_lst, input))
-	// 	error_msg();
-	// while (&token_lst != NULL) //token_lst != NULL
-	// {
-		
-	// }
+	//parser
 	return (1);
 }

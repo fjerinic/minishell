@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/27 20:53:01 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/01/28 18:27:50 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,12 @@ int	lex_error_check(char *input);
 
 /* lexer.c */
 t_tokens	*lexer(t_tokens *token_lst, char *input);
+t_tokens	*innit_token(char *input, int token_type);
+t_tokens	*innit_token_word(char *input, int *i);
+void		add_token(t_tokens **token_lst, t_tokens *token);
 
 /* expander.c */
-t_tokens	*expander(t_tokens **token, char **envp);
+t_tokens	*expander(t_tokens *token, char **envp);
 
 /* env_var_utils.c */
 char	*get_var(char *token, char **envp);

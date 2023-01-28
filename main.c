@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/27 17:38:03 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/01/28 21:07:55 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	minishell(char **envp)
 	parse(input, envp);
 
 	//execution()
-	return (1);
+	return (0);
 }
 
 

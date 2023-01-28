@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:11:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/27 17:42:16 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/01/28 16:23:23 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ t_tokens	*innit_token_word(char *input, int *i)
 		token = innit_token(ft_substr(input, *i, j - *i) , WORD);//free
 		*i = j - 1;
 	}
-	//maybe part of execution: make mod_substr which skips spaces if there are multiple
 	return (token);
 }
 

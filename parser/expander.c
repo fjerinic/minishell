@@ -6,31 +6,36 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:01:04 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/27 20:51:49 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/01/28 19:25:32 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_tokens	*expander(t_tokens **token, char **envp)
+t_tokens	*expander(t_tokens *token, char **envp)
 {
-	//t_tokens	*token_lst;
+	t_tokens	*token_lst;
+	t_tokens	*tmp;
 	int		i;
-	int		j;
-	char	*tmp;
+	char	*tmp_var;
 
+	token_lst = NULL;
 	while (token != NULL)
 	{
 		i = -1;
-		while ((*token)->token[++i] && (*token)->token[0] != '\'' && (*token)->type == WORD)
+		tmp_var = NULL;
+		while (token->token[++i] && token->token[0] != '\'' && token->type == WORD)
 		{
-			if ((*token)->token[i] == '$' && (*token)->token[i + 1] == ' ' && (*token)->token[i + 1] == '\0')
-			{
-				tmp = get_var((*token)->token, envp);
-				free((*token)->token);
-				(*token)->token = tmp;
-			}
+			if (token->token[i] == '$' && token->token[i + 1] != ' ' && token->token[i + 1] != '\0')
+				tmp_var = get_var(token->token, envp);
 		}
-		//free(tokens);
+		if (tmp_var)
+			add_token(&token_lst, innit_token(tmp_var, WORD));
+		else
+			add_token(&token_lst, innit_token(token->token, token->type));
+		tmp = token->next;
+		free(token);//free(content)
+		token = tmp;
 	}
+	return (token_lst);
 }
