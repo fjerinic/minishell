@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/28 18:27:50 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/01/30 19:29:18 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,20 @@ typedef struct s_tokens
 
 /* lex_utils.c */
 int	quote_len(char *s, int *i);
+int space_len(char *s, int *i);
+int word_len(char *s, int *i);
 
 /* lexer_pre_check.c */
 int	lex_error_check(char *input);
 
 /* lexer.c */
 t_tokens	*lexer(t_tokens *token_lst, char *input);
+
+/* token_innit.c */
 t_tokens	*innit_token(char *input, int token_type);
 t_tokens	*innit_token_word(char *input, int *i);
 void		add_token(t_tokens **token_lst, t_tokens *token);
+t_tokens	*innit_redir(char *input, int *i, int type);
 
 /* expander.c */
 t_tokens	*expander(t_tokens *token, char **envp);
