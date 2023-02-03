@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/30 19:29:18 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/03 15:59:41 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,18 @@ typedef struct s_tokens
 	char *token;	
 	struct s_tokens *next;
 }t_tokens;
+
+typedef struct s_cmds
+{
+	char			**cmd_split;
+	char			*cmd_path;
+	int				cmd_amount;
+	int				infile;
+	int				outfile;
+	
+	//cur_env;
+	struct s_cmds	*next;
+}t_cmds;
 
 /***********/
 /* parsing */

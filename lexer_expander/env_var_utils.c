@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 20:51:29 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/28 21:54:54 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/03 11:29:22 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,15 @@ void	var_exist(char *token, char **envp, int *i, char **var_value)
 	while ((token[j] >= 'a' && token[j] <= 'z') ||  (token[j] >= 'A' && token[j] <= 'Z')
 				|| (token[j] >= '0' && token[j] <= '9'))
 		j++;
-	if (j == 1)
+	if ((j - *i) == 1 || (token[0] == '"' && (j - *i)== 2))
 	{
-		while (token[j + 1] != '$')
+		while (token[j + 1] != '$' && token[j])
 			j++;
-		*var_value = ft_substr(token, *i + 1, j - *i - 1);//free
-		*i = j;
-	}	
-	else
-	{
-		*var_value = var_finder(envp, ft_substr(token, *i + 1, j - *i - 1));//free
-		*i = j;
+		*var_value = ft_substr(token, *i, j - *i);//free
 	}
+	else
+		*var_value = var_finder(envp, ft_substr(token, *i + 1, j - *i - 1));//free
+	*i = j;
 }
 
 int	get_len(char *token, char **envp)
@@ -91,15 +88,18 @@ char	*get_var(char *token, char **envp)
 	var_value = malloc(get_len(token, envp) + 1 * sizeof(char));
 	i = 0;
 	j = 0;
-	while (j < get_len(token, envp))
+	while (token[i])
 	{
 		if (token[i] == '$')
 		{
 			k = 0;
 			var_exist(token, envp, &i, &tmp);//free(var_value)
-			while (tmp[k])//maybe here some problems if(tmp)
-				var_value[j++] = tmp[k++];
-			tmp = NULL;
+			if(tmp)
+			{
+				while (tmp[k])//maybe here some problems if(tmp)
+					var_value[j++] = tmp[k++];
+				tmp = NULL;
+			}
 		}
 		else
 			var_value[j++] = token[i++];

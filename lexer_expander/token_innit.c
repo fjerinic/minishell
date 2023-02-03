@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:57 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/30 21:02:53 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/03 12:17:51 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,11 @@ void	add_token(t_tokens **token_lst, t_tokens *token)
 
 	first = *token_lst;
 	if (*token_lst == NULL)
-	{
-		
 		*token_lst = token;
-	}
 	else
 	{
 		while (first->next != NULL)
-		{
 			first = first->next;
-		}
 		first->next = token;
 	}
 }
@@ -79,33 +74,25 @@ t_tokens	*innit_redir(char *input, int *i, int type)
 	int			j;
 
 	j = *i;
-	if (type == REDIR_INPUT)
+	if (type == REDIR_INPUT || type == REDIR_OUTPUT)
 	{
 		j++;
 		*i = space_len(input, &j);
 		word_len(input, &j);
-		token = innit_token(ft_strjoin("<", ft_substr(input, *i, j - *i)), type);//free
-	}
-	else if (type == REDIR_OUTPUT)
-	{
-		j++;
-		*i = space_len(input, &j);
-		word_len(input, &j);
-		token = innit_token(ft_strjoin(">", ft_substr(input, *i, j - *i)), type);//free
-	}
-	else if (type == HERE_DOC)
-	{
-		j += 2;
-		*i = space_len(input, &j);
-		word_len(input, &j);
-		token = innit_token(ft_strjoin("<<", ft_substr(input, *i, j - *i)), type);//free
+		if (type == REDIR_INPUT)
+			token = innit_token(ft_strjoin("<", ft_substr(input, *i, j - *i)), type);//free
+		else
+			token = innit_token(ft_strjoin(">", ft_substr(input, *i, j - *i)), type);//free
 	}
 	else
 	{
 		j += 2;
-		*i = space_len(input, &j); 
+		*i = space_len(input, &j);
 		word_len(input, &j);
-		token = innit_token(ft_strjoin(">>", ft_substr(input, *i, j - *i)), type);//free
+		if (type == HERE_DOC)
+			token = innit_token(ft_strjoin("<<", ft_substr(input, *i, j - *i)), type);//free
+		else
+			token = innit_token(ft_strjoin(">>", ft_substr(input, *i, j - *i)), type);//free	
 	}
 	if (input[j] == '"' || input[j] == '\'')
 		*i = j;
