@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:57 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/03 12:17:51 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/07 13:32:38 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ t_tokens	*innit_redir(char *input, int *i, int type)
 		*i = space_len(input, &j);
 		word_len(input, &j);
 		if (type == REDIR_INPUT)
-			token = innit_token(ft_strjoin("<", ft_substr(input, *i, j - *i)), type);//free
+			token = innit_token(ft_substr(input, *i, j - *i), type);//free
 		else
-			token = innit_token(ft_strjoin(">", ft_substr(input, *i, j - *i)), type);//free
+			token = innit_token(ft_substr(input, *i, j - *i), type);//free
 	}
 	else
 	{
@@ -90,9 +90,9 @@ t_tokens	*innit_redir(char *input, int *i, int type)
 		*i = space_len(input, &j);
 		word_len(input, &j);
 		if (type == HERE_DOC)
-			token = innit_token(ft_strjoin("<<", ft_substr(input, *i, j - *i)), type);//free
+			token = innit_token(ft_substr(input, *i, j - *i), type);//free
 		else
-			token = innit_token(ft_strjoin(">>", ft_substr(input, *i, j - *i)), type);//free	
+			token = innit_token(ft_substr(input, *i, j - *i), type);//free	
 	}
 	if (input[j] == '"' || input[j] == '\'')
 		*i = j;

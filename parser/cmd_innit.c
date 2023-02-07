@@ -6,38 +6,77 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/03 12:39:28 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/07 21:17:04 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// t_cmds	*innit_cmd(char *input, int token_type)
-// {
-// 	t_cmds	*cmd;
+int	count_args(t_tokens *token_lst)
+{
+	int			i;
+	t_tokens	*tmp;
 
-// 	token = malloc(sizeof(t_tokens));
-// 	if (!token)
-// 	{
-// 		return (NULL);
-// 	}
-// 	token->type = token_type;
-// 	token->token = input;//malloc free
-// 	token->next = NULL;
-// 	return (token);
-// }
+	i = 0;
+	tmp = token_lst;
+	while (tmp != NULL && tmp->type != PIPE)
+	{
+		if (tmp->type == WORD)
+			i++;
+		tmp = tmp->next;
+	}
+	return (i);
+}
 
-// void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd)
-// {
-// 	t_tokens	*first;
+t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
+{
+	int		i;
+	int 	j;
+	t_cmds	*cmd;
 
-// 	first = *cmd_lst;
-// 	if (*cmd_lst == NULL)
-// 		*cmd_lst = cmd;
-// 	else
-// 	{
-// 		while (first->next != NULL)
-// 			first = first->next;
-// 		first->next = cmd;
-// 	}
-// }
+	cmd = malloc(sizeof(t_cmds));
+	if (!cmd)
+		return (NULL);
+	cmd->cur_env = envp;
+	cmd->infile = 0;
+	cmd->outfile = 1;
+	i = count_args(*token_lst);
+	if (i != 0)
+		cmd->cmd_split = malloc((i + 1) * sizeof(char *));
+	if (!cmd->cmd_split)
+		return (0);
+	j = 0;
+	while (*token_lst != NULL && (*token_lst)->type != PIPE)
+	{
+		if ((*token_lst)->type == REDIR_INPUT || (*token_lst)->type == REDIR_OUTPUT 
+		|| (*token_lst)->type == HERE_DOC || (*token_lst)->type == APPEND)
+			redir_handler((*token_lst), cmd);
+		else if ((*token_lst)->type == WORD)
+			cmd->cmd_split[j++] = (*token_lst)->token;
+		(*token_lst) = (*token_lst)->next;
+	}
+	cmd->cmd_split[j] = NULL;
+	cmd->cmd_path = ft_find_path(cmd->cur_env, cmd->cmd_split[0]);
+
+	// if (!(*cmd_lst)->cmd_path)
+	// 	return(0); error
+	// (*cmd_lst)->cmd_amount = 0;
+
+	cmd->next = NULL;
+	return (cmd);
+}
+
+void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd)
+{
+	t_cmds	*first;
+
+	first = *cmd_lst;
+	if (*cmd_lst == NULL)
+		*cmd_lst = cmd;
+	else
+	{
+		while (first->next != NULL)
+			first = first->next;
+		first->next = cmd;
+	}
+}

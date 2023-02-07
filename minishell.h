@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/03 15:59:41 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/07 21:22:41 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 # define MINISHELL_H
 # include "libft/libft.h"
 # include <readline/readline.h>
+# include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
 
 /***********/
 /* structs */
@@ -24,8 +26,8 @@
 enum TYPE {
 	PIPE,
 	REDIR_INPUT,
-	HERE_DOC,
 	REDIR_OUTPUT,
+	HERE_DOC,
 	APPEND,
    	WORD
 };
@@ -37,21 +39,22 @@ typedef struct s_tokens
 	struct s_tokens *next;
 }t_tokens;
 
+/* for cmds */
 typedef struct s_cmds
 {
 	char			**cmd_split;
 	char			*cmd_path;
-	int				cmd_amount;
+	char			**cur_env;
+	int				cmd_amount;//?
 	int				infile;
 	int				outfile;
 	
-	//cur_env;
 	struct s_cmds	*next;
 }t_cmds;
 
-/***********/
-/* parsing */
-/***********/
+/*********/
+/* lexer */
+/*********/
 
 /* lex_utils.c */
 int	quote_len(char *s, int *i);
@@ -76,8 +79,25 @@ t_tokens	*expander(t_tokens *token, char **envp);
 /* env_var_utils.c */
 char	*get_var(char *token, char **envp);
 
+/**********/
+/* parser */
+/**********/
+
 /* parser.c */
 int	parse(char *input, char **envp);
+
+/* parsing.c */
+int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp);
+
+/* cmd_path.c */
+char	*ft_find_path(char **env, char *cmd);
+
+/* redir_handler.c */
+void	redir_handler(t_tokens *token, t_cmds *cmd);
+
+/* cmd_innit.c */
+t_cmds	*innit_cmd(char **envp, t_tokens **token_lst);
+void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd);
 
 /**********/
 /* basics */
@@ -88,6 +108,5 @@ int		minishell(char **envp);
 
 /* mini_utils.c */
 char	*user_input(void);
-
 
 #endif

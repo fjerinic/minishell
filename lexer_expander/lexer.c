@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:11:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/30 20:50:50 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/07 13:41:47 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_tokens	*lexer(t_tokens *token_lst, char *input)
 	while (input[++i])
 	{
 		if (input[i] == '|')
-			token = innit_token(ft_strdup("|"), PIPE);
+			token = innit_token(ft_strdup("|"), PIPE);//instead of strdup just NULL
 		else if (input[i] == '<' && input[i + 1] != '<')
 			token = innit_redir(input, &i, REDIR_INPUT);
 		else if (input[i] == '<' && input[i + 1] == '<')
