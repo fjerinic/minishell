@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 16:27:06 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/07 21:15:57 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/10 20:49:01 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	input_redir(t_tokens *token, int infile)
 {
-	if (infile != 0)
-		close(infile);
+	// if (infile != 0)
+	// 	close(infile);
 	infile = open(token->token, O_RDONLY);
 	if (infile < 0)
 		return (-1);
@@ -24,8 +24,8 @@ int	input_redir(t_tokens *token, int infile)
 
 int	output_redir(t_tokens *token, int outfile)
 {	
-	if (outfile != 0)
-		close(outfile);
+	// if (outfile != 0)
+	// 	close(outfile);
 	outfile = open(token->token, O_TRUNC | O_CREAT | O_WRONLY, 0000644);
 	if (outfile < 0)
 		return (-1);
@@ -36,8 +36,8 @@ int	here_doc(t_tokens *token, int infile)
 {
 	(void)token;
 	
-	if (infile != 0)
-		close(infile);
+	// if (infile != 0)
+	// 	close(infile);
 	infile = open(".heredoc.tmp", O_RDONLY);//unlink
 	if (infile < 0)
 		return (-1);
@@ -46,8 +46,8 @@ int	here_doc(t_tokens *token, int infile)
 
 int	append(t_tokens *token, int outfile)
 {
-	if (outfile != 0)
-		close(outfile);
+	// if (outfile != 0)
+	// 	close(outfile);
 	outfile = open(token->token,O_TRUNC | O_CREAT | O_APPEND, 0000644);
 	if (outfile < 0)
 		return (-1);
