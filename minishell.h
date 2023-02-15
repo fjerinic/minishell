@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/07 21:22:41 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/15 20:23:38 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_cmds
 {
 	char			**cmd_split;
 	char			*cmd_path;
-	char			**cur_env;
+	// char			**cur_env;
 	int				cmd_amount;//?
 	int				infile;
 	int				outfile;
@@ -99,6 +99,11 @@ void	redir_handler(t_tokens *token, t_cmds *cmd);
 t_cmds	*innit_cmd(char **envp, t_tokens **token_lst);
 void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd);
 
+/* env_list.c */
+char	**copy_env(char **envp);
+void	del_env(t_cmds *cmd_lst, char *var);
+void	add_env(t_cmds *cmd_lst, char *var);
+
 /**********/
 /* basics */
 /**********/
@@ -108,5 +113,11 @@ int		minishell(char **envp);
 
 /* mini_utils.c */
 char	*user_input(void);
+int		ft_strcmp(const char *s1, const char *s2);
+
+
+/********/
+/* test */
+/********/
 
 #endif

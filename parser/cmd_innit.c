@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/07 21:17:04 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:12:58 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 	cmd = malloc(sizeof(t_cmds));
 	if (!cmd)
 		return (NULL);
-	cmd->cur_env = envp;
 	cmd->infile = 0;
 	cmd->outfile = 1;
 	i = count_args(*token_lst);
@@ -52,11 +51,19 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 		|| (*token_lst)->type == HERE_DOC || (*token_lst)->type == APPEND)
 			redir_handler((*token_lst), cmd);
 		else if ((*token_lst)->type == WORD)
-			cmd->cmd_split[j++] = (*token_lst)->token;
+			cmd->cmd_split[j++] = (*token_lst)->token;//ft_strdup
 		(*token_lst) = (*token_lst)->next;
 	}
-	cmd->cmd_split[j] = NULL;
-	cmd->cmd_path = ft_find_path(cmd->cur_env, cmd->cmd_split[0]);
+	if (j == 0)
+	{
+		cmd->cmd_split = NULL;
+		cmd->cmd_path = NULL;
+	}
+	else
+	{
+		cmd->cmd_split[j] = NULL;
+		cmd->cmd_path = ft_find_path(envp, cmd->cmd_split[0]);
+	}
 
 	// if (!(*cmd_lst)->cmd_path)
 	// 	return(0); error

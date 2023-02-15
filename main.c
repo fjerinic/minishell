@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/28 21:07:55 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/15 20:22:43 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@ int	minishell(char **envp)
 	return (0);
 }
 
-
-
 int main(int argc, char *argv[], char **envp)
 {
-	int status;
+	int 	status;
+	char	**env;
 
 	if (argc > 1)
 		return (0);
 	(void)argv;
 	status = 0;
+	env = copy_env(envp);//free
 	while (!status)
-		status = minishell(envp);
+		status = minishell(env);
 }

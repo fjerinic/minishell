@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:08:45 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/07 21:20:30 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/15 20:14:55 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,24 @@ int	parse(char *input, char **envp)
 	token_lst = expander(token_lst, envp);
 	if (innit_cmd_struct(&token_lst, &cmd_lst, envp) != 1)
 		return (0);
-	
 	return (1);
 }
-	
+
 // int k;
 // while (cmd_lst != NULL)
 // {
 // 	k = -1;
 // 	printf("path = %s\n", cmd_lst->cmd_path);
-// 	while (cmd_lst->cmd_split[++k])
-// 		printf("cmd_split = %s\n", cmd_lst->cmd_split[k]);
+// 	if (cmd_lst->cmd_split)
+// 	{
+// 		while (cmd_lst->cmd_split[++k])
+// 			printf("cmd_split = %s\n", cmd_lst->cmd_split[k]);
+// 	}
 // 	printf("infile = %i\n", cmd_lst->infile);
 // 	printf("outfile = %i\n", cmd_lst->outfile);
 // 	cmd_lst = cmd_lst->next;
 // }
+// int j = -1;
+// while (envp[++j])
+// 	printf("env = %s\n", envp[j]);
+// printf("env = %s\n", envp[j]);
