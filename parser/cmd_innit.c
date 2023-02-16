@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/15 17:12:58 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/16 13:56:10 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,11 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 	cmd->outfile = 1;
 	i = count_args(*token_lst);
 	if (i != 0)
+	{
 		cmd->cmd_split = malloc((i + 1) * sizeof(char *));
-	if (!cmd->cmd_split)
-		return (0);
+		if (!cmd->cmd_split)
+			return (0);
+	}
 	j = 0;
 	while (*token_lst != NULL && (*token_lst)->type != PIPE)
 	{

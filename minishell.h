@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/15 20:23:38 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/16 15:41:59 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ char	*ft_find_path(char **env, char *cmd);
 
 /* redir_handler.c */
 void	redir_handler(t_tokens *token, t_cmds *cmd);
+
+/* heredoc_utils.c */
+void	here_doc_loop(t_tokens *token, int fd);
 
 /* cmd_innit.c */
 t_cmds	*innit_cmd(char **envp, t_tokens **token_lst);

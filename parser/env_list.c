@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:26:07 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/15 18:13:23 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/16 17:53:42 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char	**copy_env(char **envp)
 // 			env[j++] = NULL;
 // 			free(env[j]);
 // 		}
+// malloc with -1
 // 	}
 // }
 
@@ -67,7 +68,7 @@ char	**copy_env(char **envp)
 
 // 	tmp = env;
 // 	free(env);
-// 	env = malloc(count_env_len(tmp) + 1 * sizeof(char *));
+// 	env = malloc(count_env_len(tmp) + 1 * sizeof(char *)); //+ 1
 // 	i = -1;
 // 	while (tmp[++i])
 // 		env[i] = tmp[i];

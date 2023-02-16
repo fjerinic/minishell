@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:08:45 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/15 20:14:55 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/16 16:49:28 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,3 +44,9 @@ int	parse(char *input, char **envp)
 // while (envp[++j])
 // 	printf("env = %s\n", envp[j]);
 // printf("env = %s\n", envp[j]);
+// char *line = get_next_line(cmd_lst->infile);
+// while (line)
+// {
+// 	printf("line = %s\n", line);
+// 	line = get_next_line(cmd_lst->infile);
+// }
