@@ -1,43 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/17 17:19:06 by jkroger          ###   ########.fr       */
+/*   Created: 2023/02/17 12:56:02 by jkroger           #+#    #+#             */
+/*   Updated: 2023/02/17 18:16:24 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell(char **envp)
+void	ctrl_c(int status)
 {
-	char *input;
-
-	//get_signals();
-	input = user_input();
-
-	//handle_signals()
-	// if (parser(input))
-	// 	error_msg();
-	parse(input, envp);
-
-	//execution()
-	return (0);
+	if (status == SIGINT)
+	{
+		printf("abcdef\n");
+	}
 }
 
-int main(int argc, char *argv[], char **envp)
+void	ctrl_d(int status)
 {
-	int 	status;
-	char	**env;
-
-	if (argc > 1)
-		return (0);
-	(void)argv;
-	status = 0;
-	env = copy_env(envp);//free
-	while (!status)
-		status = minishell(env);
+	if (status == SIGQUIT)
+	{
+		rl_replace_line("", 0);
+		rl_clear_history();
+		rl_redisplay();
+		rl_on_new_line();
+		ft_putstr_fd("end\n", 1);
+	}
 }
+
+// void	get_signals(void)
+// {
+// 	signal(SIGINT, &ctrl_c);
+// 	signal(SIGQUIT, SIG_IGN);
+// }
+//SIG_IGN ignores signal

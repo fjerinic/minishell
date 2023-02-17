@@ -6,17 +6,18 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/16 15:41:59 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/17 20:27:17 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "libft/libft.h"
-# include <readline/readline.h>
+# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
 
 /***********/
 /* structs */
@@ -93,10 +94,10 @@ int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp);
 char	*ft_find_path(char **env, char *cmd);
 
 /* redir_handler.c */
-void	redir_handler(t_tokens *token, t_cmds *cmd);
+void	redir_handler(t_tokens *token, t_cmds *cmd, char **env);
 
 /* heredoc_utils.c */
-void	here_doc_loop(t_tokens *token, int fd);
+void	here_doc_loop(t_tokens *token, int fd, char **env);
 
 /* cmd_innit.c */
 t_cmds	*innit_cmd(char **envp, t_tokens **token_lst);
@@ -104,8 +105,8 @@ void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd);
 
 /* env_list.c */
 char	**copy_env(char **envp);
-void	del_env(t_cmds *cmd_lst, char *var);
-void	add_env(t_cmds *cmd_lst, char *var);
+char	**del_env(char **env, char *var);
+char	**add_env(char **env, char *var);
 
 /**********/
 /* basics */
@@ -118,6 +119,8 @@ int		minishell(char **envp);
 char	*user_input(void);
 int		ft_strcmp(const char *s1, const char *s2);
 
+/* signals.c */
+void	get_signals(void);
 
 /********/
 /* test */

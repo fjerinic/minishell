@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:26:07 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/16 17:53:42 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/17 15:10:47 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,37 +41,59 @@ char	**copy_env(char **envp)
 	return (env);
 }
 
-// void	del_env(char **env, char *var)
-// {
-// 	int i;
-// 	int j;
+int	var_exists(char **env, char *var)
+{
+	int 	i;
 
-// 	i = -1;
-// 	while (env[++i])
-// 	{
-// 		if (env[i] == var)//strcmp count strlen till '='
-// 		{
-// 			j = i + 1;
-// 			while (env[j])
-// 				env[i++] = env[j++];
-// 			env[j++] = NULL;
-// 			free(env[j]);
-// 		}
-// malloc with -1
-// 	}
-// }
+	i = -1;
+	while (env[++i])
+	{
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0 && env[i][ft_strlen(var)] == '=')
+			return (1);
+	}
+	return (0);
+}
 
-// void	add_env(char **env, char *var)
-// {
-// 	int		i;
-// 	char	**tmp;
+char	**del_env(char **env, char *var)
+{
+	int 	i;
+	int 	j;
+	char	**envcp;
 
-// 	tmp = env;
-// 	free(env);
-// 	env = malloc(count_env_len(tmp) + 1 * sizeof(char *)); //+ 1
-// 	i = -1;
-// 	while (tmp[++i])
-// 		env[i] = tmp[i];
-// 	env[i++] = var;
-// 	env = NULL;
-// }
+	if(var_exists(env, var) == 0)
+		return (env);//err
+	envcp = malloc(count_env_len(env) * sizeof(char *));
+	i = 0;
+	j = 0;
+	while (env[j])
+	{
+		if (ft_strncmp(env[j], var, ft_strlen(var)) == 0)
+			free(env[j++]);
+		else
+		{
+			envcp[i++] = ft_strdup(env[j]);
+			free(env[j++]);
+		}
+	}
+	envcp[i] = NULL;
+	free(env);
+	return(envcp);
+}
+
+char	**add_env(char **env, char *var)
+{
+	int		i;
+	char	**envcp;
+
+	envcp = malloc((count_env_len(env) + 2) * sizeof(char *)); //+ 1
+	i = -1;
+	while (env[++i])
+	{
+		envcp[i] = ft_strdup(env[i]);
+		free(env[i]);
+	}
+	envcp[i++] = ft_strdup(var);
+	envcp[i] = NULL;
+	free(env);
+	return (envcp);
+}

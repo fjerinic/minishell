@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/16 13:56:10 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/17 17:17:09 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 	{
 		if ((*token_lst)->type == REDIR_INPUT || (*token_lst)->type == REDIR_OUTPUT 
 		|| (*token_lst)->type == HERE_DOC || (*token_lst)->type == APPEND)
-			redir_handler((*token_lst), cmd);
+			redir_handler((*token_lst), cmd, envp);
 		else if ((*token_lst)->type == WORD)
 			cmd->cmd_split[j++] = (*token_lst)->token;//ft_strdup
 		(*token_lst) = (*token_lst)->next;

@@ -4,7 +4,7 @@ SRC = ${shell find ./parser -name "*.c" && find ./lexer_expander -name "*.c" && 
 
 OBJ = $(patsubst %.c, %.o, $(SRC))
 
-READLINE = -lreadline
+READLINE = -I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline
 
 HEADER = minishell.h
 
@@ -18,7 +18,7 @@ all: $(NAME)
 
 $(NAME) : $(OBJ) $(HEADER)
 	(cd libft; make)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(READLINE)  -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(READLINE) -o $(NAME)
 
 clean:
 	(cd libft; make clean)
