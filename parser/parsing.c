@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/07 21:15:32 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/20 20:44:07 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp)
 
 
 //count cmd amount
-// 		//check for redir last etc.
 // 		tmp = token_lst->next;
 // 		//free token
 // 		token_lst = tmp;

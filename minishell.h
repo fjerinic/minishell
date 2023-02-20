@@ -6,18 +6,23 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/17 20:27:17 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/20 20:21:52 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "libft/libft.h"
+# include <stdio.h>//this fixed it
 # include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+// # include <readline/readline.h>
+// # include <readline/history.h>
 # include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
+
+extern int	exit_status;
 
 /***********/
 /* structs */
@@ -121,6 +126,10 @@ int		ft_strcmp(const char *s1, const char *s2);
 
 /* signals.c */
 void	get_signals(void);
+
+/* ft_error.c */
+void	ft_error(char *token, int exit_code);
+void	lex_error(char *token);
 
 /********/
 /* test */

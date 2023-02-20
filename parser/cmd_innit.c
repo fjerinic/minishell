@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/17 17:17:09 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/20 19:53:22 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 		cmd->cmd_split[j] = NULL;
 		cmd->cmd_path = ft_find_path(envp, cmd->cmd_split[0]);
 	}
-
 	// if (!(*cmd_lst)->cmd_path)
 	// 	return(0); error
 	// (*cmd_lst)->cmd_amount = 0;

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 16:27:06 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/17 17:18:17 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/20 20:40:38 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	output_redir(t_tokens *token, int outfile)
 void	here_doc(t_tokens *token, int *infile, char **env)
 {
 	int		fd[2];
-
+	
 	if (*infile != 0)
 		close(*infile);
 	pipe(fd);//err

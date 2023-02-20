@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 20:51:29 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/03 11:29:22 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/20 14:46:56 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ int	get_len(char *token, char **envp)
 			free(var_value);
 			i--;
 		}
-		// else if (token[i] == '$' && token[i + 1] != '?' && token[i + 1] != '$')
-		// {
-			//make note for exec
-			//get exit status
-			//get  pid
-			//token = ft_strdup(exit_value);//if$?
-		// }
+		else if (token[i] == '$' && token[i + 1] == '?')
+		{
+			var_value = ft_itoa(exit_status);//if$?
+			var_len += ft_strlen(var_value);
+			free(var_value);
+			//i++
+		}
 	}
 	return (var_len);
 }
@@ -90,7 +90,7 @@ char	*get_var(char *token, char **envp)
 	j = 0;
 	while (token[i])
 	{
-		if (token[i] == '$')
+		if (token[i] == '$' && token[i + 1] != '?' && token[i + 1] != '$')
 		{
 			k = 0;
 			var_exist(token, envp, &i, &tmp);//free(var_value)
@@ -101,9 +101,22 @@ char	*get_var(char *token, char **envp)
 				tmp = NULL;
 			}
 		}
+		else if(token[i] == '$' && token[i + 1] == '?')
+		{
+			k = 0;
+			tmp = ft_itoa(exit_status);
+			if(tmp)
+			{
+				while (tmp[k])//maybe here some problems if(tmp)
+					var_value[j++] = tmp[k++];
+				tmp = NULL;
+			}
+			i += 2;
+		}
 		else
 			var_value[j++] = token[i++];
 	}
 	var_value[j] = '\0';
 	return (var_value);
 }
+//if $$$? still has to get the exit status
