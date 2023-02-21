@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/20 20:21:52 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:33:49 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ enum TYPE {
 typedef struct s_tokens
 {
 	enum TYPE type;
-	char *token;	
+	char *token;
 	struct s_tokens *next;
 }t_tokens;
 

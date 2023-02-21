@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:08:45 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/20 20:24:40 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/21 20:26:10 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	parse(char *input, char **envp)
 		return (0);
 	token_lst = lexer(token_lst, input);
 	token_lst = expander(token_lst, envp);
+	exit_status = 0;
 	if (innit_cmd_struct(&token_lst, &cmd_lst, envp) != 1)
 		return (0);
 	return (1);

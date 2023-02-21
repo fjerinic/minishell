@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:16:41 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/20 20:45:29 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/21 15:08:45 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,6 @@ char	*ft_find_path(char **env, char *cmd)//envp has to be changed
 	char	*envp;
 
 	envp = path_finder(env);//free
-
-	if (cmd[0] == '"' || cmd[0] == '\'')
-		cmd = ft_substr(cmd, 1, ft_strlen(cmd) - 2);//problems with mod: memory //free
-
 	if (cmd_or_path(cmd))
 	{
 		if (access(cmd, F_OK | X_OK) == 0)

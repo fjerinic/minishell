@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:57 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/07 13:32:38 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:57:08 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_tokens	*innit_token_word(char *input, int *i)
 		tmp = input[j++];
 		while (input[j] != tmp)
 			j++;
-		token = innit_token(ft_substr(input, *i, j + 1 - *i) , WORD);//free
+		token = innit_token(ft_substr(input, *i + 1, j - *i - 1) , WORD);//free
 		*i = j;
 	}
 	else

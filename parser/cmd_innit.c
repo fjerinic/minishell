@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/20 19:53:22 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/21 20:25:44 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,24 @@ int	count_args(t_tokens *token_lst)
 	return (i);
 }
 
+void	free_token(t_tokens *token)
+{
+	t_tokens	*tmp;
+	while (token != NULL)
+	{
+		tmp = token->next;
+		free(token->token);
+		free(token);
+		token = tmp;
+	}
+}
+
 t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 {
-	int		i;
-	int 	j;
-	t_cmds	*cmd;
+	int			i;
+	int 		j;
+	t_cmds		*cmd;
+	t_tokens	*tmp;
 
 	cmd = malloc(sizeof(t_cmds));
 	if (!cmd)
@@ -52,9 +65,16 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 		if ((*token_lst)->type == REDIR_INPUT || (*token_lst)->type == REDIR_OUTPUT 
 		|| (*token_lst)->type == HERE_DOC || (*token_lst)->type == APPEND)
 			redir_handler((*token_lst), cmd, envp);
-		else if ((*token_lst)->type == WORD)
+		else if ((*token_lst)->type == WORD && ft_strcmp((*token_lst)->token, "")  != 0)
 			cmd->cmd_split[j++] = (*token_lst)->token;//ft_strdup
-		(*token_lst) = (*token_lst)->next;
+		tmp = (*token_lst)->next;
+		free(*token_lst);
+		*token_lst = tmp;
+		if (exit_status == 130)
+		{
+			free_token(*token_lst);
+			*token_lst = NULL;
+		}
 	}
 	if (j == 0)
 	{
@@ -69,7 +89,6 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 	// if (!(*cmd_lst)->cmd_path)
 	// 	return(0); error
 	// (*cmd_lst)->cmd_amount = 0;
-
 	cmd->next = NULL;
 	return (cmd);
 }
