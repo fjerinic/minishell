@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/21 20:25:44 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:55:47 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 		if ((*token_lst)->type == REDIR_INPUT || (*token_lst)->type == REDIR_OUTPUT 
 		|| (*token_lst)->type == HERE_DOC || (*token_lst)->type == APPEND)
 			redir_handler((*token_lst), cmd, envp);
-		else if ((*token_lst)->type == WORD && ft_strcmp((*token_lst)->token, "")  != 0)
-			cmd->cmd_split[j++] = (*token_lst)->token;//ft_strdup
+		else if (((*token_lst)->type == WORD || (*token_lst)->type == SINGLE_QUOTE) && ft_strcmp((*token_lst)->token, "")  != 0)
+			cmd->cmd_split[j++] = (*token_lst)->token;
 		tmp = (*token_lst)->next;
+		if (((*token_lst)->type != WORD && (*token_lst)->type != SINGLE_QUOTE) || ft_strcmp((*token_lst)->token, "") == 0)
+			free((*token_lst)->token);
 		free(*token_lst);
 		*token_lst = tmp;
 		if (exit_status == 130)

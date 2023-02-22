@@ -6,13 +6,13 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:16:13 by jkroger           #+#    #+#             */
-/*   Updated: 2023/01/30 20:59:25 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:38:26 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	quote_len(char *s, int *i)//maybe void
+int	quote_len(char *s, int *i)
 {
 	char    quote;
     int     tmp;
@@ -25,7 +25,7 @@ int	quote_len(char *s, int *i)//maybe void
 	return (*i);
 }
 
-int space_len(char *s, int *i)//maybe void
+int space_len(char *s, int *i)
 {
     char	space;
     int		tmp;

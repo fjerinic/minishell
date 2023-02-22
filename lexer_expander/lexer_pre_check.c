@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:45:26 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/20 20:01:48 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:38:48 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_spaces(char *input)
 		if (input[i] != ' ')
 			return (1);
 	}
-	return (0);//nothing happens
+	return (0);
 }
 
 int	check_unclosed_quotes(char *input)

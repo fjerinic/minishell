@@ -6,14 +6,14 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/21 14:33:49 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:25:27 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "libft/libft.h"
-# include <stdio.h>//this fixed it
+# include <stdio.h>
 # include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -35,7 +35,8 @@ enum TYPE {
 	REDIR_OUTPUT,
 	HERE_DOC,
 	APPEND,
-   	WORD
+   	WORD,
+	SINGLE_QUOTE
 };
 
 typedef struct s_tokens
@@ -50,11 +51,9 @@ typedef struct s_cmds
 {
 	char			**cmd_split;
 	char			*cmd_path;
-	// char			**cur_env;
-	int				cmd_amount;//?
+	// int				cmd_amount;//?
 	int				infile;
 	int				outfile;
-	
 	struct s_cmds	*next;
 }t_cmds;
 
@@ -90,7 +89,7 @@ char	*get_var(char *token, char **envp);
 /**********/
 
 /* parser.c */
-int	parse(char *input, char **envp);
+t_cmds	*parse(char *input, char **envp);
 
 /* parsing.c */
 int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp);
@@ -130,9 +129,5 @@ void	get_signals(void);
 /* ft_error.c */
 void	ft_error(char *token, int exit_code);
 void	lex_error(char *token);
-
-/********/
-/* test */
-/********/
 
 #endif

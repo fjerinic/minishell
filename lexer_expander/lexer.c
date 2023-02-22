@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:11:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/07 13:41:47 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:39:13 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_tokens	*lexer(t_tokens *token_lst, char *input)
 		else if (input[i] != ' ')
 			token = innit_token_word(input, &i);
 		if (input[i] != ' ')
-			add_token(&token_lst, token);//free token_lst in parse
+			add_token(&token_lst, token);
 	}
 	return (token_lst);
 }

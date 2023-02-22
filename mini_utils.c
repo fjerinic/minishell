@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/15 20:23:24 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:43:22 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*user_input(void)
 	char	*input;
 
 	prompt = "shell$> ";
-	input = readline(prompt);//free
+	input = readline(prompt);
 	if (ft_strlen(input))
 		add_history(input);
 	return (input);

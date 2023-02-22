@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:57 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/21 14:57:08 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:50:23 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_tokens	*innit_token(char *input, int token_type)
 		return (NULL);
 	}
 	token->type = token_type;
-	token->token = input;//malloc free
+	token->token = input;
 	token->next = NULL;
 	return (token);
 }
@@ -39,7 +39,10 @@ t_tokens	*innit_token_word(char *input, int *i)
 		tmp = input[j++];
 		while (input[j] != tmp)
 			j++;
-		token = innit_token(ft_substr(input, *i + 1, j - *i - 1) , WORD);//free
+		if (input[*i] == '\'')
+			token = innit_token(ft_substr(input, *i + 1, j - *i - 1) , SINGLE_QUOTE);
+		else
+			token = innit_token(ft_substr(input, *i + 1, j - *i - 1) , WORD);
 		*i = j;
 	}
 	else
@@ -47,7 +50,7 @@ t_tokens	*innit_token_word(char *input, int *i)
 		while (input[j] != '\'' && input[j] != '"' && input[j] != '\n' && input[j] != '|'
 				&& input[j] != '<' && input[j] != '>' && input[j] != ' ' && input[j])
 			j++;
-		token = innit_token(ft_substr(input, *i, j - *i) , WORD);//free
+		token = innit_token(ft_substr(input, *i, j - *i) , WORD);
 		*i = j - 1;
 	}
 	return (token);
@@ -79,20 +82,14 @@ t_tokens	*innit_redir(char *input, int *i, int type)
 		j++;
 		*i = space_len(input, &j);
 		word_len(input, &j);
-		if (type == REDIR_INPUT)
-			token = innit_token(ft_substr(input, *i, j - *i), type);//free
-		else
-			token = innit_token(ft_substr(input, *i, j - *i), type);//free
+		token = innit_token(ft_substr(input, *i, j - *i), type);
 	}
 	else
 	{
 		j += 2;
 		*i = space_len(input, &j);
 		word_len(input, &j);
-		if (type == HERE_DOC)
-			token = innit_token(ft_substr(input, *i, j - *i), type);//free
-		else
-			token = innit_token(ft_substr(input, *i, j - *i), type);//free	
+		token = innit_token(ft_substr(input, *i, j - *i), type);
 	}
 	if (input[j] == '"' || input[j] == '\'')
 		*i = j;

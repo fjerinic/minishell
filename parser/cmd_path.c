@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:16:41 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/21 15:08:45 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:40:42 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ char	*path_finder(char **env)
 	return (NULL);
 }
 
-char	*ft_find_path(char **env, char *cmd)//envp has to be changed
+char	*ft_find_path(char **env, char *cmd)
 {
 	t_path	p;
 	char	*envp;
 
-	envp = path_finder(env);//free
+	envp = path_finder(env);
 	if (cmd_or_path(cmd))
 	{
 		if (access(cmd, F_OK | X_OK) == 0)

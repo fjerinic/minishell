@@ -6,14 +6,11 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:26:07 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/17 15:10:47 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:41:30 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-//copy env into a list
-//everytime export new var has to bet added to the list every time unset var has to be deleted from the list
 
 int	count_env_len(char **envp)
 {
