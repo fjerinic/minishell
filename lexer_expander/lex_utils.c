@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:16:13 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/22 19:38:26 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/24 23:32:58 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ int	quote_len(char *s, int *i)
     int     tmp;
 
     tmp = *i;
-    quote = s[tmp++];
-	while (s[tmp] != quote && s[tmp])
-        tmp++;
+	*i = ft_strlen(s);
+	if (tmp < *i)
+    	quote = s[tmp++];
+	while (tmp < *i && s[tmp] != quote)
+    	tmp++;
     *i = tmp;
 	return (*i);
 }

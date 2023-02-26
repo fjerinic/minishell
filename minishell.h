@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/22 19:25:27 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/24 19:05:52 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 # define MINISHELL_H
 # include "libft/libft.h"
 # include <stdio.h>
-# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
+//# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-// # include <readline/readline.h>
-// # include <readline/history.h>
-# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <signal.h>
+# include <errno.h>
+# include <string.h> 
+//# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
 
 extern int	exit_status;
 
@@ -93,6 +96,7 @@ t_cmds	*parse(char *input, char **envp);
 
 /* parsing.c */
 int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp);
+void	free_cmd(t_cmds *cmd);
 
 /* cmd_path.c */
 char	*ft_find_path(char **env, char *cmd);
@@ -129,5 +133,6 @@ void	get_signals(void);
 /* ft_error.c */
 void	ft_error(char *token, int exit_code);
 void	lex_error(char *token);
+void	set_err(char *token, int err);
 
 #endif

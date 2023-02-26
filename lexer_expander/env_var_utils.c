@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 20:51:29 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/22 19:34:27 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/23 16:55:06 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*var_finder(char **envp, char *var)
 		}
 		i++;
 	}
+	free(var);
 	return (NULL);
 }
 
@@ -42,7 +43,7 @@ void	var_exist(char *token, char **envp, int *i, char **var_value)
 		j++;
 	if ((j - *i) == 1)
 	{
-		while (token[j + 1] != '$' && token[j])
+		while (token[j] && token[j + 1] != '$')
 			j++;
 		*var_value = ft_substr(token, *i, j - *i);
 	}

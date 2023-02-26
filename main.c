@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/22 19:38:07 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/24 23:31:40 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,20 @@ int	minishell(char **envp)
 		//free(envp)
 		printf("exit\n");
 		exit_status = 130;
+
+		/* int z = -1;
+		while (envp[++z])
+			free(envp[z]);
+		free(envp); */
+		
 		exit(exit_status);
 	}
 	cmd_lst	= parse(input, envp);//error_msg();
-	
-	//execution()
+	free(input);
 
+	//execution()
+	/* if (exit_status != 130)
+		free_cmd(cmd_lst); */
 	//free cmd_lst and env
 	return (0);
 }

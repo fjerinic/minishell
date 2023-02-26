@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:26:07 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/22 19:41:30 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/24 23:34:55 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	**add_env(char **env, char *var)
 	int		i;
 	char	**envcp;
 
-	envcp = malloc((count_env_len(env) + 2) * sizeof(char *)); //+ 1
+	envcp = malloc((count_env_len(env) + 2) * sizeof(char *));
 	i = -1;
 	while (env[++i])
 	{

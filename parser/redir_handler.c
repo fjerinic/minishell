@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 16:27:06 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/21 18:44:17 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/24 19:06:56 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	input_redir(t_tokens *token, int infile)
 	if (infile != 0)
 		close(infile);
 	infile = open(token->token, O_RDONLY);
-	if (infile < 0)
-		return (-1);
+	if (infile == -1)
+		set_err(token->token, errno);
 	return (infile);
 }
 
@@ -27,8 +27,8 @@ int	output_redir(t_tokens *token, int outfile)
 	if (outfile != 1)
 		close(outfile);
 	outfile = open(token->token, O_TRUNC | O_CREAT | O_WRONLY, 0000644);//0777
-	if (outfile < 0)
-		return (-1);
+	if (outfile == -1)
+		set_err(token->token, errno);
 	return (outfile);
 }
 
@@ -50,8 +50,8 @@ int	append(t_tokens *token, int outfile)
 	if (outfile != 1)
 		close(outfile);
 	outfile = open(token->token,O_TRUNC | O_CREAT | O_APPEND, 0000644);//0777
-	if (outfile < 0)
-		return (-1);
+	if (outfile == -1)
+		set_err(token->token, errno);
 	return (outfile);
 }
 

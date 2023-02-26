@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:16:41 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/22 19:40:42 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/23 14:18:01 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	*ft_find_path(char **env, char *cmd)
 	else
 	{
 		p.path_hold = ft_split(envp, ':');
+		free(envp);//??
 		p.i = -1;
 		while (p.path_hold[++p.i])
 		{
