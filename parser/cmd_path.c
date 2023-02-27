@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:16:41 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/23 14:18:01 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/27 20:02:19 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ char	*ft_find_path(char **env, char *cmd)
 	{
 		if (access(cmd, F_OK | X_OK) == 0)
 			return (cmd);
+		else
+			return(NULL);
 	}
 	else
 	{
@@ -79,6 +81,5 @@ char	*ft_find_path(char **env, char *cmd)
 		}
 	}
 	free_path_holder(p.path_hold);
-	//ft_error(pipex, "Error: Command or path is wrong!\n");
 	return (NULL);
 }

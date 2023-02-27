@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/24 15:53:01 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/27 20:01:46 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int	cmd_split_redir(t_tokens **token_lst, t_cmds *cmd, char **envp)
 			if ((*token_lst)->type == REDIR_INPUT || (*token_lst)->type == REDIR_OUTPUT 
 			|| (*token_lst)->type == HERE_DOC || (*token_lst)->type == APPEND)
 				redir_handler((*token_lst), cmd, envp);
-			else if (((*token_lst)->type == WORD || (*token_lst)->type == SINGLE_QUOTE) && ft_strcmp((*token_lst)->token, "")  != 0)
+			else if (((*token_lst)->type == WORD || (*token_lst)->type == SINGLE_QUOTE) )
 				cmd->cmd_split[i++] = (*token_lst)->token;
 		}
 		tmp = (*token_lst)->next;
-		if (((*token_lst)->type != WORD && (*token_lst)->type != SINGLE_QUOTE) || ft_strcmp((*token_lst)->token, "") == 0 || cmd->infile == -1)
+		if (((*token_lst)->type != WORD && (*token_lst)->type != SINGLE_QUOTE)  || cmd->infile == -1)
 			free((*token_lst)->token);
 		free(*token_lst);
 		*token_lst = tmp;
@@ -77,8 +77,6 @@ int	cmd_split_redir(t_tokens **token_lst, t_cmds *cmd, char **envp)
 	}
 	return (i);
 }
-
-
 
 t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 {
@@ -96,8 +94,8 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 	{
 		if (cmd->cmd_split)
 		{
-			while (cmd->cmd_split[i])
-				free(cmd->cmd_split[i++]);
+			// while (cmd->cmd_split[i])
+			// 	free(cmd->cmd_split[i++]);
 			free(cmd->cmd_split);
 		}
 		cmd->cmd_split = NULL;
@@ -105,8 +103,8 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 	}
 	else
 	{
-		cmd->cmd_split[i] = NULL;
 		cmd->cmd_path = ft_find_path(envp, cmd->cmd_split[0]);
+		cmd->cmd_split[i] = NULL;
 	}
 	// if (!(*cmd_lst)->cmd_path)
 	// 	return(0); error
@@ -118,6 +116,12 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd)
 {
 	t_cmds	*first;
+
+	if (cmd->outfile == -1 || cmd->infile == -1)
+	{
+		free_cmd(cmd);
+		return ;
+	}
 
 	first = *cmd_lst;
 	if (*cmd_lst == NULL)

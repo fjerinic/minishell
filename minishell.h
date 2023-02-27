@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/24 19:05:52 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/27 19:45:28 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 # define MINISHELL_H
 # include "libft/libft.h"
 # include <stdio.h>
-//# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+// # include <readline/readline.h>
+// # include <readline/history.h>
 # include <signal.h>
 # include <errno.h>
 # include <string.h> 
-//# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
+# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
 
 extern int	exit_status;
 
@@ -54,9 +54,13 @@ typedef struct s_cmds
 {
 	char			**cmd_split;
 	char			*cmd_path;
-	// int				cmd_amount;//?
 	int				infile;
 	int				outfile;
+
+	// char			*err_file;
+	// int				err;
+	
+	// int				cmd_amount;//?
 	struct s_cmds	*next;
 }t_cmds;
 

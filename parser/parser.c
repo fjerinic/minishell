@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:08:45 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/23 14:07:07 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/27 20:03:13 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_cmds	*parse(char *input, char **envp)
 	token_lst = expander(token_lst, envp);
 	exit_status = 0;
 	if (innit_cmd_struct(&token_lst, &cmd_lst, envp) != 1)
-		return (NULL);		
+		return (NULL);
 	return (cmd_lst);
 }
 

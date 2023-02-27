@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/24 13:55:12 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/27 18:56:01 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	free_cmd(t_cmds *cmd)
 		free(cmd);
 		cmd = tmp;
 	}
+	cmd = NULL;
 }
 
 int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp)
@@ -50,7 +51,10 @@ int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp)
 		}
 	}
 	if (exit_status == 130)
+	{
 		free_cmd(*cmd_lst);
+		return (0);
+	}
 	return (1);
 }
 
