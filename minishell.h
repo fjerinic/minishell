@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/27 19:45:28 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:30:51 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,8 @@ typedef struct s_cmds
 	char			*cmd_path;
 	int				infile;
 	int				outfile;
-
-	// char			*err_file;
-	// int				err;
+	char			*err_file;
+	int				err;
 	
 	// int				cmd_amount;//?
 	struct s_cmds	*next;

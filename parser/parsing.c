@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/27 18:56:01 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:28:04 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,44 +15,44 @@
 void	free_cmd(t_cmds *cmd)
 {
 	int		i;
-	t_cmds	*tmp;
-
-	while (cmd != NULL)
+	
+	if (cmd->cmd_path)
+		free(cmd->cmd_path);
+	if (cmd->cmd_split)
 	{
-		tmp = cmd->next;
-		if (cmd->cmd_path)
-			free(cmd->cmd_path);
-		if (cmd->cmd_split)
-		{
-			i = 0;
-			while (cmd->cmd_split[i])
-				free(cmd->cmd_split[i++]);
-			free(cmd->cmd_split);
-		}
-		free(cmd);
-		cmd = tmp;
+		i = 0;
+		while (cmd->cmd_split[i])
+			free(cmd->cmd_split[i++]);
+		free(cmd->cmd_split);
 	}
-	cmd = NULL;
+	free(cmd->err_file);
+	free(cmd);
 }
 
 int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp)
 {
-	t_tokens	*tmp;
+	t_tokens	*tmp_t;
+	t_cmds		*tmp_c;
 	
 	while (*token_lst != NULL)
 	{	
 		add_cmd(&(*cmd_lst), innit_cmd(envp, token_lst));
 		if ((*token_lst) != NULL)
 		{
-			tmp = (*token_lst)->next;
+			tmp_t = (*token_lst)->next;
 			free((*token_lst)->token);
 			free(*token_lst);
-			*token_lst = tmp;
+			*token_lst = tmp_t;
 		}
 	}
 	if (exit_status == 130)
 	{
-		free_cmd(*cmd_lst);
+		while(*cmd_lst != NULL)
+		{
+			tmp_c = (*cmd_lst)->next;
+			free_cmd(*cmd_lst);
+			*cmd_lst = tmp_c;
+		}
 		return (0);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/27 20:01:46 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:26:55 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	cmd_split_redir(t_tokens **token_lst, t_cmds *cmd, char **envp)
 				cmd->cmd_split[i++] = (*token_lst)->token;
 		}
 		tmp = (*token_lst)->next;
-		if (((*token_lst)->type != WORD && (*token_lst)->type != SINGLE_QUOTE)  || cmd->infile == -1)
+		if (((*token_lst)->type != WORD && (*token_lst)->type != SINGLE_QUOTE) || cmd->err != 0)
 			free((*token_lst)->token);
 		free(*token_lst);
 		*token_lst = tmp;
@@ -89,15 +89,14 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 		return (NULL);
 	cmd->infile = 0;
 	cmd->outfile = 1;
+	cmd->err = 0;
+	cmd->err_file = NULL;
+	
 	i = cmd_split_redir(token_lst, cmd, envp);
 	if (i == 0)
 	{
 		if (cmd->cmd_split)
-		{
-			// while (cmd->cmd_split[i])
-			// 	free(cmd->cmd_split[i++]);
 			free(cmd->cmd_split);
-		}
 		cmd->cmd_split = NULL;
 		cmd->cmd_path = NULL;
 	}
@@ -109,7 +108,8 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 	// if (!(*cmd_lst)->cmd_path)
 	// 	return(0); error
 	// (*cmd_lst)->cmd_amount = 0;
-	cmd->next = NULL;
+	
+	// cmd->next = NULL;
 	return (cmd);
 }
 
@@ -117,19 +117,17 @@ void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd)
 {
 	t_cmds	*first;
 
-	if (cmd->outfile == -1 || cmd->infile == -1)
-	{
-		free_cmd(cmd);
-		return ;
-	}
-
 	first = *cmd_lst;
 	if (*cmd_lst == NULL)
+	{
 		*cmd_lst = cmd;
+		(*cmd_lst)->next = NULL;
+	}
 	else
 	{
 		while (first->next != NULL)
 			first = first->next;
 		first->next = cmd;
+		first->next->next = NULL;
 	}
 }

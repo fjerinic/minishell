@@ -6,13 +6,33 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/27 20:04:04 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:30:05 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	exit_status;
+
+t_cmds	*err_func(t_cmds *cmd)
+{
+	t_cmds	*cmd_lst = NULL;
+	t_cmds	*tmp;
+
+	while (cmd != NULL)
+	{
+		tmp = cmd->next;
+		if (cmd->err != 0)
+		{
+			set_err(cmd->err_file, cmd->err);
+			free_cmd(cmd);
+		}
+		else
+			add_cmd(&(cmd_lst), cmd);
+		cmd = tmp;
+	}
+	return (cmd_lst);
+}
 
 int	minishell(char **envp)
 {
@@ -36,6 +56,8 @@ int	minishell(char **envp)
 	}
 	cmd_lst	= parse(input, envp);
 	free(input);
+	
+	cmd_lst = err_func(cmd_lst);
 
 	
 	//execution()
