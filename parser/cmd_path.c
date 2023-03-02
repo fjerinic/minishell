@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:16:41 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/27 20:02:19 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/02 15:24:15 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,41 @@ char	*path_finder(char **env)
 	return (NULL);
 }
 
-char	*ft_find_path(char **env, char *cmd)
+int	check_builtin(char *cmd)
+{
+	if (ft_strcmp(cmd, "echo") == 0)
+		return (0);
+	else if (ft_strcmp(cmd, "cd") == 0)
+		return (0);
+	else if (ft_strcmp(cmd, "pwd") == 0)
+		return (0);
+	else if (ft_strcmp(cmd, "export") == 0)
+		return (0);
+	else if (ft_strcmp(cmd, "unset") == 0)
+		return (0);
+	else if (ft_strcmp(cmd, "env") == 0)
+		return (0);
+	else if (ft_strcmp(cmd, "exit") == 0)
+		return (0);
+	return (1);
+}
+
+char	*ft_find_path(char **env, char *cmd, int *err)
 {
 	t_path	p;
 	char	*envp;
 
 	envp = path_finder(env);
+	
+	if (envp == NULL && check_builtin(cmd) != 0)
+	{
+		write(2, "shell: ", 7);
+		write(2, cmd, ft_strlen(cmd));
+		write(2, ": No such file or directory\n", 28);
+		*err = -1;
+		return (NULL);
+	}
+
 	if (cmd_or_path(cmd))
 	{
 		if (access(cmd, F_OK | X_OK) == 0)

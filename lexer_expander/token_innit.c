@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:57 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/22 19:50:23 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/02 20:21:51 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_tokens	*innit_token_word(char *input, int *i)
 	t_tokens	*token;
 	char		tmp;
 	int			j;
-	
+
 	j = *i;
 	if (input[j] == '"' || input[j] == '\'')
 	{
@@ -40,17 +40,18 @@ t_tokens	*innit_token_word(char *input, int *i)
 		while (input[j] != tmp)
 			j++;
 		if (input[*i] == '\'')
-			token = innit_token(ft_substr(input, *i + 1, j - *i - 1) , SINGLE_QUOTE);
+			token = innit_token(ft_substr(input, *i + 1, j - *i - 1), SINGLE_QUOTE);
 		else
-			token = innit_token(ft_substr(input, *i + 1, j - *i - 1) , WORD);
+			token = innit_token(ft_substr(input, *i + 1, j - *i - 1), WORD);
 		*i = j;
 	}
 	else
 	{
-		while (input[j] != '\'' && input[j] != '"' && input[j] != '\n' && input[j] != '|'
-				&& input[j] != '<' && input[j] != '>' && input[j] != ' ' && input[j])
+		while (input[j] != '\'' && input[j] != '"' && input[j] != '\n'
+				&& input[j] != '|' && input[j] != '<' && input[j] != '>'
+				&& input[j] != ' ' && input[j])
 			j++;
-		token = innit_token(ft_substr(input, *i, j - *i) , WORD);
+		token = innit_token(ft_substr(input, *i, j - *i), WORD);
 		*i = j - 1;
 	}
 	return (token);
@@ -94,6 +95,6 @@ t_tokens	*innit_redir(char *input, int *i, int type)
 	if (input[j] == '"' || input[j] == '\'')
 		*i = j;
 	else
-		*i = j - 1;	
+		*i = j - 1;
 	return (token);
 }

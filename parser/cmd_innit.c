@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/28 19:26:55 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/02 17:01:45 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 	int			i;
 	t_cmds		*cmd;
 	
-
 	cmd = malloc(sizeof(t_cmds));
 	if (!cmd)
 		return (NULL);
@@ -102,13 +101,10 @@ t_cmds	*innit_cmd(char **envp, t_tokens **token_lst)
 	}
 	else
 	{
-		cmd->cmd_path = ft_find_path(envp, cmd->cmd_split[0]);
+		cmd->cmd_path = ft_find_path(envp, cmd->cmd_split[0], &cmd->err);
 		cmd->cmd_split[i] = NULL;
 	}
-	// if (!(*cmd_lst)->cmd_path)
-	// 	return(0); error
-	// (*cmd_lst)->cmd_amount = 0;
-	
+	// (*cmd_lst)->cmd_amount = 0;	
 	// cmd->next = NULL;
 	return (cmd);
 }
@@ -117,6 +113,12 @@ void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd)
 {
 	t_cmds	*first;
 
+	if (cmd->err == -1)
+	{
+		free_cmd(cmd);
+		return ;
+	}
+	
 	first = *cmd_lst;
 	if (*cmd_lst == NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/28 19:30:51 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/02 19:45:28 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,17 @@ typedef struct s_cmds
 	struct s_cmds	*next;
 }t_cmds;
 
+/* for norm */
+typedef	struct s_get_var
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*var_value;
+	char	*tmp;
+}t_get_var;
+
+
 /*********/
 /* lexer */
 /*********/
@@ -72,8 +83,11 @@ int	quote_len(char *s, int *i);
 int space_len(char *s, int *i);
 int word_len(char *s, int *i);
 
-/* lexer_pre_check.c */
+/* lex_err.c */
 int	lex_error_check(char *input);
+
+/* lex_err_red.c */
+int	check_redir(char *input);
 
 /* lexer.c */
 t_tokens	*lexer(t_tokens *token_lst, char *input);
@@ -89,6 +103,7 @@ t_tokens	*expander(t_tokens *token, char **envp);
 
 /* env_var_utils.c */
 char	*get_var(char *token, char **envp);
+void	var_exist(char *token, char **envp, int *i, char **var_value);
 
 /**********/
 /* parser */
@@ -102,7 +117,7 @@ int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp);
 void	free_cmd(t_cmds *cmd);
 
 /* cmd_path.c */
-char	*ft_find_path(char **env, char *cmd);
+char	*ft_find_path(char **env, char *cmd, int *err);
 
 /* redir_handler.c */
 void	redir_handler(t_tokens *token, t_cmds *cmd, char **env);

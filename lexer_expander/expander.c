@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:01:04 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/27 14:23:24 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/02 19:15:19 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ t_tokens	*expander(t_tokens *token, char **envp)
 {
 	t_tokens	*token_lst;
 	t_tokens	*tmp;
-	int		i;
-	char	*tmp_var;
+	int			i;
+	char		*tmp_var;
 
 	token_lst = NULL;
 	while (token != NULL)

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/28 19:30:05 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/02 20:27:33 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int	minishell(char **envp)
 	}
 	cmd_lst	= parse(input, envp);
 	free(input);
-	
 	cmd_lst = err_func(cmd_lst);
-
+	
+	//envp = unset export cd
 	
 	//execution()
 	/* if (exit_status != 130)

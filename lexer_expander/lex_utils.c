@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:16:13 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/24 23:32:58 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/02 19:03:37 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,36 @@
 
 int	quote_len(char *s, int *i)
 {
-	char    quote;
-    int     tmp;
+	char	quote;
+	int		tmp;
 
-    tmp = *i;
+	tmp = *i;
 	*i = ft_strlen(s);
 	if (tmp < *i)
-    	quote = s[tmp++];
+		quote = s[tmp++];
 	while (tmp < *i && s[tmp] != quote)
-    	tmp++;
-    *i = tmp;
+		tmp++;
+	*i = tmp;
 	return (*i);
 }
 
-int space_len(char *s, int *i)
+int	space_len(char *s, int *i)
 {
-    char	space;
-    int		tmp;
+	char	space;
+	int		tmp;
 
-	tmp = *i;	
+	tmp = *i;
 	if (s[tmp] != ' ')
 	{
 		if (s[tmp] == '\'' || s[tmp] == '"')
 			tmp++;
 		*i = tmp;
-		return(*i);
+		return (*i);
 	}
 	space = s[tmp];
 	while (s[tmp] == space)
 	{
-	    tmp++;
+		tmp++;
 	}
 	if (s[tmp] == '\'' || s[tmp] == '"')
 		tmp++;
@@ -51,9 +51,9 @@ int space_len(char *s, int *i)
 	return (*i);
 }
 
-int without_quote(char *s, int *i)
+int	without_quote(char *s, int *i)
 {
-	char 	*pipe_red;
+	char	*pipe_red;
 	int		j;
 	int		tmp;
 
@@ -68,13 +68,13 @@ int without_quote(char *s, int *i)
 				break ;
 		}
 		if (s[tmp] == pipe_red[j])
-				break ;
+			break ;
 	}
 	*i = tmp;
 	return (tmp);
 }
 
-int word_len(char *s, int *i)
+int	word_len(char *s, int *i)
 {
 	int		tmp;
 

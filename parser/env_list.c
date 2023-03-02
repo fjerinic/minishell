@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:26:07 by jkroger           #+#    #+#             */
-/*   Updated: 2023/02/24 23:34:55 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/02 17:54:55 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char	**copy_env(char **envp)
 int	var_exists(char **env, char *var)
 {
 	int 	i;
-
 	i = -1;
 	while (env[++i])
 	{
@@ -57,14 +56,17 @@ char	**del_env(char **env, char *var)
 	int 	j;
 	char	**envcp;
 
-	if(var_exists(env, var) == 0)
+	
+	if(var_exists(env, var) == 0)//
+	{
 		return (env);//err
+	}
 	envcp = malloc(count_env_len(env) * sizeof(char *));
 	i = 0;
 	j = 0;
 	while (env[j])
 	{
-		if (ft_strncmp(env[j], var, ft_strlen(var)) == 0)
+		if (ft_strncmp(env[j], var, ft_strlen(var)) == 0)//also with '=' to check for exact
 			free(env[j++]);
 		else
 		{
@@ -81,6 +83,7 @@ char	**add_env(char **env, char *var)
 {
 	int		i;
 	char	**envcp;
+	//var_exist replace it
 
 	envcp = malloc((count_env_len(env) + 2) * sizeof(char *));
 	i = -1;
