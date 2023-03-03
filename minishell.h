@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/02 19:45:28 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/03 16:30:51 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,34 @@
 # define MINISHELL_H
 # include "libft/libft.h"
 # include <stdio.h>
-# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-// # include <readline/readline.h>
-// # include <readline/history.h>
 # include <signal.h>
 # include <errno.h>
 # include <string.h> 
+# include <sys/ioctl.h>
+// # include <readline/history.h>
+// # include <readline/readline.h>
+# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
 
-extern int	exit_status;
+extern int	g_exit_status;
 
 /***********/
 /* structs */
 /***********/
 
 /* for tokens */
+
 enum TYPE {
 	PIPE,
-	REDIR_INPUT,
-	REDIR_OUTPUT,
-	HERE_DOC,
-	APPEND,
+	IN,
+	OUT,
+	DOC,
+	APP,
    	WORD,
-	SINGLE_QUOTE
+	SQ
 };
 
 typedef struct s_tokens
@@ -73,6 +75,27 @@ typedef	struct s_get_var
 	char	*tmp;
 }t_get_var;
 
+typedef struct s_expan
+{
+	t_tokens	*token_lst;
+	t_tokens	*tmp;
+	int			i;
+	char		*tmp_var;
+}t_expan;
+
+typedef struct s_innit_tw
+{
+	t_tokens	*token;
+	char		tmp;
+	int			j;
+}t_innit_tw;
+
+typedef struct s_here_loop
+{
+	char	*input;
+	char	*limiter;
+	char	*tmp;
+}t_here_loop;
 
 /*********/
 /* lexer */
@@ -144,6 +167,8 @@ int		minishell(char **envp);
 /* mini_utils.c */
 char	*user_input(void);
 int		ft_strcmp(const char *s1, const char *s2);
+int		check_builtin(char *cmd);
+void	free_token(t_tokens *token);
 
 /* signals.c */
 void	get_signals(void);

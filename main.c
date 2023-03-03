@@ -6,58 +6,39 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/02 20:27:33 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/03 18:54:14 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exit_status;
-
-t_cmds	*err_func(t_cmds *cmd)
-{
-	t_cmds	*cmd_lst = NULL;
-	t_cmds	*tmp;
-
-	while (cmd != NULL)
-	{
-		tmp = cmd->next;
-		if (cmd->err != 0)
-		{
-			set_err(cmd->err_file, cmd->err);
-			free_cmd(cmd);
-		}
-		else
-			add_cmd(&(cmd_lst), cmd);
-		cmd = tmp;
-	}
-	return (cmd_lst);
-}
+int	g_exit_status;
 
 int	minishell(char **envp)
 {
 	char 	*input;
-	t_cmds	*cmd_lst = NULL;
+	t_cmds	*cmd_lst;
 
+	cmd_lst = NULL;
 	get_signals();
 	input = user_input();
 	if (!input)
 	{
 		//free(envp)
 		printf("exit\n");
-		exit_status = 130;
+		g_exit_status = 130;
 
 		/* int z = -1;
 		while (envp[++z])
 			free(envp[z]);
 		free(envp); */
 		
-		exit(exit_status);
+		exit(g_exit_status);
 	}
-	cmd_lst	= parse(input, envp);
+	cmd_lst = parse(input, envp);
 	free(input);
-	cmd_lst = err_func(cmd_lst);
 	
+
 	//envp = unset export cd
 	
 	//execution()
@@ -67,9 +48,9 @@ int	minishell(char **envp)
 	return (0);
 }
 
-int main(int argc, char *argv[], char **envp)
+int	main(int argc, char *argv[], char **envp)
 {
-	int 	status;
+	int		status;
 	char	**env;
 
 	if (argc > 1)
@@ -77,15 +58,7 @@ int main(int argc, char *argv[], char **envp)
 	(void)argv;
 	status = 0;
 	env = copy_env(envp);
-	exit_status = 0;
+	g_exit_status = 0;
 	while (!status)
 		status = minishell(env);
 }
-
-//if general error exit_status = 1;
-//if builtin missused exit_status = 2;
-//if script with no exec permission exit_status = 126;
-//if command doesnt exist exit_status = 128;
-//if program terminated by a fatal signal like seg. fault exit_status = 129;
-//if program terminated by ctrl + c exit_status = 130;
-// if Exit status out of range (e.g. specifying an invalid exit status code in a script or command) exit_status = 255;

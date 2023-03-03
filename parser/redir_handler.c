@@ -6,13 +6,13 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 16:27:06 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/02 20:33:04 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/03 16:58:59 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	input_redir(t_tokens *token, int infile, t_cmds *cmd)
+int		input_redir(t_tokens *token, int infile, t_cmds *cmd)
 {
 	if (infile != 0)
 		close(infile);
@@ -25,11 +25,11 @@ int	input_redir(t_tokens *token, int infile, t_cmds *cmd)
 	return (infile);
 }
 
-int	output_redir(t_tokens *token, int outfile, t_cmds *cmd)
+int		output_redir(t_tokens *token, int outfile, t_cmds *cmd)
 {
 	if (outfile != 1)
 		close(outfile);
-	outfile = open(token->token, O_TRUNC | O_CREAT | O_WRONLY, 0000644);//0777
+	outfile = open(token->token, O_TRUNC | O_CREAT | O_WRONLY, 0000644);
 	if (outfile == -1)
 	{
 		cmd->err = errno;
@@ -38,25 +38,29 @@ int	output_redir(t_tokens *token, int outfile, t_cmds *cmd)
 	return (outfile);
 }
 
-void	here_doc(t_tokens *token, int *infile, char **env)
+void	here_doc(t_tokens *token, int *infile, char **env, t_cmds *cmd)
 {
 	int		fd[2];
 
 	if (*infile != 0)
 		close(*infile);
-	pipe(fd);//err
+	if (pipe(fd) == -1)
+	{
+		cmd->err = errno;
+		cmd->err_file = ft_strdup(token->token);
+		return ;
+	}
 	here_doc_loop(token, fd[1], env);
 	close(fd[1]);
 	if (*infile != -1)
 		*infile = fd[0];
-	// close(fd[0]);
 }
 
-int	append(t_tokens *token, int outfile, t_cmds *cmd)
+int		append(t_tokens *token, int outfile, t_cmds *cmd)
 {
 	if (outfile != 1)
 		close(outfile);
-	outfile = open(token->token, O_TRUNC | O_CREAT | O_APPEND, 0000644);//0777
+	outfile = open(token->token, O_TRUNC | O_CREAT | O_APPEND, 0000644);
 	if (outfile == -1)
 	{
 		cmd->err = errno;
@@ -67,12 +71,12 @@ int	append(t_tokens *token, int outfile, t_cmds *cmd)
 
 void	redir_handler(t_tokens *token, t_cmds *cmd, char **env)
 {
-	if (token->type == REDIR_INPUT)
+	if (token->type == IN)
 		cmd->infile = input_redir(token, cmd->infile, cmd);
-	else if (token->type == REDIR_OUTPUT)
+	else if (token->type == OUT)
 		cmd->outfile = output_redir(token, cmd->outfile, cmd);
-	else if (token->type == HERE_DOC)
-		here_doc(token, &cmd->infile, env);
+	else if (token->type == DOC)
+		here_doc(token, &cmd->infile, env, cmd);
 	else
 		cmd->outfile = append(token, cmd->outfile, cmd);
 }

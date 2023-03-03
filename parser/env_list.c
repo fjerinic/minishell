@@ -6,13 +6,13 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:26:07 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/02 17:54:55 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/03 17:00:11 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	count_env_len(char **envp)
+int		count_env_len(char **envp)
 {
 	int	i;
 
@@ -29,22 +29,23 @@ char	**copy_env(char **envp)
 
 	env = malloc((count_env_len(envp) + 1) * sizeof(char *));
 	if (!env)
-		return(NULL);
+		return (NULL);
 	i = -1;
-	
 	while (envp[++i])
 		env[i] = ft_strdup(envp[i]);
 	env[i] = NULL;
 	return (env);
 }
 
-int	var_exists(char **env, char *var)
+int		var_exists(char **env, char *var)
 {
-	int 	i;
+	int	i;
+
 	i = -1;
 	while (env[++i])
 	{
-		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0 && env[i][ft_strlen(var)] == '=')
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0
+			&& env[i][ft_strlen(var)] == '=')
 			return (1);
 	}
 	return (0);
@@ -52,15 +53,12 @@ int	var_exists(char **env, char *var)
 
 char	**del_env(char **env, char *var)
 {
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 	char	**envcp;
 
-	
-	if(var_exists(env, var) == 0)//
-	{
-		return (env);//err
-	}
+	if (var_exists(env, var) == 0)
+		return (env);
 	envcp = malloc(count_env_len(env) * sizeof(char *));
 	i = 0;
 	j = 0;
@@ -76,15 +74,15 @@ char	**del_env(char **env, char *var)
 	}
 	envcp[i] = NULL;
 	free(env);
-	return(envcp);
+	return (envcp);
 }
 
 char	**add_env(char **env, char *var)
 {
 	int		i;
 	char	**envcp;
-	//var_exist replace it
 
+	//var_exist replace it
 	envcp = malloc((count_env_len(env) + 2) * sizeof(char *));
 	i = -1;
 	while (env[++i])

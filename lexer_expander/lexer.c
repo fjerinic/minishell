@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:11:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/02 19:04:16 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/03 16:14:25 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ t_tokens	*lexer(t_tokens *token_lst, char *input)
 		if (input[i] == '|')
 			token = innit_token(ft_strdup("|"), PIPE);
 		else if (input[i] == '<' && input[i + 1] != '<')
-			token = innit_redir(input, &i, REDIR_INPUT);
+			token = innit_redir(input, &i, IN);
 		else if (input[i] == '<' && input[i + 1] == '<')
-			token = innit_redir(input, &i, HERE_DOC);
+			token = innit_redir(input, &i, DOC);
 		else if (input[i] == '>' && input[i + 1] != '>')
-			token = innit_redir(input, &i, REDIR_OUTPUT);
+			token = innit_redir(input, &i, OUT);
 		else if (input[i] == '>' && input[i + 1] == '>')
-			token = innit_redir(input, &i, APPEND);
+			token = innit_redir(input, &i, APP);
 		else if (input[i] != ' ')
 			token = innit_token_word(input, &i);
 		if (input[i] != ' ')

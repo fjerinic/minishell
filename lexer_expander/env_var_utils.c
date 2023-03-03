@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 20:51:29 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/02 20:13:14 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/03 18:36:41 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	var_exist(char *token, char **envp, int *i, char **var_value)
 	}
 	else if (token[*i] == '$' && token[*i + 1] == '?')
 	{
-		*var_value = ft_itoa(exit_status);
+		*var_value = ft_itoa(g_exit_status);
 		j++;
 	}
 	else
@@ -58,7 +58,7 @@ void	var_exist(char *token, char **envp, int *i, char **var_value)
 	*i = j;
 }
 
-int	get_len(char *token, char **envp)
+int		get_len(char *token, char **envp)
 {
 	int		i;
 	int		var_len;
@@ -85,7 +85,7 @@ char	*get_var(char *token, char **envp)
 {
 	t_get_var	e;
 
-	e.var_value = malloc(get_len(token, envp) + 1 * sizeof(char));
+	e.var_value = malloc((get_len(token, envp) + 1) * sizeof(char));
 	e.i = 0;
 	e.j = 0;
 	while (token[e.i])

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:01:04 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/02 19:15:19 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/03 19:08:51 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,29 @@
 
 t_tokens	*expander(t_tokens *token, char **envp)
 {
-	t_tokens	*token_lst;
-	t_tokens	*tmp;
-	int			i;
-	char		*tmp_var;
+	t_expan	e;
 
-	token_lst = NULL;
+	e.token_lst = NULL;
 	while (token != NULL)
 	{
-		i = -1;
-		tmp_var = NULL;
-		while (token->token[++i] && token->type != SINGLE_QUOTE && token->type != PIPE)
+		e.i = -1;
+		e.tmp_var = NULL;
+		while (token->token[++e.i] && token->type != SQ && token->type != PIPE)
 		{
-			if (token->token[i] == '$' && token->token[i + 1] != ' ' && token->token[i + 1] != '\0')
-				tmp_var = get_var(token->token, envp);
+			if (token->token[e.i] == '$' && token->token[e.i + 1] != ' '
+				&& token->token[e.i + 1] != '\0')
+			{
+				e.tmp_var = get_var(token->token, envp);
+				break ;
+				free(token->token);
+			}
 		}
-		if (tmp_var)
-		{
-			add_token(&token_lst, innit_token(tmp_var, token->type));
-			free(token->token);
-		}
-		else
-			add_token(&token_lst, innit_token(token->token, token->type));
-		tmp = token->next;
+		if (e.tmp_var == NULL)
+			e.tmp_var = token->token;
+		add_token(&e.token_lst, innit_token(e.tmp_var, token->type));
+		e.tmp = token->next;
 		free(token);
-		token = tmp;
+		token = e.tmp;
 	}
-	return (token_lst);
+	return (e.token_lst);
 }

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/02 20:31:12 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/03 17:08:02 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	free_cmd(t_cmds *cmd)
 	free(cmd);
 }
 
-int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp)
+int		innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp)
 {
 	t_tokens	*tmp_t;
 	t_cmds		*tmp_c;
@@ -45,7 +45,7 @@ int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp)
 			*token_lst = tmp_t;
 		}
 	}
-	if (exit_status == 130)
+	if (g_exit_status == 130)
 	{
 		while (*cmd_lst != NULL)
 		{

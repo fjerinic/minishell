@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:57 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/02 20:21:51 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/03 17:06:23 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ t_tokens	*innit_token(char *input, int token_type)
 
 	token = malloc(sizeof(t_tokens));
 	if (!token)
-	{
 		return (NULL);
-	}
 	token->type = token_type;
 	token->token = input;
 	token->next = NULL;
@@ -29,47 +27,30 @@ t_tokens	*innit_token(char *input, int token_type)
 
 t_tokens	*innit_token_word(char *input, int *i)
 {
-	t_tokens	*token;
-	char		tmp;
-	int			j;
+	t_innit_tw t;
 
-	j = *i;
-	if (input[j] == '"' || input[j] == '\'')
+	t.j = *i;
+	if (input[t.j] == '"' || input[t.j] == '\'')
 	{
-		tmp = input[j++];
-		while (input[j] != tmp)
-			j++;
+		t.tmp = input[t.j++];
+		while (input[t.j] != t.tmp)
+			t.j++;
 		if (input[*i] == '\'')
-			token = innit_token(ft_substr(input, *i + 1, j - *i - 1), SINGLE_QUOTE);
+			t.token = innit_token(ft_substr(input, *i + 1, t.j - *i - 1), SQ);
 		else
-			token = innit_token(ft_substr(input, *i + 1, j - *i - 1), WORD);
-		*i = j;
+			t.token = innit_token(ft_substr(input, *i + 1, t.j - *i - 1), WORD);
+		*i = t.j;
 	}
 	else
 	{
-		while (input[j] != '\'' && input[j] != '"' && input[j] != '\n'
-				&& input[j] != '|' && input[j] != '<' && input[j] != '>'
-				&& input[j] != ' ' && input[j])
-			j++;
-		token = innit_token(ft_substr(input, *i, j - *i), WORD);
-		*i = j - 1;
+		while (input[t.j] != '\'' && input[t.j] != '"' && input[t.j] != '\n'
+				&& input[t.j] != '|' && input[t.j] != '<' && input[t.j] != '>'
+				&& input[t.j] != ' ' && input[t.j])
+			t.j++;
+		t.token = innit_token(ft_substr(input, *i, t.j - *i), WORD);
+		*i = t.j - 1;
 	}
-	return (token);
-}
-
-void	add_token(t_tokens **token_lst, t_tokens *token)
-{
-	t_tokens	*first;
-
-	first = *token_lst;
-	if (*token_lst == NULL)
-		*token_lst = token;
-	else
-	{
-		while (first->next != NULL)
-			first = first->next;
-		first->next = token;
-	}
+	return (t.token);
 }
 
 t_tokens	*innit_redir(char *input, int *i, int type)
@@ -78,7 +59,7 @@ t_tokens	*innit_redir(char *input, int *i, int type)
 	int			j;
 
 	j = *i;
-	if (type == REDIR_INPUT || type == REDIR_OUTPUT)
+	if (type == IN || type == OUT)
 	{
 		j++;
 		*i = space_len(input, &j);
@@ -97,4 +78,19 @@ t_tokens	*innit_redir(char *input, int *i, int type)
 	else
 		*i = j - 1;
 	return (token);
+}
+
+void		add_token(t_tokens **token_lst, t_tokens *token)
+{
+	t_tokens	*first;
+
+	first = *token_lst;
+	if (*token_lst == NULL)
+		*token_lst = token;
+	else
+	{
+		while (first->next != NULL)
+			first = first->next;
+		first->next = token;
+	}
 }
