@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/03 18:54:14 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/06 19:21:45 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	g_exit_status;
 
 int	minishell(char **envp)
 {
-	char 	*input;
+	char	*input;
 	t_cmds	*cmd_lst;
 
 	cmd_lst = NULL;
@@ -27,18 +27,10 @@ int	minishell(char **envp)
 		//free(envp)
 		printf("exit\n");
 		g_exit_status = 130;
-
-		/* int z = -1;
-		while (envp[++z])
-			free(envp[z]);
-		free(envp); */
-		
 		exit(g_exit_status);
 	}
 	cmd_lst = parse(input, envp);
 	free(input);
-	
-
 	//envp = unset export cd
 	
 	//execution()

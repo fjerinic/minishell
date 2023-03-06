@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:01:04 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/03 19:08:51 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/06 12:34:47 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ t_tokens	*expander(t_tokens *token, char **envp)
 				&& token->token[e.i + 1] != '\0')
 			{
 				e.tmp_var = get_var(token->token, envp);
-				break ;
 				free(token->token);
+				break ;
 			}
 		}
 		if (e.tmp_var == NULL)

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 16:27:06 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/03 16:58:59 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/06 19:14:48 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	here_doc(t_tokens *token, int *infile, char **env, t_cmds *cmd)
 {
 	int		fd[2];
 
-	if (*infile != 0)
+	if (*infile != 0 && *infile != -1)
 		close(*infile);
 	if (pipe(fd) == -1)
 	{

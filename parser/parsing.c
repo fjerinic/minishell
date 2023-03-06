@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/03 17:08:02 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:36:32 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,3 +57,9 @@ int		innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp)
 	}
 	return (1);
 }
+
+//int prev = 0
+//before as arg for innit_cmd
+//after add cmd if (prev == 0)
+//prev++;
+//or just prev++ all the time

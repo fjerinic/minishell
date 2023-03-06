@@ -67,7 +67,21 @@
 // t_cmds *tmp;
 // while (cmd_lst != NULL)
 // {
+// 	if (cmd_lst->infile != 0)
+// 		close(cmd_lst->infile);
+// 	if (cmd_lst->outfile != 1)
+// 		close(cmd_lst->outfile);
 // 	tmp = cmd_lst->next;
 // 	free_cmd(cmd_lst);
 // 	cmd_lst = tmp;
 // }
+
+// int z = -1;
+// while (envp[++z])
+// 	free(envp[z]);
+// free(envp);
+
+
+// ^C==76758== Warning: noted but unhandled ioctl 0x2000746e with no size/direction hints.
+// ==76758==    This could cause spurious value errors to appear.
+// ==76758==    See README_MISSING_SYSCALL_OR_IOCTL for guidance on writing a proper wrapper.

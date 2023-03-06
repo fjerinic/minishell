@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/03 16:30:51 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:11:27 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # include <errno.h>
 # include <string.h> 
 # include <sys/ioctl.h>
-// # include <readline/history.h>
-// # include <readline/readline.h>
 # include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
+// # include <readline/history.h>
+// # include <readline/readline.h>
 
 extern int	g_exit_status;
 
@@ -40,15 +40,15 @@ enum TYPE {
 	OUT,
 	DOC,
 	APP,
-   	WORD,
+	WORD,
 	SQ
 };
 
 typedef struct s_tokens
 {
-	enum TYPE type;
-	char *token;
-	struct s_tokens *next;
+	enum			TYPE type;
+	char			*token;
+	struct s_tokens	*next;
 }t_tokens;
 
 /* for cmds */
@@ -136,7 +136,7 @@ void	var_exist(char *token, char **envp, int *i, char **var_value);
 t_cmds	*parse(char *input, char **envp);
 
 /* parsing.c */
-int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp);
+int		innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp);
 void	free_cmd(t_cmds *cmd);
 
 /* cmd_path.c */

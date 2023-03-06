@@ -6,15 +6,24 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 18:59:13 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/02 19:51:11 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:50:43 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	skip_rs(char *input, int i)
+int	skip_rs_in(char *input, int i)
 {
 	if (input[i] == '<')
+		i++;
+	while (input[i] == ' ')
+		i++;
+	return (i);
+}
+
+int	skip_rs_out(char *input, int i)
+{
+	if (input[i] == '>')
 		i++;
 	while (input[i] == ' ')
 		i++;
@@ -30,7 +39,7 @@ int	check_redir_in(char *input, int i)
 		lex_error("<");
 		return (0);
 	}
-	i = skip_rs(input, i);
+	i = skip_rs_in(input, i);
 	if (input[i] == '>' || input[i] == '\0'
 		|| input[i] == '<' || input[i] == '|')
 	{
@@ -56,7 +65,7 @@ int	check_redir_out(char *input, int i)
 		lex_error(">");
 		return (0);
 	}
-	i = skip_rs(input, i);
+	i = skip_rs_out(input, i);
 	if (input[i] == '<' || input[i] == '\0'
 		|| input[i] == '>' || input[i] == '|')
 	{
