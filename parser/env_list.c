@@ -6,13 +6,13 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:26:07 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/03 17:00:11 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/07 18:16:05 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		count_env_len(char **envp)
+int	count_env_len(char **envp)
 {
 	int	i;
 
@@ -37,7 +37,7 @@ char	**copy_env(char **envp)
 	return (env);
 }
 
-int		var_exists(char **env, char *var)
+int	var_exists(char **env, char *var)
 {
 	int	i;
 

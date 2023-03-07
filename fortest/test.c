@@ -8,6 +8,7 @@
 // 		while (cmd_lst->cmd_split[++k])
 // 			printf("cmd_split = %s\n", cmd_lst->cmd_split[k]);
 // 	}
+//	printf("prev = %i\n", cmd_lst->prev);
 // 	printf("infile = %i\n", cmd_lst->infile);
 // 	printf("outfile = %i\n", cmd_lst->outfile);
 // 	if (cmd_lst->infile != -1 && cmd_lst->infile != 0)

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/06 16:11:27 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/07 18:32:30 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_cmds
 	char			*err_file;
 	int				err;
 	
-	// int				cmd_amount;//?
+	int				prev;
 	struct s_cmds	*next;
 }t_cmds;
 
@@ -96,6 +96,12 @@ typedef struct s_here_loop
 	char	*limiter;
 	char	*tmp;
 }t_here_loop;
+
+typedef struct s_innit_cmd
+{
+	int			i;
+	t_cmds		*cmd;
+}t_innit_cmd;
 
 /*********/
 /* lexer */
@@ -149,7 +155,7 @@ void	redir_handler(t_tokens *token, t_cmds *cmd, char **env);
 void	here_doc_loop(t_tokens *token, int fd, char **env);
 
 /* cmd_innit.c */
-t_cmds	*innit_cmd(char **envp, t_tokens **token_lst);
+t_cmds	*innit_cmd(char **envp, t_tokens **token_lst, int prev);
 void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd);
 
 /* env_list.c */

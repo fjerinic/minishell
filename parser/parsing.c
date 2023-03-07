@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/06 16:36:32 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/07 18:26:14 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,27 @@ void	free_cmd(t_cmds *cmd)
 	free(cmd);
 }
 
-int		innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp)
+void	free_cmd_lst(t_cmds *cmd_lst)
+{
+	t_cmds	*tmp_c;
+
+	while (cmd_lst != NULL)
+	{
+		tmp_c = cmd_lst->next;
+		free_cmd(cmd_lst);
+		cmd_lst = tmp_c;
+	}
+}
+
+int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp)
 {
 	t_tokens	*tmp_t;
-	t_cmds		*tmp_c;
+	int			prev;
 
+	prev = 0;
 	while (*token_lst != NULL)
 	{
-		add_cmd(&(*cmd_lst), innit_cmd(envp, token_lst));
+		add_cmd(&(*cmd_lst), innit_cmd(envp, token_lst, prev));
 		if ((*token_lst) != NULL)
 		{
 			tmp_t = (*token_lst)->next;
@@ -44,22 +57,12 @@ int		innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp)
 			free(*token_lst);
 			*token_lst = tmp_t;
 		}
+		prev++;
 	}
 	if (g_exit_status == 130)
 	{
-		while (*cmd_lst != NULL)
-		{
-			tmp_c = (*cmd_lst)->next;
-			free_cmd(*cmd_lst);
-			*cmd_lst = tmp_c;
-		}
+		free_cmd_lst(*cmd_lst);
 		return (0);
 	}
 	return (1);
 }
-
-//int prev = 0
-//before as arg for innit_cmd
-//after add cmd if (prev == 0)
-//prev++;
-//or just prev++ all the time

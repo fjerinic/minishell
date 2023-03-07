@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/03 17:01:02 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/07 18:10:36 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*user_input(void)
 	return (input);
 }
 
-int		ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t			i;
 	unsigned char	*c;
@@ -43,7 +43,7 @@ int		ft_strcmp(const char *s1, const char *s2)
 	return (0);
 }
 
-int		check_builtin(char *cmd)
+int	check_builtin(char *cmd)
 {
 	if (ft_strcmp(cmd, "echo") == 0)
 		return (0);

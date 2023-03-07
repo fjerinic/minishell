@@ -6,13 +6,13 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:16:41 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/03 16:58:22 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/07 18:15:33 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		cmd_or_path(char *cmd)
+int	cmd_or_path(char *cmd)
 {
 	if (ft_strchr(cmd, '/'))
 		return (1);
@@ -72,9 +72,10 @@ char	*ft_find_path(char **env, char *cmd, int *err)
 	char	*envp;
 
 	envp = path_finder(env);
-	if (envp == NULL && check_builtin(cmd) != 0 && *err == 0)
+	if (envp == NULL && *err == 0)
 	{
-		*err = -1;
+		if (check_builtin(cmd) != 0)
+			*err = -1;
 		return (NULL);
 	}
 	if (cmd_or_path(cmd))

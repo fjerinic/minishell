@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 20:51:29 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/03 18:36:41 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/07 18:13:26 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	var_exist(char *token, char **envp, int *i, char **var_value)
 	*i = j;
 }
 
-int		get_len(char *token, char **envp)
+int	get_len(char *token, char **envp)
 {
 	int		i;
 	int		var_len;

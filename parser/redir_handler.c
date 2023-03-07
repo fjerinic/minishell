@@ -6,13 +6,13 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 16:27:06 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/06 19:14:48 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/07 18:17:41 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		input_redir(t_tokens *token, int infile, t_cmds *cmd)
+int	input_redir(t_tokens *token, int infile, t_cmds *cmd)
 {
 	if (infile != 0)
 		close(infile);
@@ -25,7 +25,7 @@ int		input_redir(t_tokens *token, int infile, t_cmds *cmd)
 	return (infile);
 }
 
-int		output_redir(t_tokens *token, int outfile, t_cmds *cmd)
+int	output_redir(t_tokens *token, int outfile, t_cmds *cmd)
 {
 	if (outfile != 1)
 		close(outfile);
@@ -56,7 +56,7 @@ void	here_doc(t_tokens *token, int *infile, char **env, t_cmds *cmd)
 		*infile = fd[0];
 }
 
-int		append(t_tokens *token, int outfile, t_cmds *cmd)
+int	append(t_tokens *token, int outfile, t_cmds *cmd)
 {
 	if (outfile != 1)
 		close(outfile);

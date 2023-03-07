@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:57 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/03 17:06:23 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/07 18:14:41 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_tokens	*innit_token(char *input, int token_type)
 
 t_tokens	*innit_token_word(char *input, int *i)
 {
-	t_innit_tw t;
+	t_innit_tw	t;
 
 	t.j = *i;
 	if (input[t.j] == '"' || input[t.j] == '\'')
@@ -44,8 +44,8 @@ t_tokens	*innit_token_word(char *input, int *i)
 	else
 	{
 		while (input[t.j] != '\'' && input[t.j] != '"' && input[t.j] != '\n'
-				&& input[t.j] != '|' && input[t.j] != '<' && input[t.j] != '>'
-				&& input[t.j] != ' ' && input[t.j])
+			&& input[t.j] != '|' && input[t.j] != '<' && input[t.j] != '>'
+			&& input[t.j] != ' ' && input[t.j])
 			t.j++;
 		t.token = innit_token(ft_substr(input, *i, t.j - *i), WORD);
 		*i = t.j - 1;
@@ -80,7 +80,7 @@ t_tokens	*innit_redir(char *input, int *i, int type)
 	return (token);
 }
 
-void		add_token(t_tokens **token_lst, t_tokens *token)
+void	add_token(t_tokens **token_lst, t_tokens *token)
 {
 	t_tokens	*first;
 

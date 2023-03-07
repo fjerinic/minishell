@@ -6,13 +6,13 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:41:01 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/06 13:34:50 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/07 18:17:59 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		is_dollar(char *input)
+int	is_dollar(char *input)
 {
 	int	i;
 

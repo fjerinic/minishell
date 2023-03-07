@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:45:26 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/02 19:50:45 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/07 18:13:53 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_spaces(char *input)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (input[++i] != '\0')
