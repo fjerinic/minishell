@@ -6,21 +6,18 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/08 16:25:30 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/08 19:12:33 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_cmd(t_cmds *cmd)
+void	free_cmd(t_cmds *cmd, int i)
 {
-	int		i;
-
 	if (cmd->cmd_path)
 		free(cmd->cmd_path);
 	if (cmd->cmd_split)
 	{
-		i = 0;
 		while (cmd->cmd_split[i])
 			free(cmd->cmd_split[i++]);
 		free(cmd->cmd_split);
@@ -34,6 +31,14 @@ void	free_cmd(t_cmds *cmd)
 		free(cmd->env);
 		free(cmd);
 	}
+	else
+	{
+		cmd->infile = 0;
+		cmd->outfile = 1;
+		cmd->err = 0;
+		cmd->err_file = NULL;
+		cmd->cmd_split = NULL;
+	}
 }
 
 void	free_cmd_lst(t_cmds *cmd_lst)
@@ -43,7 +48,7 @@ void	free_cmd_lst(t_cmds *cmd_lst)
 	while (cmd_lst != NULL)
 	{
 		tmp_c = cmd_lst->next;
-		free_cmd(cmd_lst);
+		free_cmd(cmd_lst, 0);
 		cmd_lst = tmp_c;
 	}
 }

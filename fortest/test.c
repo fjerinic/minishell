@@ -8,9 +8,13 @@
 // 		while (cmd_lst->cmd_split[++k])
 // 			printf("cmd_split = %s\n", cmd_lst->cmd_split[k]);
 // 	}
-//	printf("prev = %i\n", cmd_lst->prev);
+// 	printf("prev = %i\n", cmd_lst->prev);
 // 	printf("infile = %i\n", cmd_lst->infile);
 // 	printf("outfile = %i\n", cmd_lst->outfile);
+// 	int j = -1;
+// 	while (cmd_lst->env[++j])
+// 		printf("env = %s\n", cmd_lst->env[j]);
+// 	printf("env = %s\n", cmd_lst->env[j]);
 // 	if (cmd_lst->infile != -1 && cmd_lst->infile != 0)
 // 	{
 // 		char *line = get_next_line(cmd_lst->infile);
@@ -22,10 +26,6 @@
 // 	}
 // 	cmd_lst = cmd_lst->next;
 // }
-// int j = -1;
-// while (envp[++j])
-// 	printf("env = %s\n", envp[j]);
-// printf("env = %s\n", envp[j]);
 
 
 //cat abc | < main.c grep ";2C;2Ca " | ls > a.txt < ahdgsa | << a grep -a -av -äv | echo $USER$shd$/sur "$//GDFS $USEDSSD  $USER "

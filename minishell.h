@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/08 16:03:19 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/08 19:12:13 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ t_cmds	*parse(t_cmds *cmd_lst, char *input, char **envp);
 
 /* parsing.c */
 int		innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp);
-void	free_cmd(t_cmds *cmd);
+void	free_cmd(t_cmds *cmd, int i);
 
 /* cmd_path.c */
 char	*ft_find_path(char **env, char *cmd, int *err);
