@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/07 18:10:36 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/08 16:23:30 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,21 @@ void	free_token(t_tokens *token)
 		free(token);
 		token = tmp;
 	}
+}
+
+t_cmds	*cmd_struct(char **envp, int prev)
+{
+	t_cmds	*cmd;
+
+	cmd = malloc(sizeof(t_cmds));
+	if (!cmd)
+		return (NULL);
+	cmd->env = copy_env(envp);
+	cmd->infile = 0;
+	cmd->outfile = 1;
+	cmd->err = 0;
+	cmd->prev = prev;
+	cmd->err_file = NULL;
+	cmd->cmd_split = NULL;
+	return (cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/07 18:35:02 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/08 16:02:27 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,33 +71,26 @@ int	cmd_split_redir(t_tokens **token_lst, t_cmds *cmd, char **envp)
 	return (cmd_split_loop(token_lst, cmd, envp, 0));
 }
 
-t_cmds	*innit_cmd(char **envp, t_tokens **token_lst, int prev)
+t_cmds	*innit_cmd(t_cmds *cmd, char **envp, t_tokens **token_lst, int prev)
 {
-	t_innit_cmd	c;
+	int	i;
 
-	c.cmd = malloc(sizeof(t_cmds));
-	if (!c.cmd)
-		return (NULL);
-	c.cmd->infile = 0;
-	c.cmd->outfile = 1;
-	c.cmd->err = 0;
-	c.cmd->prev = prev;
-	c.cmd->err_file = NULL;
-	c.cmd->cmd_split = NULL;
-	c.i = cmd_split_redir(token_lst, c.cmd, envp);
-	if (c.i == 0)
+	if (prev)
+		cmd = cmd_struct(envp, prev);
+	i = cmd_split_redir(token_lst, cmd, envp);
+	if (i == 0)
 	{
-		if (c.cmd->cmd_split)
-			free(c.cmd->cmd_split);
-		c.cmd->cmd_split = NULL;
-		c.cmd->cmd_path = NULL;
+		if (cmd->cmd_split)
+			free(cmd->cmd_split);
+		cmd->cmd_split = NULL;
+		cmd->cmd_path = NULL;
 	}
 	else
 	{
-		c.cmd->cmd_path = ft_find_path(envp, c.cmd->cmd_split[0], &c.cmd->err);
-		c.cmd->cmd_split[c.i] = NULL;
+		cmd->cmd_path = ft_find_path(envp, cmd->cmd_split[0], &cmd->err);
+		cmd->cmd_split[i] = NULL;
 	}
-	return (c.cmd);
+	return (cmd);
 }
 
 void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd)

@@ -6,19 +6,17 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:08:45 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/06 12:34:12 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/08 15:36:40 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_cmds	*parse(char *input, char **envp)
+t_cmds	*parse(t_cmds *cmd_lst, char *input, char **envp)
 {
 	t_tokens	*token_lst;
-	t_cmds		*cmd_lst;
 
 	token_lst = NULL;
-	cmd_lst = NULL;
 	if (!lex_error_check(input))
 		return (0);
 	token_lst = lexer(token_lst, input);

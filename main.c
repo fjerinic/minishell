@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/07 18:08:22 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/08 16:23:14 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 int	g_exit_status;
 
-int	minishell(char **envp)
+int	minishell(t_cmds *cmd_lst)
 {
 	char	*input;
-	t_cmds	*cmd_lst;
 
-	cmd_lst = NULL;
 	get_signals();
 	input = user_input();
 	if (!input)
@@ -29,8 +27,9 @@ int	minishell(char **envp)
 		g_exit_status = 130;
 		exit(g_exit_status);
 	}
-	cmd_lst = parse(input, envp);
+	cmd_lst = parse(cmd_lst, input, cmd_lst->env);
 	free(input);
+	
 	//envp = unset export cd
 
 	//execution()
@@ -43,14 +42,14 @@ int	minishell(char **envp)
 int	main(int argc, char *argv[], char **envp)
 {
 	int		status;
-	char	**env;
+	t_cmds	*cmd_lst;
 
 	if (argc > 1)
 		return (0);
 	(void)argv;
 	status = 0;
-	env = copy_env(envp);
 	g_exit_status = 0;
+	cmd_lst = cmd_struct(envp, 0);//check for cmd_lst == NULL
 	while (!status)
-		status = minishell(env);
+		status = minishell(cmd_lst);
 }

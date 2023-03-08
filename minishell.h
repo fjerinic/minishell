@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/07 18:32:30 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/08 16:03:19 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ typedef struct s_cmds
 	int				outfile;
 	char			*err_file;
 	int				err;
-	
 	int				prev;
+	
+	char			**env;
 	struct s_cmds	*next;
 }t_cmds;
 
@@ -97,11 +98,18 @@ typedef struct s_here_loop
 	char	*tmp;
 }t_here_loop;
 
-typedef struct s_innit_cmd
+// typedef struct s_innit_cmd
+// {
+// 	int			i;
+// 	t_cmds		*cmd;
+// }t_innit_cmd;
+
+typedef struct s_innit_cmd_struct
 {
-	int			i;
+	t_tokens	*tmp_t;
 	t_cmds		*cmd;
-}t_innit_cmd;
+	int			prev;
+}t_innit_cmd_struct;
 
 /*********/
 /* lexer */
@@ -139,7 +147,7 @@ void	var_exist(char *token, char **envp, int *i, char **var_value);
 /**********/
 
 /* parser.c */
-t_cmds	*parse(char *input, char **envp);
+t_cmds	*parse(t_cmds *cmd_lst, char *input, char **envp);
 
 /* parsing.c */
 int		innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp);
@@ -155,7 +163,7 @@ void	redir_handler(t_tokens *token, t_cmds *cmd, char **env);
 void	here_doc_loop(t_tokens *token, int fd, char **env);
 
 /* cmd_innit.c */
-t_cmds	*innit_cmd(char **envp, t_tokens **token_lst, int prev);
+t_cmds	*innit_cmd(t_cmds *cmd_lst, char **envp, t_tokens **token_lst, int prev);
 void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd);
 
 /* env_list.c */
@@ -168,13 +176,14 @@ char	**add_env(char **env, char *var);
 /**********/
 
 /* main.c */
-int		minishell(char **envp);
+int		minishell(t_cmds *cmd_lst);
 
 /* mini_utils.c */
 char	*user_input(void);
 int		ft_strcmp(const char *s1, const char *s2);
 int		check_builtin(char *cmd);
 void	free_token(t_tokens *token);
+t_cmds	*cmd_struct(char **envp, int prev);
 
 /* signals.c */
 void	get_signals(void);
