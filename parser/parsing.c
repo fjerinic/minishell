@@ -6,11 +6,20 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/08 19:12:33 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/09 13:05:56 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	reset_cmd_struct(t_cmds *cmd)
+{
+	cmd->infile = 0;
+	cmd->outfile = 1;
+	cmd->err = 0;
+	cmd->err_file = NULL;
+	cmd->cmd_split = NULL;
+}
 
 void	free_cmd(t_cmds *cmd, int i)
 {
@@ -32,13 +41,7 @@ void	free_cmd(t_cmds *cmd, int i)
 		free(cmd);
 	}
 	else
-	{
-		cmd->infile = 0;
-		cmd->outfile = 1;
-		cmd->err = 0;
-		cmd->err_file = NULL;
-		cmd->cmd_split = NULL;
-	}
+		reset_cmd_struct(cmd);
 }
 
 void	free_cmd_lst(t_cmds *cmd_lst)

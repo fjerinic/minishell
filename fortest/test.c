@@ -29,7 +29,8 @@
 
 
 //cat abc | < main.c grep ";2C;2Ca " | ls > a.txt < ahdgsa | << a grep -a -av -äv | echo $USER$shd$/sur "$//GDFS $USEDSSD  $USER "
-
+// fdjs
+// $USER$$$TERM$$?
 
 //if general error exit_status = 1;
 //if builtin missused exit_status = 2;
@@ -86,3 +87,7 @@
 // ^C==76758== Warning: noted but unhandled ioctl 0x2000746e with no size/direction hints.
 // ==76758==    This could cause spurious value errors to appear.
 // ==76758==    See README_MISSING_SYSCALL_OR_IOCTL for guidance on writing a proper wrapper.
+
+
+
+//cmd_lst->env = del_env(cmd_lst->env, "PATH");
