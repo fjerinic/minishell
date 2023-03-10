@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/09 18:35:22 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/10 21:36:15 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ enum TYPE {
 	DOC,
 	APP,
 	WORD,
-	SQ
+	SQ,
+	EQUAL
 };
 
 typedef struct s_tokens
@@ -153,6 +154,8 @@ t_cmds	*parse(t_cmds *cmd_lst, char *input, char **envp);
 int		innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp);
 void	free_cmd(t_cmds *cmd, int i);
 void	reset_cmd_struct(t_cmds *cmd_lst);
+void	free_cmd_lst(t_cmds *cmd_lst);
+void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd);
 
 /* cmd_path.c */
 char	*ft_find_path(char **env, char *cmd, int *err);
@@ -165,7 +168,6 @@ void	here_doc_loop(t_tokens *token, int fd, char **env);
 
 /* cmd_innit.c */
 t_cmds	*innit_cmd(t_cmds *cmd_lst, char **envp, t_tokens **token_lst, int prev);
-void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd);
 
 /* env_list.c */
 char	**copy_env(char **envp);

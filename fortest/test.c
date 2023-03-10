@@ -83,6 +83,7 @@
 // 	free(envp[z]);
 // free(envp);
 
+// sagasgf=fhhdshf cat ajsfhdgsafhaf=dahfdas -a sdj "$USER" < hsahf cat ls ashfh=djasfjsa | jasjdha=asfbdab ls -a < asjjf askhsahfasd=fadfhdas
 
 // ^C==76758== Warning: noted but unhandled ioctl 0x2000746e with no size/direction hints.
 // ==76758==    This could cause spurious value errors to appear.
@@ -91,3 +92,20 @@
 
 
 //cmd_lst->env = del_env(cmd_lst->env, "PATH");
+
+
+//ash: =ds=dasf: command not found
+//abc$USER=11010010101010100101010010101
+//bash: abcjkroger=11010010101010100101010010101: command not found
+
+//export =DSfds=dsfs
+//bash: export: `=DSfds=dsfs': not a valid identifier
+
+
+
+
+// if (g_exit_status == 130)
+// {
+// 	free_token(*token_lst);
+// 	*token_lst = NULL;
+// }

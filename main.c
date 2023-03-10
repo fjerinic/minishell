@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/09 20:00:15 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/10 21:31:22 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	minishell(t_cmds *cmd_lst)
 	{
 		reset_cmd_struct(cmd_lst);
 		return (0);
-	}
-	
+	}	
 	//envp = unset export cd
 	//execution()
-	// reset_cmd_struct(cmd_lst);	after exec
+	// free_cmd_lst(cmd_lst);
+	reset_cmd_struct(cmd_lst);	//after exec
 	
 	/* if (exit_status != 130)
 		free_cmd(cmd_lst); */

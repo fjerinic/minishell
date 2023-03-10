@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:26:07 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/08 18:26:20 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/10 13:48:10 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	count_env_len(char **envp)
 {
 	int	i;
 
+	if (!envp)
+		return (0);
 	i = 0;
 	while (envp[i])
 		i++;

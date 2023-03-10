@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:57 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/07 18:14:41 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/10 21:44:45 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,9 @@ t_tokens	*innit_token_word(char *input, int *i)
 		t.tmp = input[t.j++];
 		while (input[t.j] != t.tmp)
 			t.j++;
+		t.token = innit_token(ft_substr(input, *i + 1, t.j - *i - 1), WORD);
 		if (input[*i] == '\'')
-			t.token = innit_token(ft_substr(input, *i + 1, t.j - *i - 1), SQ);
-		else
-			t.token = innit_token(ft_substr(input, *i + 1, t.j - *i - 1), WORD);
+			t.token->type = SQ;
 		*i = t.j;
 	}
 	else
@@ -48,6 +47,8 @@ t_tokens	*innit_token_word(char *input, int *i)
 			&& input[t.j] != ' ' && input[t.j])
 			t.j++;
 		t.token = innit_token(ft_substr(input, *i, t.j - *i), WORD);
+		if (ft_strchr(t.token->token, '=') && ft_isalpha(t.token->token[0]))
+			t.token->type = EQUAL;
 		*i = t.j - 1;
 	}
 	return (t.token);

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:16:41 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/09 13:12:11 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:17:13 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,10 @@ char	*ft_find_path(char **env, char *cmd, int *err)
 {
 	char	*envp;
 
+	if (!cmd)
+		return (NULL);
 	envp = path_finder(env);
-	if (envp == NULL)
+	if (!envp)
 	{
 		if (check_builtin(cmd) != 0 && *err == 0)
 			*err = -1;
