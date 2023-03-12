@@ -6,37 +6,29 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:01:04 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/06 12:34:47 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/12 17:42:04 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_tokens	*expander(t_tokens *token, char **envp)
+char	*expander(char *token, char **envp)
 {
 	t_expan	e;
 
-	e.token_lst = NULL;
-	while (token != NULL)
+	e.i = -1;
+	e.tmp_var = NULL;
+	while (token[++e.i])
 	{
-		e.i = -1;
-		e.tmp_var = NULL;
-		while (token->token[++e.i] && token->type != SQ && token->type != PIPE)
+		if (token[e.i] == '$' && token[e.i + 1] != ' '
+			&& token[e.i + 1] != '\0')
 		{
-			if (token->token[e.i] == '$' && token->token[e.i + 1] != ' '
-				&& token->token[e.i + 1] != '\0')
-			{
-				e.tmp_var = get_var(token->token, envp);
-				free(token->token);
-				break ;
-			}
+			e.tmp_var = get_var(token, envp);
+			free(token);
+			break ;
 		}
-		if (e.tmp_var == NULL)
-			e.tmp_var = token->token;
-		add_token(&e.token_lst, innit_token(e.tmp_var, token->type));
-		e.tmp = token->next;
-		free(token);
-		token = e.tmp;
 	}
-	return (e.token_lst);
+	if (e.tmp_var == NULL)
+		e.tmp_var = token;
+	return (e.tmp_var);
 }

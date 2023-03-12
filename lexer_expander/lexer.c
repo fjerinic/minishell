@@ -6,13 +6,13 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:11:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/03 16:14:25 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/12 17:43:00 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_tokens	*lexer(t_tokens *token_lst, char *input)
+t_tokens	*lexer(t_tokens *token_lst, char *input, char **envp)
 {
 	int			i;
 	t_tokens	*token;
@@ -24,16 +24,17 @@ t_tokens	*lexer(t_tokens *token_lst, char *input)
 		if (input[i] == '|')
 			token = innit_token(ft_strdup("|"), PIPE);
 		else if (input[i] == '<' && input[i + 1] != '<')
-			token = innit_redir(input, &i, IN);
+			token = innit_redir(input, &i, IN, envp);
 		else if (input[i] == '<' && input[i + 1] == '<')
-			token = innit_redir(input, &i, DOC);
+			token = innit_redir(input, &i, DOC, envp);
 		else if (input[i] == '>' && input[i + 1] != '>')
-			token = innit_redir(input, &i, OUT);
+			token = innit_redir(input, &i, OUT, envp);
 		else if (input[i] == '>' && input[i + 1] == '>')
-			token = innit_redir(input, &i, APP);
+			token = innit_redir(input, &i, APP, envp);
 		else if (input[i] != ' ')
-			token = innit_token_word(input, &i);
-		if (input[i] != ' ')
+			token = innit_token_word(input, &i, envp);
+		if (i != 1 && (input[i] != ' ' || (input[i] == ' '
+			&& input[i - 1] != ' ' && token->type != PIPE)))
 			add_token(&token_lst, token);
 	}
 	return (token_lst);

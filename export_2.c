@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   export_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 15:08:45 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/12 21:57:06 by jkroger          ###   ########.fr       */
+/*   Created: 2023/03/12 23:03:13 by jkroger           #+#    #+#             */
+/*   Updated: 2023/03/12 23:03:59 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-t_cmds	*parse(t_cmds *cmd_lst, char *input, char **envp)
+char	**add_var(t_cmds *cmd)
 {
-	t_tokens	*token_lst;
-
-	token_lst = NULL;
-	if (!lex_error_check(input))
+	int i;
+	
+	if (!cmd->cmd_split)
+		return (cmd->var_lst);
+	if (cmd->prev == 0 && cmd->next == NULL && ft_strchr(cmd->cmd_split[0], '=') && ft_isalpha(cmd->cmd_split[0][0]))
 	{
-		cmd_lst->err = -2;
-		return (cmd_lst);
+		i = -1; 
+		while (cmd->cmd_split[++i])
+			cmd->var_lst = add_env(cmd->var_lst, cmd->cmd_split[i]);
 	}
-	token_lst = lexer(token_lst, input, envp);
-	g_exit_status = 0;
-	if (innit_cmd_struct(&token_lst, &cmd_lst, envp) != 1)
-		cmd_lst->err = -2;
-	return (cmd_lst);
+	return (cmd->var_lst);
 }

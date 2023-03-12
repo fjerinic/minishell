@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 17:56:19 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/12 11:43:12 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/12 23:04:23 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ char	**ft_export(t_cmds *cmd)
 	{
 		if (!ft_isalpha(cmd->cmd_split[i][0]))
 		{
+			// exit_status = 1;
 			//err msg
 			continue ;
 		}
@@ -117,22 +118,9 @@ char	**ft_export(t_cmds *cmd)
 		else
 			cmd->env = add_env(cmd->env, find_var(cmd->var_lst, cmd->cmd_split[i]));
 	}
-	return (cmd->env);	
+	return (cmd->env);
 }
 
-char	**add_var(t_cmds *cmd)
-{
-	int i;
-	
-	if (cmd->prev == 0 && cmd->next == NULL && ft_strchr(cmd->cmd_split[0], '=') && ft_isalpha(cmd->cmd_split[0][0]))
-	{
-		i = -1; 
-		while (cmd->cmd_split[++i])
-			cmd->var_lst = add_env(cmd->var_lst, cmd->cmd_split[i]);
-	}
-	
-	return (cmd->var_lst);
-}
 
 //export has to check if cmd->next == NULL if yes then execute
 //as="aas" has also to be added

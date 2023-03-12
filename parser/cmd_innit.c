@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/11 16:55:41 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/12 22:51:44 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	count_args(t_tokens *token_lst)
 	tmp = token_lst;
 	while (tmp != NULL && tmp->type != PIPE)
 	{
-		if (tmp->type == WORD || tmp->type == SQ || tmp->type == EQUAL)
+		if (tmp->type == WORD || tmp->type == EQUAL)
 			i++;
 		tmp = tmp->next;
 	}
@@ -40,13 +40,11 @@ int	cmd_split_loop(t_tokens **token_lst, t_cmds *cmd, char **envp, int i)
 			if ((*token_lst)->type == IN || (*token_lst)->type == OUT
 				|| (*token_lst)->type == DOC || (*token_lst)->type == APP)
 				redir_handler((*token_lst), cmd, envp);
-			else if (((*token_lst)->type == WORD || (*token_lst)->type == SQ)
-				|| (*token_lst)->type == EQUAL)
+			else if ((*token_lst)->type == WORD || (*token_lst)->type == EQUAL)
 				cmd->cmd_split[i++] = (*token_lst)->token;
 		}
 		tmp = (*token_lst)->next;
-		if (((*token_lst)->type != WORD && (*token_lst)->type != SQ
-				&& (*token_lst)->type != EQUAL)
+		if (((*token_lst)->type != WORD && (*token_lst)->type != EQUAL)
 			|| (cmd->err != 0 && (*token_lst)->type != EQUAL))
 			free((*token_lst)->token);
 		free(*token_lst);

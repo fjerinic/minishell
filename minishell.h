@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/12 01:06:58 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/12 23:03:52 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # include <errno.h>
 # include <string.h> 
 # include <sys/ioctl.h>
-//# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
-//# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
-# include <readline/history.h>
-# include <readline/readline.h>
+# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
+// # include <readline/history.h>
+// # include <readline/readline.h>
 
 extern int	g_exit_status;
 
@@ -41,7 +41,6 @@ enum TYPE {
 	DOC,
 	APP,
 	WORD,
-	SQ,
 	EQUAL
 };
 
@@ -79,18 +78,18 @@ typedef	struct s_get_var
 
 typedef struct s_expan
 {
-	t_tokens	*token_lst;
-	t_tokens	*tmp;
+	// t_tokens	*token_lst;
+	// t_tokens	*tmp;
 	int			i;
 	char		*tmp_var;
 }t_expan;
 
-typedef struct s_innit_tw
+typedef struct s_itw_loop
 {
-	t_tokens	*token;
-	char		tmp;
-	int			j;
-}t_innit_tw;
+	char	*tmp_str;
+	char	tmp;
+	int		k;
+}t_itw_loop;
 
 typedef struct s_here_loop
 {
@@ -128,16 +127,16 @@ int	lex_error_check(char *input);
 int	check_redir(char *input);
 
 /* lexer.c */
-t_tokens	*lexer(t_tokens *token_lst, char *input);
+t_tokens	*lexer(t_tokens *token_lst, char *input, char **envp);
 
 /* token_innit.c */
 t_tokens	*innit_token(char *input, int token_type);
-t_tokens	*innit_token_word(char *input, int *i);
+t_tokens	*innit_token_word(char *input, int *i, char **envp);
 void		add_token(t_tokens **token_lst, t_tokens *token);
-t_tokens	*innit_redir(char *input, int *i, int type);
+t_tokens	*innit_redir(char *input, int *i, int type, char **envp);
 
 /* expander.c */
-t_tokens	*expander(t_tokens *token, char **envp);
+char	*expander(char *token, char **envp);
 
 /* env_var_utils.c */
 char	*get_var(char *token, char **envp);
@@ -188,6 +187,9 @@ int		check_builtin(char *cmd);
 void	free_token(t_tokens *token);
 t_cmds	*cmd_struct(char **envp, int prev);
 
+/* mini_utils_2 */
+char	*free_both_strjoin(char *s1, char *s2);
+
 /* signals.c */
 void	get_signals(void);
 
@@ -198,7 +200,9 @@ void	set_err(char *token, int err);
 
 /* export.c */
 char	**add_env(char **env, char *var);
-char	**add_var(t_cmds *cmd);
 char	**ft_export(t_cmds *cmd);
+
+/* export_2.c */
+char	**add_var(t_cmds *cmd);
 
 #endif

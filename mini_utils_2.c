@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   mini_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 15:08:45 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/12 21:57:06 by jkroger          ###   ########.fr       */
+/*   Created: 2023/03/12 18:26:12 by jkroger           #+#    #+#             */
+/*   Updated: 2023/03/12 18:26:28 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-t_cmds	*parse(t_cmds *cmd_lst, char *input, char **envp)
+char	*free_both_strjoin(char *s1, char *s2)
 {
-	t_tokens	*token_lst;
+	char	*ptr;
+	size_t	i;
+	size_t	j;
 
-	token_lst = NULL;
-	if (!lex_error_check(input))
+	ptr = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!ptr)
+		return (NULL);
+	i = 0;
+	if (s1)
 	{
-		cmd_lst->err = -2;
-		return (cmd_lst);
+		i = -1;
+		while (s1[++i])
+			ptr[i] = s1[i];
+		free(s1);
 	}
-	token_lst = lexer(token_lst, input, envp);
-	g_exit_status = 0;
-	if (innit_cmd_struct(&token_lst, &cmd_lst, envp) != 1)
-		cmd_lst->err = -2;
-	return (cmd_lst);
+	j = 0;
+	while (s2[j])
+		ptr[i++] = s2[j++];
+	ptr[i] = '\0';
+	free(s2);
+	return (ptr);
 }

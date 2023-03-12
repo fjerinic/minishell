@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 10:16:13 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/02 19:03:37 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/12 17:38:39 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ int	space_len(char *s, int *i)
 	tmp = *i;
 	if (s[tmp] != ' ')
 	{
-		if (s[tmp] == '\'' || s[tmp] == '"')
-			tmp++;
 		*i = tmp;
 		return (*i);
 	}
@@ -45,8 +43,6 @@ int	space_len(char *s, int *i)
 	{
 		tmp++;
 	}
-	if (s[tmp] == '\'' || s[tmp] == '"')
-		tmp++;
 	*i = tmp;
 	return (*i);
 }

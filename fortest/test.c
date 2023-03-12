@@ -109,3 +109,12 @@
 // 	free_token(*token_lst);
 // 	*token_lst = NULL;
 // }
+
+
+
+// int k = -1;
+// while (cmd_lst->env[++k])
+// 	printf("env = %s\n", cmd_lst->env[k]);
+// k = -1;
+// while(cmd_lst->var_lst[++k])
+// 	printf("var = %s\n", cmd_lst->var_lst[k]);
