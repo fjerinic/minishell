@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:26:07 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/10 13:48:10 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/11 17:58:10 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,25 +74,6 @@ char	**del_env(char **env, char *var)
 			free(env[j++]);
 		}
 	}
-	envcp[i] = NULL;
-	free(env);
-	return (envcp);
-}
-
-char	**add_env(char **env, char *var)
-{
-	int		i;
-	char	**envcp;
-
-	//var_exist replace it
-	envcp = malloc((count_env_len(env) + 2) * sizeof(char *));
-	i = -1;
-	while (env[++i])
-	{
-		envcp[i] = ft_strdup(env[i]);
-		free(env[i]);
-	}
-	envcp[i++] = ft_strdup(var);
 	envcp[i] = NULL;
 	free(env);
 	return (envcp);

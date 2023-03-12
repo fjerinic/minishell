@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/10 21:39:32 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/11 18:05:43 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_cmds	*cmd_struct(char **envp, int prev)
 	cmd->prev = prev;
 	cmd->err_file = NULL;
 	cmd->cmd_split = NULL;
+	cmd->var_lst = NULL;
 	if (prev == 0)
 		cmd->next = NULL;
 	return (cmd);

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/10 21:31:22 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/12 02:26:14 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,34 @@ int	minishell(t_cmds *cmd_lst)
 	{
 		reset_cmd_struct(cmd_lst);
 		return (0);
-	}	
+	}
+
+	cmd_lst->var_lst = add_var(cmd_lst);
+	if (ft_strcmp(cmd_lst->cmd_split[0], "export") == 0)
+	{
+		cmd_lst->env = ft_export(cmd_lst);
+		int z = 0;
+		while (cmd_lst->cmd_split[++z])
+		{
+			if (!ft_strchr(cmd_lst->cmd_split[z], '=') && ft_isalpha(cmd_lst->cmd_split[z][0]))
+				cmd_lst->var_lst = del_env(cmd_lst->var_lst, cmd_lst->cmd_split[z]);
+		}
+	}
+	free_cmd_lst(cmd_lst);
+	
+	
+	int k = -1;
+	while (cmd_lst->env[++k])
+		printf("env = %s\n", cmd_lst->env[k]);
+	k = -1;
+	while(cmd_lst->var_lst[++k])
+		printf("var = %s\n", cmd_lst->var_lst[k]);
+
 	//envp = unset export cd
 	//execution()
 	// free_cmd_lst(cmd_lst);
-	reset_cmd_struct(cmd_lst);	//after exec
+	
+	//reset_cmd_struct(cmd_lst);	//after exec
 	
 	/* if (exit_status != 130)
 		free_cmd(cmd_lst); */

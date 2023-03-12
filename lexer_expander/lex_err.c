@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:45:26 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/07 18:13:53 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/12 00:34:30 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ int	check_unclosed_quotes(char *input)
 
 int	check_pipe_2(char *input, int i)
 {
-	while (input[i++])
+	while (input[i])
 	{
 		if (input[i] == '\'' || input[i] == '"')
-			quote_len(&input[i], &i);
+			quote_len(input, &i);
 		if (input[i] == '|')
 		{
 			i++;
@@ -66,6 +66,7 @@ int	check_pipe_2(char *input, int i)
 				return (0);
 			}
 		}
+		i++;
 	}
 	return (1);
 }

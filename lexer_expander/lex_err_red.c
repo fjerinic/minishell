@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 18:59:13 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/06 15:50:43 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/12 00:27:53 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	check_redir(char *input)
 	while (input[++i])
 	{
 		if (input[i] == '\'' || input[i] == '"')
-			quote_len(&input[i], &i);
+			quote_len(input, &i);
 		if (input[i] == '<')
 		{
 			i = check_redir_in(input, ++i);

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/10 21:35:46 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/12 01:41:29 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	free_cmd(t_cmds *cmd, int i)
 			free(cmd->cmd_split[i++]);
 		free(cmd->cmd_split);
 	}
-	free(cmd->err_file);
+	if (cmd->err_file)
+		free(cmd->err_file);
 	if (cmd->prev != 0)
 	{
 		i = 0;

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/10 21:36:15 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/12 01:06:58 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # include <errno.h>
 # include <string.h> 
 # include <sys/ioctl.h>
-# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
-// # include <readline/history.h>
-// # include <readline/readline.h>
+//# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
+//# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 extern int	g_exit_status;
 
@@ -62,8 +62,8 @@ typedef struct s_cmds
 	char			*err_file;
 	int				err;
 	int				prev;
-	
 	char			**env;
+	char			**var_lst;
 	struct s_cmds	*next;
 }t_cmds;
 
@@ -172,7 +172,6 @@ t_cmds	*innit_cmd(t_cmds *cmd_lst, char **envp, t_tokens **token_lst, int prev);
 /* env_list.c */
 char	**copy_env(char **envp);
 char	**del_env(char **env, char *var);
-char	**add_env(char **env, char *var);
 int		count_env_len(char **envp);
 
 /**********/
@@ -196,5 +195,10 @@ void	get_signals(void);
 void	ft_error(char *token, int exit_code);
 void	lex_error(char *token);
 void	set_err(char *token, int err);
+
+/* export.c */
+char	**add_env(char **env, char *var);
+char	**add_var(t_cmds *cmd);
+char	**ft_export(t_cmds *cmd);
 
 #endif
