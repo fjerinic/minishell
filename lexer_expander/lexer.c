@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:11:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/12 17:43:00 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/13 17:00:43 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ t_tokens	*lexer(t_tokens *token_lst, char *input, char **envp)
 			token = innit_redir(input, &i, APP, envp);
 		else if (input[i] != ' ')
 			token = innit_token_word(input, &i, envp);
-		if (i != 1 && (input[i] != ' ' || (input[i] == ' '
-			&& input[i - 1] != ' ' && token->type != PIPE)))
+		if (input[i] != ' ')
 			add_token(&token_lst, token);
 	}
 	return (token_lst);

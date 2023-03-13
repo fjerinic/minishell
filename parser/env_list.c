@@ -6,16 +6,16 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:26:07 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/11 17:58:10 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/13 14:45:30 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	count_env_len(char **envp)
+int	count_env_len(char **envp)//check here for env builtin
 {
 	int	i;
-
+	
 	if (!envp)
 		return (0);
 	i = 0;

@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = ${shell find ./parser -name "*.c" && find ./lexer_expander -name "*.c" && echo *.c}
+SRC = ${shell find ./parser -name "*.c" && find ./lexer_expander -name "*.c" && find ./builtins -name "*.c" && echo *.c}
 
 OBJ = $(patsubst %.c, %.o, $(SRC))
 

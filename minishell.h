@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/12 23:03:52 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/13 14:15:16 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@
 # include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
 // # include <readline/history.h>
 // # include <readline/readline.h>
+
+# include <sys/wait.h>
+# include <stdbool.h>
+
+# ifdef __linux__
+// Linux
+#  define PATH_SIZE 4096
+# else
+// Mac
+#  define PATH_SIZE 1024
+# endif
+
+# define READ_END 0
+# define WRITE_END 1
 
 extern int	g_exit_status;
 
@@ -198,9 +212,53 @@ void	ft_error(char *token, int exit_code);
 void	lex_error(char *token);
 void	set_err(char *token, int err);
 
+
+
+/**********/
+/* execution */
+/**********/
+
+void	run_commands(t_cmds *cmd_lst);
+int		pipe_builtin(t_cmds *cmd_lst, int *old_fds, int *new_fds, int flag);
+void	execute_redirect(int pid, int *old_fds, int *new_fds, t_cmds *cmd_lst);
+void	execute_pipe(t_cmds *cmd_lst, int *old_fds, int *new_fds, int flag);
+void	execute_child(int pid, int *old_fds, int *new_fds, t_cmds *cmd_lst);
+int		is_builtin(t_cmds *cmd_lst);
+int		is_builtin2(t_cmds *cmd_lst);
+void	try_env(t_cmds *cmd_lst);
+void	wait_for_children(int pid, int *waitpid_status);
+void	redirect_parent(int *old_fds, int *new_fds, t_cmds *cmd_struct);
+void	redirect_child(int *old_fds, int *new_fds, t_cmds *cmd_struct, int previous_command_exists);
+
+/*******/
+/* builtins */
+/*******/
+
+// builtin_pwd.c
+void			pwd(void);
+
+// builtin_cd.c
+void			cd(t_cmds *cmd_lst);
+char			*get_home_path(char **env_var);
+
+// builtin_echo.c
+void			echo(t_cmds *cmd_lst);
+
+// builtin_export.c
+
+
+// builtin_env.c
+void			env(t_cmds *cmd_lst);
+
+// builtin_unset.c
+void			unset(t_cmds *cmd_lst);
+int				valid_input_helper_unset(char *cur_cmd, int n);
+
+// builtin_exit.c
+void			builtin_exit(t_cmds *cmd_lst);
+
 /* export.c */
-char	**add_env(char **env, char *var);
-char	**ft_export(t_cmds *cmd);
+void	builtin_export(t_cmds *cmd);
 
 /* export_2.c */
 char	**add_var(t_cmds *cmd);

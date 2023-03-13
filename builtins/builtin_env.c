@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_2.c                                         :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/12 23:03:13 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/12 23:03:59 by jkroger          ###   ########.fr       */
+/*   Created: 2023/03/13 00:43:18 by fjerinic          #+#    #+#             */
+/*   Updated: 2023/03/13 14:34:31 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-char	**add_var(t_cmds *cmd)
+void	env(t_cmds *cmd_struct)
 {
-	int i;
-	
-	if (!cmd->cmd_split)
-		return (cmd->var_lst);
-	if (cmd->prev == 0 && cmd->next == NULL && ft_strchr(cmd->cmd_split[0], '=') && ft_isalpha(cmd->cmd_split[0][0]))
+	int		i;
+
+	i = 0;
+	while (cmd_struct->env[i])
+	//while (cmd_struct->env[i] && i < cmd_struct->cur_env_size)
 	{
-		i = -1; 
-		while (cmd->cmd_split[++i])
-			cmd->var_lst = add_env(cmd->var_lst, cmd->cmd_split[i]);
+		if (!ft_strncmp(cmd_struct->env[i], "_=", 2))
+		{
+			free(cmd_struct->env[i]);
+			cmd_struct->env[i] = ft_strdup("_=usr/bin/env");
+		}
+		if (ft_strchr(cmd_struct->env[i], '='))
+			ft_printf("%s\n", cmd_struct->env[i]);
+		i++;
 	}
-	return (cmd->var_lst);
 }

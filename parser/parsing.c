@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/12 23:01:40 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/13 13:36:11 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,19 @@ void	free_cmd(t_cmds *cmd, int i)
 	if (cmd->prev != 0)
 	{
 		i = 0;
-		while (cmd->env[i])
-			free(cmd->env[i++]);
-		free(cmd->env);
+		if (cmd->env)
+		{
+			while (cmd->env[i])
+				free(cmd->env[i++]);
+			free(cmd->env);	
+		}
+		i = 0;
+		if (cmd->var_lst)
+		{
+			while (cmd->var_lst[i])
+				free(cmd->var_lst[i++]);
+			free(cmd->var_lst);
+		}
 		free(cmd);
 	}
 	else
