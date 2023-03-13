@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/13 14:15:16 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/13 20:12:51 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ typedef struct s_cmds
 	int				prev;
 	char			**env;
 	char			**var_lst;
+
+	//char			**expo_lst;//change free_cd innit_cmd
 	struct s_cmds	*next;
 }t_cmds;
 
@@ -184,7 +186,6 @@ t_cmds	*innit_cmd(t_cmds *cmd_lst, char **envp, t_tokens **token_lst, int prev);
 
 /* env_list.c */
 char	**copy_env(char **envp);
-char	**del_env(char **env, char *var);
 int		count_env_len(char **envp);
 
 /**********/
@@ -259,8 +260,11 @@ void			builtin_exit(t_cmds *cmd_lst);
 
 /* export.c */
 void	builtin_export(t_cmds *cmd);
+int		ft_var(char **vars, char	*var);
+int		len_equal(char *var);
 
 /* export_2.c */
-char	**add_var(t_cmds *cmd);
+void	var_lst(t_cmds *cmd);
+void	del_var(t_cmds *cmd, char *var);
 
 #endif

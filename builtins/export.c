@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 17:56:19 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/13 14:26:17 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/13 21:00:42 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,76 +65,6 @@ char	*find_var(char **vars, char *var)
 	return (NULL);
 }
 
-// char	**add_env(char **env, char *var)
-// {
-// 	int		i;
-// 	char	**envcp;
-
-// 	if (!var)
-// 		return (env);
-// 	if (ft_var(env, var))
-// 		envcp = malloc((count_env_len(env) + 1) * sizeof(char *));
-// 	else
-// 		envcp = malloc((count_env_len(env) + 2) * sizeof(char *));
-// 	if (!envcp)
-// 		return (NULL);
-// 	i = 0;
-// 	while (env && env[i])
-// 	{
-// 		if (!ft_strncmp(env[i], var, len_equal(var)))
-// 			envcp[i] = ft_strdup(var);
-// 		else
-// 			envcp[i] = ft_strdup(env[i]);
-// 		i++;
-// 	}
-// 	if (!ft_var(env, var))
-// 		envcp[i++] = ft_strdup(var);
-// 	envcp[i] = NULL;
-// 	if (env)
-// 	{
-// 		i = -1;
-// 		while(env[++i])
-// 			free(env[i]);
-// 		free(env);
-// 	}
-// 	return (envcp);
-// }
-
-// void	builtin_export(t_cmds *cmd)
-// {
-// 	int i;
-
-// 	if (!cmd->cmd_split[1])
-// 		return (cmd->env);
-// 	i = 0;
-// 	while (cmd->cmd_split[++i])
-// 	{
-// 		if (!ft_isalpha(cmd->cmd_split[i][0]))
-// 		{
-// 			// exit_status = 1;
-// 			//err msg
-// 			continue ;
-// 		}
-// 		if (ft_strchr(cmd->cmd_split[i], '='))
-// 			cmd->env = add_env(cmd->env, cmd->cmd_split[i]);
-// 		else
-// 			cmd->env = add_env(cmd->env, find_var(cmd->var_lst, cmd->cmd_split[i]));
-// 	}
-// 	return (cmd->env);
-// }
-
-
-
-//export has to check if cmd->next == NULL if yes then execute
-//as="aas" has also to be added
-
-
-
-
-
-
-
-
 void	add_env(t_cmds *cmd, char *var)
 {
 	int		i;
@@ -170,16 +100,85 @@ void	add_env(t_cmds *cmd, char *var)
 	}
 }
 
+char	**sort_export(char **expo)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = -1;
+	while (expo[++i])
+	{
+		j = -1;
+		while (expo[++j])
+		{
+			if (ft_strncmp(expo[j], expo[j + 1], ft_strlen(expo[j])) > 0)
+			{
+				tmp = expo[j];
+				expo[j] = expo[j + 1];
+				expo[j + 1] = tmp;
+			}
+		}
+	}
+	return (expo);
+}
+
+char	**put_quotes(char **expo)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*tmp;
+
+	i = -1;
+	while (expo[++i])
+	{
+		tmp = malloc((ft_strlen(expo[i]) + 3) * sizeof(char));
+		if (!tmp)
+			return (NULL);
+		j = -1;
+		k = 0;
+		while (expo[i][++j] != '=')
+			tmp[k++] = expo[i][j];
+		tmp[k++] = expo[i][j];
+		tmp[k++] = '"';
+		while (expo[i][++j])
+			tmp[k++] = expo[i][j];
+		tmp[k] = '"';
+		tmp[++k] = '\0';
+		free(expo[i]);
+		expo[i] = tmp;
+	}
+	return (expo);
+}
+
+void	export_without_args(t_cmds *cmd)
+{
+	char	**expo;
+	int		i;
+
+	expo = copy_env(cmd->env);
+	expo = sort_export(expo);
+	expo = put_quotes(expo);
+	i = -1;
+	while (expo[++i])
+		printf("declare -x %s\n", expo[i]);
+	i = -1;
+	while (expo[++i])
+		free(expo[i]);
+	free(expo);
+}
+
 void	builtin_export(t_cmds *cmd)
 {
 	int i;
 
 	if (!cmd->cmd_split[1])
-		return ;
+		export_without_args(cmd);
 	i = 0;
 	while (cmd->cmd_split[++i])
 	{
-		if (!ft_isalpha(cmd->cmd_split[i][0]))
+		if (!ft_isalpha(cmd->cmd_split[i][0]) && cmd->cmd_split[i][0] != '_')
 		{
 			// exit_status = 1;
 			//err msg
@@ -188,6 +187,14 @@ void	builtin_export(t_cmds *cmd)
 		if (ft_strchr(cmd->cmd_split[i], '='))
 			add_env(cmd, cmd->cmd_split[i]);
 		else
-			add_env(cmd, find_var(cmd->var_lst, cmd->cmd_split[i]));
+		{
+			if (find_var(cmd->var_lst, cmd->cmd_split[i]))
+			{
+				add_env(cmd, find_var(cmd->var_lst, cmd->cmd_split[i]));
+				del_var(cmd, cmd->cmd_split[i]);
+			}
+			// else
+			// 	//add_to_export
+		}
 	}
 }

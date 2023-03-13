@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/12 22:59:06 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/13 20:08:44 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,9 @@ t_cmds	*cmd_struct(char **envp, int prev)
 	cmd->cmd_split = NULL;
 	cmd->var_lst = NULL;
 	if (prev == 0)
+	{
 		cmd->next = NULL;
+		//cmd->expo = copy_env(cmd->env);
+	}
 	return (cmd);
 }

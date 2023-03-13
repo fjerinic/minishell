@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 19:09:46 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/11 18:25:59 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/13 20:45:03 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	unsigned char	*c;
 	unsigned char	*d;
 
+	if (!s1 || !s2)
+		return (0);
 	c = (unsigned char *)s1;
 	d = (unsigned char *)s2;
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:57 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/13 17:00:34 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/13 19:52:47 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ t_tokens	*innit_token_word(char *input, int *i, char **envp)
 
 	j = *i;
 	tkn = NULL;
-	while (input[j] && input[j] != ' ' && input[j] != '|')
+	while (input[j] && input[j] != ' ' && input[j] != '|' && input[j] != '<' && input[j] != '>')
 	{
 		tkn = itw_loop(input, tkn, &j, envp);
 		*i = j;
 	}
 	*i = j - 1;
 	token = innit_token(tkn, WORD);
-	if (ft_strchr(tkn, '=') && ft_isalpha(tkn[0]))
+	if (ft_strchr(tkn, '=') && (ft_isalpha(tkn[0]) || tkn[0] == '_'))
 		token->type = EQUAL;
 	return (token);
 }

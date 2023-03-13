@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/13 16:58:01 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/13 19:54:53 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ t_cmds	*innit_cmd(t_cmds *cmd, char **envp, t_tokens **token_lst, int prev)
 	{
 		cmd->cmd_split[i] = NULL;
 		while (cmd->cmd_split[j] && ft_strchr(cmd->cmd_split[j], '=')
-			&& ft_isalpha(cmd->cmd_split[j][0]))
+			&& (ft_isalpha(cmd->cmd_split[j][0]) || cmd->cmd_split[j][0] == '_')
+			&& !ft_strchr(cmd->cmd_split[j], '/'))
 			j++;
 		cmd->cmd_path = ft_find_path(envp, cmd->cmd_split[j], &cmd->err);
 		if (cmd->cmd_split[j] && j != 0)
