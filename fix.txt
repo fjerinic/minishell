@@ -1,0 +1,3 @@
+-problems with redirections in general
+
+-just redirection without anything segfaults
