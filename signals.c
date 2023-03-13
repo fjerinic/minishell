@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_absolute.c                                      :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fjerinic <fjerinic@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 01:33:44 by fjerinic          #+#    #+#             */
-/*   Updated: 2023/01/28 16:12:33 by fjerinic         ###   ########.fr       */
+/*   Created: 2023/02/17 12:56:02 by jkroger           #+#    #+#             */
+/*   Updated: 2023/03/12 02:05:35 by fjerinic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
+#include "minishell.h"
 
-int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        printf("Usage: %s <directory>\n", argv[0]);
-        return 1;
-    }
-    // argv[1] is the path of the directory to change to
-    if (chdir(argv[1]) == -1) {
-        perror("chdir");
-        return 1;
-    }
-    return 0;
-}
+// void	ctrl_c(int status)
+// {
+// 	if (status == SIGINT)
+// 	{
+// 		g_exit_status = 130;
+// 		ioctl(STDIN_FILENO, TIOCSTI, "\n");//err if fails
+// 		rl_replace_line("", 0);
+// 		rl_on_new_line();
+// 	}
+// }
+
+// void	get_signals(void)
+// {
+// 	signal(SIGINT, &ctrl_c);
+// 	signal(SIGQUIT, SIG_IGN);
+// }

@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjerinic <fjerinic@gmail.com>              +#+  +:+       +#+        */
+/*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 17:11:33 by fjerinic          #+#    #+#             */
-/*   Updated: 2023/02/07 17:15:03 by fjerinic         ###   ########.fr       */
+/*   Created: 2022/05/12 18:54:27 by jkroger           #+#    #+#             */
+/*   Updated: 2022/06/07 17:15:37 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
+#include "libft.h"
 
-// Maybe error handling is needed
-int ft_pwd(void)
+void	ft_putstr_fd(char *s, int fd)
 {
-    char buffer[1024];
-    char *path = getcwd(buffer, sizeof(buffer));
-    printf("%s\n", path);
-    return 0;
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
 }
-
