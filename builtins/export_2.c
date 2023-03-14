@@ -6,11 +6,27 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 23:03:13 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/13 17:47:33 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:24:52 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_var(char **vars, char	*var)
+{
+	int	i;
+
+	if (!vars)
+		return (0);
+	i = 0;
+	while (vars[i])
+	{
+		if (!ft_strncmp(vars[i], var, len_equal(var)))
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 void	del_var(t_cmds *cmd, char *var)
 {
@@ -36,6 +52,24 @@ void	del_var(t_cmds *cmd, char *var)
 	free(varcp);
 }
 
+void	add_var_loop(t_cmds *cmd, char	**varcp, char *var)
+{
+	int	i;
+
+	i = 0;
+	while (varcp && varcp[i])
+	{
+		if (!ft_strncmp(varcp[i], var, len_equal(var)))
+			cmd->var_lst[i] = ft_strdup(var);
+		else
+			cmd->var_lst[i] = ft_strdup(varcp[i]);
+		i++;
+	}
+	if (!ft_var(varcp, var))
+		cmd->var_lst[i++] = ft_strdup(var);
+	cmd->var_lst[i] = NULL;
+}
+
 void	add_var(t_cmds *cmd, char *var)
 {
 	int		i;
@@ -50,37 +84,26 @@ void	add_var(t_cmds *cmd, char *var)
 		cmd->var_lst = malloc((count_env_len(varcp) + 2) * sizeof(char *));
 	if (!cmd->var_lst)
 		return ;//assing back or malloc error
-	i = 0;
-	while (varcp && varcp[i])
-	{
-		if (!ft_strncmp(varcp[i], var, len_equal(var)))
-			cmd->var_lst[i] = ft_strdup(var);
-		else
-			cmd->var_lst[i] = ft_strdup(varcp[i]);
-		i++;
-	}
-	if (!ft_var(varcp, var))
-		cmd->var_lst[i++] = ft_strdup(var);
-	cmd->var_lst[i] = NULL;
+	add_var_loop(cmd, varcp, var);
 	if (varcp)
 	{
 		i = -1;
-		while(varcp[++i])
+		while (varcp[++i])
 			free(varcp[i]);
 		free(varcp);
 	}
 }
 
-
 void	var_lst(t_cmds *cmd)
 {
-	int i;
-	
+	int	i;
+
 	if (!cmd->cmd_split)
 		return ;
-	if (cmd->prev == 0 && cmd->next == NULL && ft_strchr(cmd->cmd_split[0], '=') && ft_isalpha(cmd->cmd_split[0][0]))
+	if (cmd->prev == 0 && cmd->next == NULL && ft_strchr(cmd->cmd_split[0], '=')
+		&& ft_isalpha(cmd->cmd_split[0][0]))
 	{
-		i = -1; 
+		i = -1;
 		while (cmd->cmd_split[++i])
 			add_var(cmd, cmd->cmd_split[i]);
 	}

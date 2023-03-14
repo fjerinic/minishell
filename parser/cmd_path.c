@@ -6,19 +6,11 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:16:41 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/11 16:53:23 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/14 18:15:05 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	cmd_or_path(char *cmd)
-{
-	if (ft_strchr(cmd, '/'))
-		return (1);
-	else
-		return (0);
-}
 
 void	free_path_holder(char **path_holder)
 {
@@ -77,16 +69,16 @@ char	*ft_find_path(char **env, char *cmd, int *err)
 	if (!envp)
 	{
 		if (check_builtin(cmd) != 0 && *err == 0)
-			*err = -1;
+			*err = -1;//also errfile
 		return (NULL);
 	}
-	if (cmd_or_path(cmd))
+	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, F_OK | X_OK) == 0)
-			return (cmd);
+			return (ft_strdup(cmd));
 		else
 		{
-			*err = -1;
+			*err = -1;//also err_file
 			return (NULL);
 		}
 	}
