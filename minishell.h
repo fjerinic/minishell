@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/14 17:26:06 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/15 20:32:20 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ typedef	struct s_get_var
 
 typedef struct s_expan
 {
-	// t_tokens	*token_lst;
-	// t_tokens	*tmp;
 	int			i;
 	char		*tmp_var;
 }t_expan;
@@ -111,12 +109,6 @@ typedef struct s_here_loop
 	char	*limiter;
 	char	*tmp;
 }t_here_loop;
-
-// typedef struct s_innit_cmd
-// {
-// 	int			i;
-// 	t_cmds		*cmd;
-// }t_innit_cmd;
 
 typedef struct s_innit_cmd_struct
 {
@@ -171,7 +163,7 @@ void	free_cmd_lst(t_cmds *cmd_lst);
 void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd);
 
 /* cmd_path.c */
-char	*ft_find_path(char **env, char *cmd, int *err);
+char	*ft_find_path(char **env, char *cmd, t_cmds *cmd_lst);
 
 /* redir_handler.c */
 void	redir_handler(t_tokens *token, t_cmds *cmd, char **env);
@@ -209,11 +201,12 @@ void	free_env(t_cmds *cmd);
 void	get_signals(void);
 
 /* ft_error.c */
-void	ft_error(char *token, int exit_code);
-void	lex_error(char *token);
-void	set_err(char *token, int err);
-
-
+void		lex_error(char *token);
+void		set_err(char *token, int err);
+void		set_exit_status(char *str, int err);
+char		*set_exit_str(char *str, int err);
+t_tokens	*set_exit_tkn(char *str, int err);
+t_cmds		*set_exit_cmd(char *str, int err);
 
 /**********/
 /* execution */
@@ -271,5 +264,6 @@ void	del_var(t_cmds *cmd, char *var);
 int		len_equal(char *var);
 char	**put_quotes(char **expo);
 void	export_without_args(t_cmds *cmd);
+int		export_err(char *str, int i);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:57 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/14 16:55:12 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/15 20:43:49 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_tokens	*innit_token(char *input, int token_type)
 
 	token = malloc(sizeof(t_tokens));
 	if (!token)
-		return (NULL);
+		return (set_exit_tkn("Failed to Malloc", 1));
 	token->type = token_type;
 	token->token = input;
 	token->next = NULL;

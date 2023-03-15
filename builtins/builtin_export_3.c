@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_3.c                                         :+:      :+:    :+:   */
+/*   builtin_export_3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 17:12:06 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/14 17:15:35 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/15 20:47:05 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**put_quotes(char **expo)
 	{
 		tmp = malloc((ft_strlen(expo[i]) + 3) * sizeof(char));
 		if (!tmp)
-			return (NULL);
+			return (NULL);//set_exit_str("Failed to Malloc", 1)
 		j = -1;
 		k = 0;
 		while (expo[i][++j] != '=')
@@ -71,4 +71,22 @@ void	export_without_args(t_cmds *cmd)
 	while (expo[++i])
 		free(expo[i]);
 	free(expo);
+}
+
+int	export_err(char *str, int i)
+{
+	if (str[0] == '-' && str[1] && i == 1)
+	{
+		g_exit_status = 2;
+		printf("shell: export: %c%c: invalid option\n", str[0], str[1]);
+		printf("export: usage: export [name[=value] ...]\n");
+		return (0);
+	}
+	if (!valid_input(str))
+	{
+		g_exit_status = 1;
+		printf("shell: export: `%s': not a valid identifier\n", str);
+		return (1);
+	}
+	return (2);
 }

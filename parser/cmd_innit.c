@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/14 16:46:31 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/15 20:45:55 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	cmd_split_redir(t_tokens **token_lst, t_cmds *cmd, char **envp)
 	{
 		cmd->cmd_split = malloc((i + 1) * sizeof(char *));
 		if (!cmd->cmd_split)
-			return (0);
+			return (0);//set_exit_str("Failed to Malloc", 1)
 	}
 	return (cmd_split_loop(token_lst, cmd, envp, 0));
 }
@@ -76,7 +76,7 @@ char	**new_cmd_split(char **cmd_split, int i, int j)
 
 	new_cmd_split = malloc((i + 1) * sizeof(char *));
 	if (!new_cmd_split)
-		return (NULL);
+		return (NULL);//set_exit_str("Failed to Malloc", 1)
 	k = -1;
 	while (++k < j)
 		free(cmd_split[k]);
@@ -113,7 +113,7 @@ t_cmds	*innit_cmd(t_cmds *cmd, char **envp, t_tokens **token_lst, int prev)
 		while (cmd->cmd_split[j] && ft_strchr(cmd->cmd_split[j], '=')
 			&& valid_input(cmd->cmd_split[j]))
 			j++;
-		cmd->cmd_path = ft_find_path(envp, cmd->cmd_split[j], &cmd->err);
+		cmd->cmd_path = ft_find_path(envp, cmd->cmd_split[j], cmd);
 		if (cmd->cmd_split[j] && j != 0)
 			cmd->cmd_split = new_cmd_split(cmd->cmd_split, i - j, j);
 	}

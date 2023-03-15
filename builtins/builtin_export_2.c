@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_2.c                                         :+:      :+:    :+:   */
+/*   builtin_export_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 23:03:13 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/14 17:24:52 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/15 20:36:41 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	del_var(t_cmds *cmd, char *var)
 
 	varcp = cmd->var_lst;
 	cmd->var_lst = malloc(count_env_len(varcp) * sizeof(char *));
+	if (cmd->var_lst)
+		return (set_exit_status("Failed to Malloc", 1));
 	i = 0;
 	j = 0;
 	while (varcp[j])
@@ -83,7 +85,7 @@ void	add_var(t_cmds *cmd, char *var)
 	else
 		cmd->var_lst = malloc((count_env_len(varcp) + 2) * sizeof(char *));
 	if (!cmd->var_lst)
-		return ;//assing back or malloc error
+		return (set_exit_status("Failed to Malloc", 1));
 	add_var_loop(cmd, varcp, var);
 	if (varcp)
 	{

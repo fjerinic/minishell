@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+ /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   mini_utils.c                                       :+:      :+:    :+:   */
@@ -82,7 +82,7 @@ t_cmds	*cmd_struct(char **envp, int prev)
 
 	cmd = malloc(sizeof(t_cmds));
 	if (!cmd)
-		return (NULL);
+		return (set_exit_cmd("Failed to Malloc", 1));
 	cmd->env = copy_env(envp);
 	cmd->infile = 0;
 	cmd->outfile = 1;

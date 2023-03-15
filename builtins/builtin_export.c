@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 17:56:19 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/14 18:01:49 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/15 20:37:38 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*find_var(char **vars, char *var)
 	i = 0;
 	tmp = ft_strjoin(var, "=");
 	if (!vars)
-		return (NULL);
+		return (set_exit_str("Failed to Malloc", 1));
 	while (vars[i])
 	{
 		if (ft_strnstr(vars[i], tmp, ft_strlen(tmp)))
@@ -65,7 +65,7 @@ void	add_env(t_cmds *cmd, char *var)
 	else
 		cmd->env = malloc((count_env_len(envcp) + 2) * sizeof(char *));
 	if (!cmd->env)
-		return ;//assign bacK?
+		return (set_exit_status("Failed to Malloc", 1));
 	add_env_loop(cmd, envcp, var);
 	if (envcp)
 	{
@@ -102,16 +102,21 @@ char	**sort_export(char **expo)
 void	builtin_export(t_cmds *cmd)
 {
 	int	i;
+	int j;
 
 	if (!cmd->cmd_split[1])
 		export_without_args(cmd);
 	i = 0;
 	while (cmd->cmd_split[++i])
 	{
-		if (!valid_input(cmd->cmd_split[i]))
+		j = export_err(cmd->cmd_split[i], i);
+		if (j == 0 && i == 1)
+			return ;
+		if (j == 1)
+			continue ;
+		if(!ft_strcmp("PWD",  cmd->cmd_split[i]) && !find_var(cmd->env, cmd->cmd_split[i]))
 		{
-			g_exit_status = 1;
-			printf("shell: export: `%s': not a valid identifier\n", cmd->cmd_split[i]);
+			add_env(cmd, "PWD=");
 			continue ;
 		}
 		if (ft_strchr(cmd->cmd_split[i], '='))
@@ -120,7 +125,7 @@ void	builtin_export(t_cmds *cmd)
 		{
 			if (find_var(cmd->var_lst, cmd->cmd_split[i]))
 			{
-				add_env(cmd, find_var(cmd->var_lst, cmd->cmd_split[i]));
+				add_env(cmd, cmd->cmd_split[i]);
 				del_var(cmd, cmd->cmd_split[i]);
 			}
 		}
