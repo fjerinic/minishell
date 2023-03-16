@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/14 16:59:21 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/16 18:50:26 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,23 @@ void	free_cmd(t_cmds *cmd, int i)
 		free(cmd->err_file);
 	if (cmd->prev != 0)
 		free_env(cmd);
+	else
+		reset_cmd_struct(cmd);
 }
 
 void	free_cmd_lst(t_cmds *cmd_lst)
 {
-	t_cmds	*tmp_c;
+	t_cmds	*tmp_curr;
+	t_cmds	*tmp_next;
 
-	while (cmd_lst != NULL)
+	tmp_curr = cmd_lst->next;
+	while (tmp_curr != NULL)
 	{
-		tmp_c = cmd_lst->next;
-		free_cmd(cmd_lst, 0);
-		cmd_lst = tmp_c;
+		tmp_next = tmp_curr->next;
+		free_cmd(tmp_curr, 0);
+		tmp_curr = tmp_next;
 	}
+	free_cmd(cmd_lst, 0);
 }
 
 void	add_cmd(t_cmds **cmd_lst, t_cmds *cmd)
@@ -92,9 +97,6 @@ int	innit_cmd_struct(t_tokens **token_lst, t_cmds **cmd_lst, char **envp)
 		i.prev++;
 	}
 	if (g_exit_status == 130)
-	{
-		free_cmd_lst(*cmd_lst);
 		return (0);
-	}
 	return (1);
 }

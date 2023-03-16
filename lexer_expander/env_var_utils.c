@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 20:51:29 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/15 20:39:35 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/16 15:45:33 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*var_finder(char **envp, char *var)
 	i = 0;
 	var = edited_strjoin(var, "=");
 	if (!var)
-		return (set_exit_str("Failed to Malloc", 1));
+		return (set_exit_status("Failed to Malloc", 1));
 	while (envp[i])
 	{
 		if (ft_strnstr(envp[i], var, ft_strlen(var)))
@@ -89,7 +89,7 @@ char	*get_var(char *token, char **envp)
 
 	e.var_value = malloc((get_len(token, envp) + 1) * sizeof(char));
 	if (!e.var_value)
-		return (set_exit_str("Failed to Malloc", 1));
+		return (set_exit_status("Failed to Malloc", 1));
 	e.i = 0;
 	e.j = 0;
 	while (token[e.i])

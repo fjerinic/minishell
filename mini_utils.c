@@ -1,4 +1,4 @@
- /* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   mini_utils.c                                       :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/14 17:02:00 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/16 15:44:26 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_cmds	*cmd_struct(char **envp, int prev)
 
 	cmd = malloc(sizeof(t_cmds));
 	if (!cmd)
-		return (set_exit_cmd("Failed to Malloc", 1));
+		return (set_exit_status("Failed to Malloc", 1));
 	cmd->env = copy_env(envp);
 	cmd->infile = 0;
 	cmd->outfile = 1;

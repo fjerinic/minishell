@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/15 20:32:20 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/16 16:08:11 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,10 +203,9 @@ void	get_signals(void);
 /* ft_error.c */
 void		lex_error(char *token);
 void		set_err(char *token, int err);
-void		set_exit_status(char *str, int err);
-char		*set_exit_str(char *str, int err);
-t_tokens	*set_exit_tkn(char *str, int err);
-t_cmds		*set_exit_cmd(char *str, int err);
+void		*set_exit_status(char *str, int err);
+void		set_exit_void(char *str, int err);
+int			set_exit_int(char *str, int err);
 
 /**********/
 /* execution */
@@ -251,19 +250,21 @@ int				valid_input_helper_unset(char *cur_cmd, int n);
 // builtin_exit.c
 void			builtin_exit(t_cmds *cmd_lst);
 
-/* export.c */
+/* builtin_export.c */
 void	builtin_export(t_cmds *cmd);
 char	**sort_export(char **expo);
+char	*find_var(char **vars, char *var);
+void	add_env(t_cmds *cmd, char *var);
 
-/* export_2.c */
+/* builtin_export_2.c */
 int		ft_var(char **vars, char	*var);
 void	var_lst(t_cmds *cmd);
 void	del_var(t_cmds *cmd, char *var);
 
-/* export_3.c */
+/* builtin_export_3.c */
 int		len_equal(char *var);
 char	**put_quotes(char **expo);
 void	export_without_args(t_cmds *cmd);
-int		export_err(char *str, int i);
+int		export_err(t_cmds *cmd, char *str, int i);
 
 #endif

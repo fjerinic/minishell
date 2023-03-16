@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/14 17:28:54 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/16 22:31:11 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ int	main(int argc, char *argv[], char **envp)
 	g_exit_status = 0;
 	cmd_lst = cmd_struct(envp, 0);
 	while (1)
-	{
 		minishell(cmd_lst);
-		reset_cmd_struct(cmd_lst);
-	}
 }
 
 static void	if_first_check(int *old_fds, t_cmds *cmd_struct,
@@ -170,13 +167,13 @@ void	redirect_child(int *old_fds, int *new_fds,
 	}
 	else
 	{
-		close(new_fds[READ_END]);
+		// close(new_fds[READ_END]);
 		if (cmd_struct->outfile != 1)
 		{
 			dup2(cmd_struct->outfile, STDOUT_FILENO);
 			close(cmd_struct->outfile);
 		}
-		close(new_fds[WRITE_END]);
+		// close(new_fds[WRITE_END]);
 	}
 }
 

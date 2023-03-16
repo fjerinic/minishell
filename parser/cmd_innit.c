@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/15 20:45:55 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:37:22 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	cmd_split_redir(t_tokens **token_lst, t_cmds *cmd, char **envp)
 	{
 		cmd->cmd_split = malloc((i + 1) * sizeof(char *));
 		if (!cmd->cmd_split)
-			return (0);//set_exit_str("Failed to Malloc", 1)
+			return (set_exit_int("Failed to Malloc", 1));
 	}
 	return (cmd_split_loop(token_lst, cmd, envp, 0));
 }
@@ -76,7 +76,7 @@ char	**new_cmd_split(char **cmd_split, int i, int j)
 
 	new_cmd_split = malloc((i + 1) * sizeof(char *));
 	if (!new_cmd_split)
-		return (NULL);//set_exit_str("Failed to Malloc", 1)
+		return (set_exit_status("Failed to Malloc", 1));
 	k = -1;
 	while (++k < j)
 		free(cmd_split[k]);

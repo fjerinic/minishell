@@ -6,13 +6,13 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 23:03:13 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/15 20:36:41 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/16 15:59:19 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_var(char **vars, char	*var)
+int	ft_var(char **vars, char *var)
 {
 	int	i;
 
@@ -37,7 +37,7 @@ void	del_var(t_cmds *cmd, char *var)
 	varcp = cmd->var_lst;
 	cmd->var_lst = malloc(count_env_len(varcp) * sizeof(char *));
 	if (cmd->var_lst)
-		return (set_exit_status("Failed to Malloc", 1));
+		return (set_exit_void("Failed to Malloc", 1));
 	i = 0;
 	j = 0;
 	while (varcp[j])
@@ -54,7 +54,7 @@ void	del_var(t_cmds *cmd, char *var)
 	free(varcp);
 }
 
-void	add_var_loop(t_cmds *cmd, char	**varcp, char *var)
+void	add_var_loop(t_cmds *cmd, char **varcp, char *var)
 {
 	int	i;
 
@@ -85,7 +85,7 @@ void	add_var(t_cmds *cmd, char *var)
 	else
 		cmd->var_lst = malloc((count_env_len(varcp) + 2) * sizeof(char *));
 	if (!cmd->var_lst)
-		return (set_exit_status("Failed to Malloc", 1));
+		return (set_exit_void("Failed to Malloc", 1));
 	add_var_loop(cmd, varcp, var);
 	if (varcp)
 	{

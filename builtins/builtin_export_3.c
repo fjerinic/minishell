@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 17:12:06 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/15 20:47:05 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/16 15:54:30 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**put_quotes(char **expo)
 	{
 		tmp = malloc((ft_strlen(expo[i]) + 3) * sizeof(char));
 		if (!tmp)
-			return (NULL);//set_exit_str("Failed to Malloc", 1)
+			return (set_exit_status("Failed to Malloc", 1));
 		j = -1;
 		k = 0;
 		while (expo[i][++j] != '=')
@@ -73,7 +73,7 @@ void	export_without_args(t_cmds *cmd)
 	free(expo);
 }
 
-int	export_err(char *str, int i)
+int	export_err(t_cmds *cmd, char *str, int i)
 {
 	if (str[0] == '-' && str[1] && i == 1)
 	{
@@ -86,6 +86,12 @@ int	export_err(char *str, int i)
 	{
 		g_exit_status = 1;
 		printf("shell: export: `%s': not a valid identifier\n", str);
+		return (1);
+	}
+	if (!ft_strcmp("PWD", cmd->cmd_split[i])
+	&& !find_var(cmd->env, cmd->cmd_split[i]))
+	{
+		add_env(cmd, "PWD=");
 		return (1);
 	}
 	return (2);

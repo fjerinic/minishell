@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:08:57 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/15 20:43:49 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/16 22:16:27 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_tokens	*innit_token(char *input, int token_type)
 
 	token = malloc(sizeof(t_tokens));
 	if (!token)
-		return (set_exit_tkn("Failed to Malloc", 1));
+		return (set_exit_status("Failed to Malloc", 1));
 	token->type = token_type;
 	token->token = input;
 	token->next = NULL;
@@ -30,6 +30,7 @@ char	*itw_loop(char *input, char *tkn, int *j, char **envp)
 	t_itw_loop	t;
 
 	t.k = *j;
+	t.tmp = '\0';
 	if (input[t.k] == '"' || input[t.k] == '\'')
 	{
 		t.tmp = input[t.k++];

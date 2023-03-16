@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:28:35 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/15 20:48:16 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/16 16:13:57 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,16 @@ void	set_err(char *token, int err)
 	g_exit_status = 127;
 }
 
-void	set_exit_status(char *str, int err)//void*
+void	*set_exit_status(char *str, int err)
+{
+	g_exit_status = err;
+	write(2, "shell: ", 7);
+	write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
+	return (NULL);
+}
+
+void	set_exit_void(char *str, int err)
 {
 	g_exit_status = err;
 	write(2, "shell: ", 7);
@@ -41,20 +50,11 @@ void	set_exit_status(char *str, int err)//void*
 	write(2, "\n", 1);
 }
 
-char	*set_exit_str(char *str, int err)
+int	set_exit_int(char *str, int err)
 {
-	set_exit_status(str, err);
-	return (NULL);
-}
-
-t_tokens	*set_exit_tkn(char *str, int err)
-{
-	set_exit_status(str, err);
-	return (NULL);
-}
-
-t_cmds	*set_exit_cmd(char *str, int err)
-{
-	set_exit_status(str, err);
-	return (NULL);	
+	g_exit_status = err;
+	write(2, "shell: ", 7);
+	write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
+	return (0);
 }

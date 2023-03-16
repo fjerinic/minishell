@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 17:56:19 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/15 20:37:38 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/16 15:57:28 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*find_var(char **vars, char *var)
 	i = 0;
 	tmp = ft_strjoin(var, "=");
 	if (!vars)
-		return (set_exit_str("Failed to Malloc", 1));
+		return (set_exit_status("Failed to Malloc", 1));
 	while (vars[i])
 	{
 		if (ft_strnstr(vars[i], tmp, ft_strlen(tmp)))
@@ -34,7 +34,7 @@ char	*find_var(char **vars, char *var)
 	return (NULL);
 }
 
-void	add_env_loop(t_cmds *cmd, char	**envcp, char *var)
+void	add_env_loop(t_cmds *cmd, char **envcp, char *var)
 {
 	int	i;
 
@@ -65,7 +65,7 @@ void	add_env(t_cmds *cmd, char *var)
 	else
 		cmd->env = malloc((count_env_len(envcp) + 2) * sizeof(char *));
 	if (!cmd->env)
-		return (set_exit_status("Failed to Malloc", 1));
+		return (set_exit_void("Failed to Malloc", 1));
 	add_env_loop(cmd, envcp, var);
 	if (envcp)
 	{
@@ -109,16 +109,11 @@ void	builtin_export(t_cmds *cmd)
 	i = 0;
 	while (cmd->cmd_split[++i])
 	{
-		j = export_err(cmd->cmd_split[i], i);
+		j = export_err(cmd, cmd->cmd_split[i], i);
 		if (j == 0 && i == 1)
 			return ;
 		if (j == 1)
 			continue ;
-		if(!ft_strcmp("PWD",  cmd->cmd_split[i]) && !find_var(cmd->env, cmd->cmd_split[i]))
-		{
-			add_env(cmd, "PWD=");
-			continue ;
-		}
 		if (ft_strchr(cmd->cmd_split[i], '='))
 			add_env(cmd, cmd->cmd_split[i]);
 		else
