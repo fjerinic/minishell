@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 17:56:19 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/16 15:57:28 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/19 20:35:10 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	**sort_export(char **expo)
 void	builtin_export(t_cmds *cmd)
 {
 	int	i;
-	int j;
+	int	j;
 
 	if (!cmd->cmd_split[1])
 		export_without_args(cmd);

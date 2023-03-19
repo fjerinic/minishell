@@ -3,42 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjerinic <fjerinic@gmail.com>              +#+  +:+       +#+        */
+/*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 00:59:06 by fjerinic          #+#    #+#             */
-/*   Updated: 2023/03/13 00:59:09 by fjerinic         ###   ########.fr       */
+/*   Updated: 2023/03/19 20:37:56 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	valid_input_helper(char *cur_cmd, int n)
-{
-	if (!n)
-	{
-		if (!ft_isalpha(cur_cmd[n]) && !ft_strchr(cur_cmd, '_')
-			&& !ft_strchr(cur_cmd, '\"') && !ft_strchr(cur_cmd, '\''))
-		{
-			//set_exit_status("Errorn", 1);
-			return (0);
-		}
-		return (1);
-	}
-	else
-	{
-		if (!ft_isalnum(cur_cmd[n]) && !ft_strchr(cur_cmd, '_')
-			&& !ft_strchr(cur_cmd, '\"') && !ft_strchr(cur_cmd, '\''))
-		{
-			//set_exit_status("Error\n", 1);
-			return (0);
-		}
-		return (1);
-	}
-}
-
-// returns the index of the first appearance
-// of a character in a given string or the string_length
-// of the string if the character is not found
 int	get_char_index(const char *s, int c)
 {
 	int		n;
@@ -58,7 +31,7 @@ int	valid_input_helper_unset(char *cur_cmd, int n)
 		if (!ft_isalpha(cur_cmd[n]) && !ft_strchr(cur_cmd, '_')
 			&& !ft_strchr(cur_cmd, '\"') && !ft_strchr(cur_cmd, '\''))
 		{
-			//set_exit_status("Error: invalid input to minishell unset\n", 1);
+			set_exit_status("Error: invalid input to minishell unset\n", 1);
 			return (0);
 		}
 		return (1);
@@ -68,15 +41,13 @@ int	valid_input_helper_unset(char *cur_cmd, int n)
 		if (!ft_isalnum(cur_cmd[n]) && !ft_strchr(cur_cmd, '_')
 			&& !ft_strchr(cur_cmd, '\"') && !ft_strchr(cur_cmd, '\''))
 		{
-			//set_exit_status("Error: invalid input to minishell unset\n", 1);
+			set_exit_status("Error: invalid input to minishell unset\n", 1);
 			return (0);
 		}
 		return (1);
 	}
 }
 
-// checks if the export variable name is valid
-// valid: only alnum + '_' allowed, may not start with number
 int	check_valid_unset_variable(char *cur_cmd)
 {
 	int	n;
@@ -84,7 +55,7 @@ int	check_valid_unset_variable(char *cur_cmd)
 
 	if (cur_cmd[0] == '-')
 	{
-		//set_exit_status("Error\n", 2);
+		set_exit_status("Error\n", 2);
 		return (0);
 	}	
 	if (!valid_input_helper_unset(cur_cmd, 0))
@@ -136,5 +107,3 @@ void	unset(t_cmds *cmd_struct)
 		j++;
 	}
 }
-
-

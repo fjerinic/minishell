@@ -12,39 +12,6 @@
 
 #include "../minishell.h"
 
-char	*ft_strjoin_zero(char const *s1, char const *s2)
-{
-	char	*new_str;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	if (!s1)
-		return (0);
-	new_str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!new_str)
-	{
-		//set_exit_status("Error\n", 1);
-		return (NULL);
-	}
-	while (s1[i] != 0)
-	{
-		new_str[i] = s1[i];
-		i++;
-	}
-	while (s2 && s2[j] != 0)
-	{
-		new_str[i++] = s2[j++];
-	}
-	new_str[i] = 0;
-	return (new_str);
-}
-
-/*
-Searches for a environment variable and returns
-an allocated string, if it exists.
-*/
 char	*get_env(t_cmds *cmd_lst, char *str)
 {
 	char	*env_return;
@@ -61,7 +28,7 @@ char	*get_env(t_cmds *cmd_lst, char *str)
 				ft_strlen(cmd_lst->env[i]) - 5);
 	else
 	{	
-		//set_exit_status("Error\n", 1);
+		set_exit_status("Error\n", 1);
 		env_return = NULL;
 	}
 	return (env_return);
@@ -83,7 +50,6 @@ int	find_pwd_index(t_cmds *cmd_lst)
 	return (i);
 }
 
-// Updates the environment variables PWD and OLDPWD
 static void	update_env(t_cmds *cmd_lst, char *new_pwd_path,
 				char *old_pwd_path)
 {
@@ -122,23 +88,18 @@ int	run_cd_home(t_cmds *cmd_lst, char *old_path)
 	{
 		if (env_return && chdir(env_return))
 		{
-			//set_exit_status("Error while running <cd $HOME>\i", 1);
+			set_exit_status("Error while running <cd $HOME>\n", 1);
 			free(old_path);
 			free(env_return);
 			return (1);
 		}
-		free(old_path); 
+		free(old_path);
 		free(env_return);
 		return (1);
 	}
 	return (0);
 }
 
-/*
-Changes the current working directory to the given
-absolute or relative path. If no argument given,
-the $HOME path is taken as default argument
-*/
 void	cd(t_cmds *cmd_lst)
 {
 	char	*old_path;
@@ -149,10 +110,10 @@ void	cd(t_cmds *cmd_lst)
 		return ;
 	if (chdir(cmd_lst->cmd_split[1]))
 	{
-		// if (cmd_lst->cmd_split[1][0] == '-')
-		// 	//set_exit_status("Error: invalid option for cd\i", 1);
-		// else
-		// 	//set_exit_status("Error: No such file or directory\i", 1);
+		if (cmd_lst->cmd_split[1][0] == '-')
+			set_exit_status("Error: invalid option for cd\n", 1);
+		else
+			set_exit_status("Error: No such file or directory\n", 1);
 		free(old_path);
 		return ;
 	}

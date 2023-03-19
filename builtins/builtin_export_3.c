@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 17:12:06 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/16 15:54:30 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/19 20:34:39 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	export_err(t_cmds *cmd, char *str, int i)
 		return (1);
 	}
 	if (!ft_strcmp("PWD", cmd->cmd_split[i])
-	&& !find_var(cmd->env, cmd->cmd_split[i]))
+		&& !find_var(cmd->env, cmd->cmd_split[i]))
 	{
 		add_env(cmd, "PWD=");
 		return (1);

@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   builtin_unset2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 00:43:18 by fjerinic          #+#    #+#             */
-/*   Updated: 2023/03/19 20:32:47 by jkroger          ###   ########.fr       */
+/*   Created: 2023/03/19 20:37:34 by jkroger           #+#    #+#             */
+/*   Updated: 2023/03/19 20:38:00 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	env(t_cmds *cmd_struct)
+int	valid_input_helper(char *cur_cmd, int n)
 {
-	int		i;
-
-	i = 0;
-	while (cmd_struct->env[i])
+	if (!n)
 	{
-		if (!ft_strncmp(cmd_struct->env[i], "_=", 2))
+		if (!ft_isalpha(cur_cmd[n]) && !ft_strchr(cur_cmd, '_')
+			&& !ft_strchr(cur_cmd, '\"') && !ft_strchr(cur_cmd, '\''))
 		{
-			free(cmd_struct->env[i]);
-			cmd_struct->env[i] = ft_strdup("_=usr/bin/env");
+			set_exit_status("Error\n", 1);
+			return (0);
 		}
-		if (ft_strchr(cmd_struct->env[i], '='))
-			ft_printf("%s\n", cmd_struct->env[i]);
-		i++;
+		return (1);
+	}
+	else
+	{
+		if (!ft_isalnum(cur_cmd[n]) && !ft_strchr(cur_cmd, '_')
+			&& !ft_strchr(cur_cmd, '\"') && !ft_strchr(cur_cmd, '\''))
+		{
+			set_exit_status("Error\n", 1);
+			return (0);
+		}
+		return (1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 18:26:12 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/16 15:47:53 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/19 20:31:49 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,48 @@ void	free_env(t_cmds *cmd)
 		free(cmd->var_lst);
 	}
 	free(cmd);
+}
+
+void	fd_closing(int *old_fds, int *new_fds,
+			t_cmds *cmd_struct)
+{
+	if (cmd_struct->prev)
+	{
+		close(old_fds[1]);
+		close(old_fds[0]);
+	}
+	if (cmd_struct->next)
+	{
+		old_fds[0] = new_fds[0];
+		old_fds[1] = new_fds[1];
+	}
+}
+
+char	*ft_strjoin_zero(char const *s1, char const *s2)
+{
+	char	*new_str;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (!s1)
+		return (0);
+	new_str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!new_str)
+	{
+		set_exit_status("Error\n", 1);
+		return (NULL);
+	}
+	while (s1[i] != 0)
+	{
+		new_str[i] = s1[i];
+		i++;
+	}
+	while (s2 && s2[j] != 0)
+	{
+		new_str[i++] = s2[j++];
+	}
+	new_str[i] = 0;
+	return (new_str);
 }

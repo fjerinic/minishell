@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/16 11:10:15 by raweber           #+#    #+#             */
-/*   Updated: 2023/03/13 13:32:05 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/19 20:39:37 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	builtin_exit(t_cmds *cmd_struct)
 		g_exit_status = 1;
 		return ;
 	}
-	//clean_up(cmd_struct);
-	free_cmd(cmd_struct, 1);//check later
+	free_cmd_lst(cmd_struct);
+	free_env(cmd_struct);
 	exit(g_exit_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjerinic <fjerinic@gmail.com>              +#+  +:+       +#+        */
+/*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/19 19:55:48 by fjerinic         ###   ########.fr       */
+/*   Updated: 2023/03/19 20:25:46 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	main(int argc, char *argv[], char **envp)
 		minishell(cmd_lst);
 }
 
-static void	if_first_check(int *old_fds, t_cmds *cmd_struct,
-									int previous_command_exists)//CHANGES HERE ********
+void	if_first_check(int *old_fds, t_cmds *cmd_struct,
+									int previous_command_exists)
 {
 	if (previous_command_exists)
 	{	
@@ -82,6 +82,16 @@ static void	if_first_check(int *old_fds, t_cmds *cmd_struct,
 	}
 }
 
+int	fork_failed(int pid)
+{
+	if (pid == -1)
+	{
+		set_exit_status("Error: Could not fork the process\n", 1);
+		return (1);
+	}
+	return (0);
+}
+
 void	run_commands(t_cmds *cmd_lst)
 {
 	int		pid;
@@ -92,7 +102,7 @@ void	run_commands(t_cmds *cmd_lst)
 	pid = 0;
 	while (cmd_lst)
 	{
-		if (is_builtin(cmd_lst))
+		if (cmd_lst->cmd_split && is_builtin(cmd_lst))
 		{
 			if (!pipe_builtin(cmd_lst, old_fds, new_fds, 1))
 				return ;
@@ -103,20 +113,10 @@ void	run_commands(t_cmds *cmd_lst)
 			if (!pipe_builtin(cmd_lst, old_fds, new_fds, 0))
 				return ;
 		pid = fork();
-		// if (fork_failed(pid))
-		// 	return ;
+		if (fork_failed(pid))
+			return ;
 		execute_redirect(pid, old_fds, new_fds, cmd_lst);
 		cmd_lst = cmd_lst->next;
 	}
 	wait_for_children(pid, &wait_status);
-}
-
-int	fork_failed(int pid)
-{
-	if (pid == -1)
-	{
-		set_exit_status("Error: Could not fork the process\n", 1);
-		return (1);
-	}
-	return (0);
 }

@@ -3,18 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   check_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjerinic <fjerinic@gmail.com>              +#+  +:+       +#+        */
+/*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 19:40:38 by fjerinic          #+#    #+#             */
-/*   Updated: 2023/03/19 19:49:39 by fjerinic         ###   ########.fr       */
+/*   Updated: 2023/03/19 21:53:29 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
+int	exit_util(t_cmds *cmd_lst)
+{
+	if (!ft_strncmp(cmd_lst->cmd_split[0], "exit", 5))
+	{
+		if (cmd_lst->next)
+			return (1);
+		builtin_exit(cmd_lst);
+		return (1);
+	}
+	return (0);
+}
+
 int	is_builtin(t_cmds *cmd_lst)
 {
-	if (!cmd_lst->cmd_split)
-		return (0);
-	//signal_not_interactive();
+	signal_child_active();
 	if (!ft_strncmp(cmd_lst->cmd_split[0], "cd", 3))
 	{	
 		if (cmd_lst->next)
@@ -36,13 +48,8 @@ int	is_builtin(t_cmds *cmd_lst)
 		unset(cmd_lst);
 		return (1);
 	}
-	else if (!ft_strncmp(cmd_lst->cmd_split[0], "exit", 5))
-	{
-		if (cmd_lst->next)
-			return (1);
-		builtin_exit(cmd_lst);
+	else if (exit_util(cmd_lst))
 		return (1);
-	}
 	return (0);
 }
 
