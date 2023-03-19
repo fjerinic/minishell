@@ -6,14 +6,16 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/16 22:31:11 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/17 19:11:00 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_exit_status;
-
+// ls -a | < main.c > b.txt | << a cat >> a.txt segfault
+// ls -a | cat > a.txt > b.txt >> c.txt
+//ls -a | cat > a.txt
 int	minishell(t_cmds *cmd_lst)
 {
 	char	*input;
@@ -31,7 +33,7 @@ int	minishell(t_cmds *cmd_lst)
 	free(input);
 	if (cmd_lst->err == -2 || g_exit_status == 130)
 	{
-		free_cmd_lst(cmd_lst);
+		free_cmd_lst(cmd_lst);//fds have to be closed
 		return (0);
 	}
 	var_lst(cmd_lst);
@@ -54,13 +56,26 @@ int	main(int argc, char *argv[], char **envp)
 }
 
 static void	if_first_check(int *old_fds, t_cmds *cmd_struct,
-									int previous_command_exists)
+									int previous_command_exists)//CHANGES HERE ********
 {
 	if (previous_command_exists)
 	{	
-		dup2(old_fds[READ_END], STDIN_FILENO);
-		close(old_fds[READ_END]);
-		close(old_fds[WRITE_END]);
+		if (cmd_struct->infile != 0)
+		{
+			close(old_fds[WRITE_END]);
+			dup2(cmd_struct->infile, STDIN_FILENO);
+			close(cmd_struct->infile);
+			close(old_fds[READ_END]);
+		}
+		else
+		{
+			dup2(old_fds[READ_END], STDIN_FILENO);
+			close(old_fds[READ_END]);
+			close(old_fds[WRITE_END]);
+		}
+		// dup2(old_fds[READ_END], STDIN_FILENO);
+		// close(old_fds[READ_END]);
+		// close(old_fds[WRITE_END]);
 	}
 	else
 	{
@@ -82,7 +97,7 @@ void	run_commands(t_cmds *cmd_lst)
 	pid = 0;
 	while (cmd_lst)
 	{
-		if (is_builtin(cmd_lst))
+		if (is_builtin(cmd_lst))//check before if err *********************
 		{
 			if (!pipe_builtin(cmd_lst, old_fds, new_fds, 1))
 				return ;
@@ -156,14 +171,27 @@ void	execute_child(int pid, int *old_fds, int *new_fds,
 }
 
 void	redirect_child(int *old_fds, int *new_fds,
-			t_cmds *cmd_struct, int previous_command_exists)
+			t_cmds *cmd_struct, int previous_command_exists)//changes here*********
 {
 	if_first_check(old_fds, cmd_struct, previous_command_exists);
 	if (cmd_struct->next)
 	{
-		close(new_fds[READ_END]);
-		dup2(new_fds[WRITE_END], STDOUT_FILENO);
-		close(new_fds[WRITE_END]);
+		if (cmd_struct->outfile != 1)
+		{
+			close(new_fds[READ_END]);
+			dup2(cmd_struct->outfile, STDOUT_FILENO);
+			close(cmd_struct->outfile);
+			close(new_fds[WRITE_END]);
+		}
+		else
+		{
+			close(new_fds[READ_END]);
+			dup2(new_fds[WRITE_END], STDOUT_FILENO);
+			close(new_fds[WRITE_END]);
+		}
+		// close(new_fds[READ_END]);
+		// dup2(new_fds[WRITE_END], STDOUT_FILENO);
+		// close(new_fds[WRITE_END]);
 	}
 	else
 	{
@@ -177,7 +205,7 @@ void	redirect_child(int *old_fds, int *new_fds,
 	}
 }
 
-void	redirect_parent(int *old_fds, int *new_fds,
+void	redirect_parent(int *old_fds, int *new_fds,//changes here*********
 			t_cmds *cmd_struct)
 {
 	if (cmd_struct->prev)
@@ -185,11 +213,11 @@ void	redirect_parent(int *old_fds, int *new_fds,
 		close(old_fds[1]);
 		close(old_fds[0]);
 	}
-	else
-	{
-		if (cmd_struct->infile != 0)
-			close(cmd_struct->infile);
-	}
+	// else
+	// {
+	// 	if (cmd_struct->infile != 0)
+	// 		close(cmd_struct->infile);*********************************
+	// }
 	if (cmd_struct->next)
 	{
 		old_fds[0] = new_fds[0];
@@ -199,6 +227,8 @@ void	redirect_parent(int *old_fds, int *new_fds,
 
 int	is_builtin(t_cmds *cmd_lst)
 {
+	if (!cmd_lst->cmd_split)//change here********************
+		return (0);
 	//signal_not_interactive();
 	if (!ft_strncmp(cmd_lst->cmd_split[0], "cd", 3))
 	{	
@@ -231,7 +261,7 @@ int	is_builtin(t_cmds *cmd_lst)
 	return (0);
 }
 
-int	is_builtin2(t_cmds *cmd_lst)
+int	is_builtin2(t_cmds *cmd_lst)//also check if cmd->cmd_split != NULL
 {
 	if (!ft_strncmp(cmd_lst->cmd_split[0], "echo", 5))
 	{

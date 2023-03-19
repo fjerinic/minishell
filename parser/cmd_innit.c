@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/16 17:37:22 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/17 13:37:14 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	cmd_split_loop(t_tokens **token_lst, t_cmds *cmd, char **envp, int i)
 		free(*token_lst);
 		*token_lst = tmp;
 		if (g_exit_status == 130)
-			free_token(*token_lst);
+			free_token(&(*token_lst));
 	}
 	return (i);
 }

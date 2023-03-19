@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+ /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
@@ -189,7 +189,7 @@ int		minishell(t_cmds *cmd_lst);
 char	*user_input(void);
 int		ft_strcmp(const char *s1, const char *s2);
 int		check_builtin(char *cmd);
-void	free_token(t_tokens *token);
+void	free_token(t_tokens **token);
 t_cmds	*cmd_struct(char **envp, int prev);
 
 /* mini_utils_2 */

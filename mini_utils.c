@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/16 15:44:26 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/17 13:36:03 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,18 @@ int	check_builtin(char *cmd)
 	return (1);
 }
 
-void	free_token(t_tokens *token)
+void	free_token(t_tokens **token)
 {
 	t_tokens	*tmp;
 
-	while (token != NULL)
+	while (*token != NULL)
 	{
-		tmp = token->next;
-		free(token->token);
-		free(token);
-		token = tmp;
+		tmp = (*token)->next;
+		free((*token)->token);
+		free(*token);
+		*token = tmp;
 	}
-	token = NULL;
+	*token = NULL;
 }
 
 t_cmds	*cmd_struct(char **envp, int prev)
