@@ -1,0 +1,84 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_builtins.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fjerinic <fjerinic@gmail.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/19 19:40:38 by fjerinic          #+#    #+#             */
+/*   Updated: 2023/03/19 19:49:39 by fjerinic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+int	is_builtin(t_cmds *cmd_lst)
+{
+	if (!cmd_lst->cmd_split)
+		return (0);
+	//signal_not_interactive();
+	if (!ft_strncmp(cmd_lst->cmd_split[0], "cd", 3))
+	{	
+		if (cmd_lst->next)
+			return (1);
+		cd(cmd_lst);
+		return (1);
+	}
+	else if (!ft_strncmp(cmd_lst->cmd_split[0], "export", 7))
+	{
+		if (cmd_lst->next)
+			return (1);
+		builtin_export(cmd_lst);
+		return (1);
+	}
+	else if (!ft_strncmp(cmd_lst->cmd_split[0], "unset", 6))
+	{
+		if (cmd_lst->next)
+			return (1);
+		unset(cmd_lst);
+		return (1);
+	}
+	else if (!ft_strncmp(cmd_lst->cmd_split[0], "exit", 5))
+	{
+		if (cmd_lst->next)
+			return (1);
+		builtin_exit(cmd_lst);
+		return (1);
+	}
+	return (0);
+}
+
+int	is_builtin2(t_cmds *cmd_lst)
+{
+	if (!ft_strncmp(cmd_lst->cmd_split[0], "echo", 5))
+	{
+		echo(cmd_lst);
+		return (1);
+	}
+	else if (!ft_strncmp(cmd_lst->cmd_split[0], "pwd", 4))
+	{
+		if (cmd_lst->cmd_split[1]
+			&& cmd_lst->cmd_split[1][0] == '-')
+		{
+			set_exit_status("pwd error\n", 1);
+			return (1);
+		}
+		pwd();
+		return (1);
+	}
+	else if (!ft_strncmp(cmd_lst->cmd_split[0], "env", 4))
+	{
+		try_env(cmd_lst);
+		return (1);
+	}
+	return (0);
+}
+
+void	try_env(t_cmds *cmd_lst)
+{
+	if (count_env_len(cmd_lst->cmd_split) > 1)
+	{
+		set_exit_status("Error: env\n", 1);
+		return ;
+	}
+	env(cmd_lst);
+	return ;
+}
