@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 19:40:38 by fjerinic          #+#    #+#             */
-/*   Updated: 2023/03/19 21:53:29 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/20 16:47:45 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	exit_util(t_cmds *cmd_lst)
 
 int	is_builtin(t_cmds *cmd_lst)
 {
-	signal_child_active();
+	get_signals_child();
 	if (!ft_strncmp(cmd_lst->cmd_split[0], "cd", 3))
-	{	
+	{
 		if (cmd_lst->next)
 			return (1);
 		cd(cmd_lst);
@@ -55,6 +55,8 @@ int	is_builtin(t_cmds *cmd_lst)
 
 int	is_builtin2(t_cmds *cmd_lst)
 {
+	if (!cmd_lst->cmd_split)
+		return (0);
 	if (!ft_strncmp(cmd_lst->cmd_split[0], "echo", 5))
 	{
 		echo(cmd_lst);

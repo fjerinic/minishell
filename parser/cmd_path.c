@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:16:41 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/15 16:10:00 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/20 16:29:31 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,20 @@ char	*ft_find_path(char **env, char *cmd, t_cmds *cmd_lst)
 	if (!envp)
 	{
 		if (check_builtin(cmd) != 0 && cmd_lst->err == 0)
-			cmd_lst->err = -3;
+			cmd_lst->err = 2;
 	}
-	if (cmd_lst->err_file && (cmd_lst->err == 2 || cmd_lst->err == -3))
+	if (!cmd_lst->err_file && cmd_lst->err == 2)
 	{
 		cmd_lst->err_file = ft_strdup(cmd);
 		return (NULL);
 	}
 	return (ft_find_path_2(envp, cmd));
+}
+
+void	no_path_split(t_cmds *cmd)
+{
+	if (cmd->cmd_split)
+		free(cmd->cmd_split);
+	cmd->cmd_split = NULL;
+	cmd->cmd_path = NULL;
 }

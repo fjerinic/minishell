@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/19 21:55:16 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/20 16:23:38 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <errno.h>
 # include <string.h> 
 # include <sys/ioctl.h>
-# include </Users/jkroger/goinfre/.brew/bin/readline/include/readline/readline.h>
+# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
 // # include <readline/history.h>
 // # include <readline/readline.h>
@@ -165,6 +165,7 @@ void		add_cmd(t_cmds **cmd_lst, t_cmds *cmd);
 
 /* cmd_path.c */
 char		*ft_find_path(char **env, char *cmd, t_cmds *cmd_lst);
+void		no_path_split(t_cmds *cmd);
 
 /* redir_handler.c */
 void		redir_handler(t_tokens *token, t_cmds *cmd, char **env);

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 12:56:02 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/19 21:52:05 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/20 16:53:29 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ctrl_c_child(int status)
 	}
 	if (status == SIGQUIT)
 	{
-		g_exit_status = 24;
+		g_exit_status = 128 + status;
 		ft_putstr_fd("Quit\n", 1);
 	}
 }
@@ -48,11 +48,5 @@ void	get_signals(void)
 void	get_signals_child(void)
 {
 	signal(SIGINT, &ctrl_c_child);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	signal_child_active(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, &ctrl_c_child);
 }

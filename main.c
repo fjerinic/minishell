@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/19 20:25:46 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/20 16:49:55 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	if_first_check(int *old_fds, t_cmds *cmd_struct,
 									int previous_command_exists)
 {
 	if (previous_command_exists)
-	{	
+	{
 		if (cmd_struct->infile != 0)
 		{
 			close(old_fds[WRITE_END]);
@@ -109,9 +109,8 @@ void	run_commands(t_cmds *cmd_lst)
 			cmd_lst = cmd_lst->next;
 			continue ;
 		}
-		else
-			if (!pipe_builtin(cmd_lst, old_fds, new_fds, 0))
-				return ;
+		else if (!pipe_builtin(cmd_lst, old_fds, new_fds, 0))
+			return ;
 		pid = fork();
 		if (fork_failed(pid))
 			return ;

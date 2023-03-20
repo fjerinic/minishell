@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 00:59:06 by fjerinic          #+#    #+#             */
-/*   Updated: 2023/03/19 20:37:56 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/20 16:52:00 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	check_valid_unset_variable(char *cur_cmd)
 	{
 		set_exit_status("Error\n", 2);
 		return (0);
-	}	
+	}
 	if (!valid_input_helper_unset(cur_cmd, 0))
 		return (0);
 	n = 1;

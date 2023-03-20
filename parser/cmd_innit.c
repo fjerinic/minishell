@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/17 13:37:14 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/20 16:21:15 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,7 @@ t_cmds	*innit_cmd(t_cmds *cmd, char **envp, t_tokens **token_lst, int prev)
 		cmd = cmd_struct(envp, prev);
 	i = cmd_split_redir(token_lst, cmd, envp);
 	if (i == 0)
-	{
-		if (cmd->cmd_split)
-			free(cmd->cmd_split);
-		cmd->cmd_split = NULL;
-		cmd->cmd_path = NULL;
-	}
+		no_path_split(cmd);
 	else
 	{
 		cmd->cmd_split[i] = NULL;
@@ -114,6 +109,11 @@ t_cmds	*innit_cmd(t_cmds *cmd, char **envp, t_tokens **token_lst, int prev)
 			&& valid_input(cmd->cmd_split[j]))
 			j++;
 		cmd->cmd_path = ft_find_path(envp, cmd->cmd_split[j], cmd);
+		if (!cmd->cmd_path && cmd->err == 0)
+		{
+			cmd->err = -3;
+			cmd->err_file = ft_strdup(cmd->cmd_split[j]);
+		}
 		if (cmd->cmd_split[j] && j != 0)
 			cmd->cmd_split = new_cmd_split(cmd->cmd_split, i - j, j);
 	}

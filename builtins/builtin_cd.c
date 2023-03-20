@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                       :+:      :+:    :+:   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjerinic <fjerinic@gmail.com>              +#+  +:+       +#+        */
+/*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 19:52:10 by fjerinic          #+#    #+#             */
-/*   Updated: 2023/03/13 00:51:41 by fjerinic         ###   ########.fr       */
+/*   Updated: 2023/03/20 16:51:30 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_env(t_cmds *cmd_lst, char *str)
 		env_return = ft_substr(cmd_lst->env[i], 5,
 				ft_strlen(cmd_lst->env[i]) - 5);
 	else
-	{	
+	{
 		set_exit_status("Error\n", 1);
 		env_return = NULL;
 	}
@@ -57,7 +57,7 @@ static void	update_env(t_cmds *cmd_lst, char *new_pwd_path,
 
 	i = find_pwd_index(cmd_lst);
 	if (cmd_lst->env[i] && ft_strnstr(cmd_lst->env[i],
-			"PWD=", 4))
+		"PWD=", 4))
 	{
 		free(cmd_lst->env[i]);
 		cmd_lst->env[i] = ft_strjoin("PWD=", new_pwd_path);

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:29:52 by fjerinic          #+#    #+#             */
-/*   Updated: 2023/03/19 21:55:06 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/20 16:46:03 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,13 @@ void	execute_child(int pid, int *old_fds, int *new_fds,
 {
 	if (pid == 0)
 	{
-		signal_child_active();
 		redirect_child(old_fds, new_fds, cmd_lst,
 			cmd_lst->prev);
 		if (is_builtin2(cmd_lst))
 			exit(g_exit_status);
-		if (access(cmd_lst->cmd_path, X_OK) != 0)
+		if (access(cmd_lst->cmd_path, X_OK) != 0 || cmd_lst->err != 0)
 		{
-			set_exit_status("Error: command not found\n", 127);
+			set_err(cmd_lst->err_file, cmd_lst->err);
 			exit(127);
 		}
 		else
