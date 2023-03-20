@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:34:39 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/20 16:23:38 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/21 00:11:01 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 # include <errno.h>
 # include <string.h> 
 # include <sys/ioctl.h>
-# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
-// # include <readline/history.h>
-// # include <readline/readline.h>
+//</Users/jkroger/goinfre/.brew/opt/readline/include/readline/readline.h>
+//</Users/jkroger/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <sys/wait.h>
 # include <stdbool.h>
 
@@ -116,6 +116,15 @@ typedef struct s_innit_cmd_struct
 	t_cmds		*cmd;
 	int			prev;
 }t_innit_cmd_struct;
+
+typedef struct s_run_commands
+{
+	int		pid;
+	int		new_fds[2];
+	int		old_fds[2];
+	int		wait_status;
+	int		err;
+}t_run_commands;
 
 /*********/
 /* lexer */
@@ -229,7 +238,7 @@ void		execute_child(int pid, int *old_fds, int *new_fds, t_cmds *cmd_lst);
 int			is_builtin(t_cmds *cmd_lst);
 int			is_builtin2(t_cmds *cmd_lst);
 void		try_env(t_cmds *cmd_lst);
-void		wait_for_children(int pid, int *waitpid_status);
+void		wait_for_children(int pid, int *waitpid_status, int err);
 void		redirect_child(int *old_fds, int *new_fds,
 				t_cmds *cmd_struct, int previous_command_exists);
 

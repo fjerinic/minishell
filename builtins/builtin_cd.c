@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 19:52:10 by fjerinic          #+#    #+#             */
-/*   Updated: 2023/03/20 16:51:30 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/21 00:00:12 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_env(t_cmds *cmd_lst, char *str)
 				ft_strlen(cmd_lst->env[i]) - 5);
 	else
 	{
-		set_exit_status("Error\n", 1);
+		set_exit_status("cd: Error", 1);
 		env_return = NULL;
 	}
 	return (env_return);
@@ -57,7 +57,7 @@ static void	update_env(t_cmds *cmd_lst, char *new_pwd_path,
 
 	i = find_pwd_index(cmd_lst);
 	if (cmd_lst->env[i] && ft_strnstr(cmd_lst->env[i],
-		"PWD=", 4))
+			"PWD=", 4))
 	{
 		free(cmd_lst->env[i]);
 		cmd_lst->env[i] = ft_strjoin("PWD=", new_pwd_path);
@@ -88,7 +88,7 @@ int	run_cd_home(t_cmds *cmd_lst, char *old_path)
 	{
 		if (env_return && chdir(env_return))
 		{
-			set_exit_status("Error while running <cd $HOME>\n", 1);
+			set_exit_status("Error while running <cd $HOME>", 1);
 			free(old_path);
 			free(env_return);
 			return (1);
@@ -111,9 +111,9 @@ void	cd(t_cmds *cmd_lst)
 	if (chdir(cmd_lst->cmd_split[1]))
 	{
 		if (cmd_lst->cmd_split[1][0] == '-')
-			set_exit_status("Error: invalid option for cd\n", 1);
+			set_exit_status("cd: invalid option", 1);
 		else
-			set_exit_status("Error: No such file or directory\n", 1);
+			set_exit_status("cd: No such file or directory", 1);
 		free(old_path);
 		return ;
 	}

@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:48:59 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/19 20:27:13 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/20 19:37:28 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	free_cmd(t_cmds *cmd, int i)
 	}
 	if (cmd->err_file)
 		free(cmd->err_file);
-	if (cmd->infile != 0)
+	if (cmd->infile != 0 && cmd->infile != -1)
 		close(cmd->infile);
-	if (cmd->outfile != 1)
+	if (cmd->outfile != 1 && cmd->outfile != -1)
 		close(cmd->outfile);
 	if (cmd->prev != 0)
 		free_env(cmd);

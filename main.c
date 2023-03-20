@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:38:27 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/20 16:49:55 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/21 00:06:11 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	if_first_check(int *old_fds, t_cmds *cmd_struct,
 {
 	if (previous_command_exists)
 	{
-		if (cmd_struct->infile != 0)
+		if (cmd_struct->infile != 0 && cmd_struct->infile != -1)
 		{
 			close(old_fds[WRITE_END]);
 			dup2(cmd_struct->infile, STDIN_FILENO);
@@ -74,7 +74,7 @@ void	if_first_check(int *old_fds, t_cmds *cmd_struct,
 	}
 	else
 	{
-		if (cmd_struct->infile != 0)
+		if (cmd_struct->infile != 0 && cmd_struct->infile != -1)
 		{
 			dup2(cmd_struct->infile, STDIN_FILENO);
 			close(cmd_struct->infile);
@@ -86,7 +86,7 @@ int	fork_failed(int pid)
 {
 	if (pid == -1)
 	{
-		set_exit_status("Error: Could not fork the process\n", 1);
+		set_exit_status("Error: Could not fork the process", 1);
 		return (1);
 	}
 	return (0);
@@ -94,28 +94,28 @@ int	fork_failed(int pid)
 
 void	run_commands(t_cmds *cmd_lst)
 {
-	int		pid;
-	int		new_fds[2];
-	int		old_fds[2];
-	int		wait_status;
+	t_run_commands	r;	
 
-	pid = 0;
+	r.wait_status = 0;
+	r.pid = 0;
 	while (cmd_lst)
 	{
 		if (cmd_lst->cmd_split && is_builtin(cmd_lst))
 		{
-			if (!pipe_builtin(cmd_lst, old_fds, new_fds, 1))
+			if (!pipe_builtin(cmd_lst, r.old_fds, r.new_fds, 1)
+				|| !cmd_lst->next)
 				return ;
 			cmd_lst = cmd_lst->next;
 			continue ;
 		}
-		else if (!pipe_builtin(cmd_lst, old_fds, new_fds, 0))
+		else if (!pipe_builtin(cmd_lst, r.old_fds, r.new_fds, 0))
 			return ;
-		pid = fork();
-		if (fork_failed(pid))
+		r.pid = fork();
+		if (fork_failed(r.pid))
 			return ;
-		execute_redirect(pid, old_fds, new_fds, cmd_lst);
+		execute_redirect(r.pid, r.old_fds, r.new_fds, cmd_lst);
+		r.err = cmd_lst->err;
 		cmd_lst = cmd_lst->next;
 	}
-	wait_for_children(pid, &wait_status);
+	wait_for_children(r.pid, &r.wait_status, r.err);
 }

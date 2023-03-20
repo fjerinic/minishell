@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 15:28:35 by jkroger           #+#    #+#             */
-/*   Updated: 2023/03/16 16:13:57 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/20 23:09:38 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,16 @@ void	set_err(char *token, int err)
 	write(2, token, ft_strlen(token));
 	write(2, ": ", 2);
 	if (err == -3)
+	{
+		g_exit_status = 127;
 		write(2, "command not found", 17);
+	}
 	else
+	{
+		g_exit_status = 1;
 		write(2, strerror(err), ft_strlen(strerror(err)));
+	}
 	write(2, "\n", 1);
-	g_exit_status = 127;
 }
 
 void	*set_exit_status(char *str, int err)

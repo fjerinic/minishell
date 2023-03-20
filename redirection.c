@@ -6,7 +6,7 @@
 /*   By: jkroger <jkroger@student.42wolfsburg.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 18:29:52 by fjerinic          #+#    #+#             */
-/*   Updated: 2023/03/20 16:46:03 by jkroger          ###   ########.fr       */
+/*   Updated: 2023/03/21 00:02:52 by jkroger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	redirect_child(int *old_fds, int *new_fds,
 	if_first_check(old_fds, cmd_struct, previous_command_exists);
 	if (cmd_struct->next)
 	{
-		if (cmd_struct->outfile != 1)
+		if (cmd_struct->outfile != 1 && cmd_struct->outfile != -1)
 		{
 			close(new_fds[READ_END]);
 			dup2(cmd_struct->outfile, STDOUT_FILENO);
@@ -34,7 +34,7 @@ void	redirect_child(int *old_fds, int *new_fds,
 	}
 	else
 	{
-		if (cmd_struct->outfile != 1)
+		if (cmd_struct->outfile != 1 && cmd_struct->outfile != -1)
 		{
 			dup2(cmd_struct->outfile, STDOUT_FILENO);
 			close(cmd_struct->outfile);
@@ -49,28 +49,33 @@ void	execute_child(int pid, int *old_fds, int *new_fds,
 	{
 		redirect_child(old_fds, new_fds, cmd_lst,
 			cmd_lst->prev);
-		if (is_builtin2(cmd_lst))
+		if (is_builtin2(cmd_lst) || (!cmd_lst->cmd_path && cmd_lst->err == 0))
 			exit(g_exit_status);
-		if (access(cmd_lst->cmd_path, X_OK) != 0 || cmd_lst->err != 0)
+		if ((!cmd_lst->cmd_path || access(cmd_lst->cmd_path, X_OK) != 0)
+			&& cmd_lst->err != 0)
 		{
 			set_err(cmd_lst->err_file, cmd_lst->err);
 			exit(127);
 		}
-		else
+		else if (cmd_lst->cmd_path)
 		{
 			execve(cmd_lst->cmd_path,
 				cmd_lst->cmd_split, cmd_lst->env);
-			set_exit_status("Error: command not found\n", 127);
+			set_exit_status("Error: command not found", 127);
 		}
 	}
 }
 
-void	wait_for_children(int pid, int *waitpid_status)
+void	wait_for_children(int pid, int *waitpid_status, int err)
 {
 	while (pid > 0)
 		pid = wait(waitpid_status);
 	if (WIFEXITED(*waitpid_status))
 		g_exit_status = WEXITSTATUS(*waitpid_status);
+	if (err != 0 && err != -3)
+		g_exit_status = 1;
+	if (err == -3)
+		g_exit_status = 127;
 }
 
 int	pipe_builtin(t_cmds *cmd_lst, int *old_fds, int *new_fds, int flag)
@@ -79,7 +84,7 @@ int	pipe_builtin(t_cmds *cmd_lst, int *old_fds, int *new_fds, int flag)
 	{
 		if (pipe(new_fds))
 		{
-			set_exit_status("Error: Could not create pipe\n", 1);
+			set_exit_status("Error: Could not create pipe", 1);
 			return (0);
 		}
 		if (flag)
